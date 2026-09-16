@@ -1,0 +1,18 @@
+{
+  "_comment": "Copy to stories/the-lighthouse-cat/chapters/ch01/pages/layout.json. Each row lists [panel-id, cells] in reading order; a page row totals 3 cells. dir: rtl (default, first panel at the right) or ltr.",
+  "story": "the-lighthouse-cat",
+  "chapter": "ch01",
+  "dir": "ltr",
+  "page_width": 2400,
+  "gutter": 36,
+  "background": [17, 21, 28],
+  "pages": [
+    {
+      "id": "p01",
+      "rows": [
+        [["p01-panel1", 3]],
+        [["p01-panel2", 1], ["p01-panel3", 2]]
+      ]
+    }
+  ]
+}

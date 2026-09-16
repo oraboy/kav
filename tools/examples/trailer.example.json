@@ -1,0 +1,30 @@
+{
+  "_comment": "Copy to stories/the-lighthouse-cat/package/trailer.json. Image paths are relative to stories/<slug>/. Cast items use char (portrait from cast/<char>/[<portrait_pack>/]front.png) or image. Chapter readers: story = carousel reader URL, comic = classic reader URL; omit both to show the wip label. The closer links into the chapter it names.",
+  "title": "The Lighthouse\nCat",
+  "lang": "en",
+  "dir": "ltr",
+  "portrait_pack": "inkwash",
+  "opener": {"image": "chapters/ch01/panels/p01-panel1.png", "sub": "A cat, a lighthouse, and a light that must not go out."},
+  "sections": [
+    {"type": "divider", "title": "The cast", "sub": "Somewhere on a windy northern coast"},
+    {"type": "cast", "items": [
+      {"char": "pip", "name": "Pip", "line": "A small grey cat who takes the job nobody gave him."}
+    ]},
+    {"type": "also", "image": "locations/lighthouse/lighthouse-01.jpg", "title": "And also", "sub": "The gulls, the fog, and two hundred and twelve steps."},
+    {"type": "divider", "title": "Contents"},
+    {"type": "chapters", "items": [
+      {"num": "01", "title": "The keeper leaves", "image": "chapters/ch01/panels/p01-panel2.png",
+       "synopsis": "The keeper leaves on a Tuesday. By Wednesday the light is Pip's problem.",
+       "readers": {"story": "https://example.com/ch01/reader-story.html", "comic": "https://example.com/ch01/reader-comic.html"}},
+      {"num": "02", "title": "Fog", "image": "chapters/ch01/panels/p01-panel3.png",
+       "synopsis": "A ship in the fog, and a lamp that will not light."}
+    ]},
+    {"type": "closer", "chapter": "01"}
+  ],
+  "labels": {"story": "Story", "comic": "Comic", "wip": "In progress", "chapter": "Chapter"},
+  "fonts": {
+    "urls": ["https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&family=Varela+Round&display=swap"],
+    "heading": "'Karantina', sans-serif",
+    "body": "'Varela Round', sans-serif"
+  }
+}

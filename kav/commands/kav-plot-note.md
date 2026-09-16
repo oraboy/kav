@@ -1,0 +1,40 @@
+---
+name: kav-plot-note
+description: Park a loose story idea — a chapter concept, a running gag, a structural idea, a twist, a character beat — without arguing it or acting on it, in the story's pitch-inbox.md. Also removes or rewords notes (/kav-plot-note remove N003) and renders the notes board ("show me the notes", "notes board"). Use when the author types /kav-plot-note or says "note this down" with an idea for the active story.
+argument-hint: "<idea> | remove N00N | board"
+---
+
+# /kav-plot-note — park an idea, don't argue it
+
+Kickoff's rule made toolable: **concept, cast and locations are collection, not story.** An idea that surfaces mid-collection gets written down, not developed. This command never edits a locked artifact, never derives plot consequences, never asks "but why" — that's PITCH's job, later, on purpose.
+
+**Storage is the story's `pitch-inbox.md` — nothing else.** A note is a line of markdown; the author edits notes by talking to the agent.
+
+## Taking a note
+
+1. Identify the active story (from context or the most recent `stories/<slug>/kickoff-state.md`; ask if ambiguous).
+2. Classify in one word from the note's own shape, unless the author says otherwise: **chapter-concept** (a scene or sequence) · **gimmick** (a recurring visual bit or running joke) · **concept** (structural or premise-level: an arc shape, a title, a release idea) · **twist** (a reveal or reversal) · **beat** (a character or relationship moment) · **other**.
+3. Mint the next id: highest `N00N` in the file plus one, zero-padded (first is `N001`).
+4. Append one bullet, **verbatim, in the story's language**:
+   ```
+   - **<id> · <type>** (<date>): <note text verbatim> `[not-yet-agreed]`
+   ```
+   Create the file from the template in `docs/templates.md` if missing.
+5. Say back the id and type — nothing more. Never press it or propose how it resolves.
+
+## Removing or editing
+
+`/kav-plot-note remove N00N` (or "drop note 2"): delete that bullet, confirm in one line. **Never renumber** — ids are permanent. Rewording: find by id, edit in place, keep the id and tag.
+
+## The notes board
+
+On "show me the notes" / "notes board": render a fresh, self-contained HTML page from the current `pitch-inbox.md` every time — `stories/<slug>/package/notes-board.html` — and open it.
+- One sticky note per bullet, colour-keyed by type with a fixed palette (chapter-concept = coral, gimmick = mint, concept = butter yellow, twist = violet, beat = sky, other = sand), a light corkboard ground, the id as a small corner tag.
+- Match the story's lettering fonts from `style/style.md` where they exist. Give note text `dir="auto"` so any language lays out right.
+- No editing on the page — editing happens through this command. Empty inbox: show a friendly empty board.
+
+## Hard rules
+
+- Never develop, press or resolve a note when it's taken.
+- A note never promotes itself into a locked artifact. It enters `story.md` only at PITCH, explicitly, with the author.
+- `pitch-inbox.md` is the only source of truth; the board is a rendering of it.

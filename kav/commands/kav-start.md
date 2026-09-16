@@ -1,0 +1,62 @@
+---
+name: kav-start
+description: Kav's interactive tutorial and health check. Checks the install (API keys, Chrome, Python dependencies), explains the six-step process, lists the commands, and offers to start a first story or open an existing one. Use when the author types /kav-start, says "get started", "how does Kav work", "what can you do", or has just finished installing.
+argument-hint: ""
+---
+
+# /kav-start — welcome, health check, first steps
+
+Kav is a co-writer for graphic novels. The author brings the story and makes every creative call; the agent brings structure, pressure-testing, image generation and lettering. This command orients a new author in a few short messages. Keep it light — a tour, not a lecture.
+
+## Step 1 — Health check (run it, report in a short table)
+
+Run these from the repo root and report each as OK / missing, with the one-line fix:
+
+| Check | How | Fix when missing |
+|---|---|---|
+| Python ≥ 3.10 | `python3 --version` | install Python 3.10+ |
+| Python deps | `python3 -c "import PIL, requests, dotenv"` (or whatever `requirements.txt` lists) | `pip install -r requirements.txt` (a venv is recommended) |
+| Chrome / Chromium | `python3 tools/chrome.py` | install Google Chrome or Chromium; lettering and page assembly render through it headless |
+| `.env` exists | check the file exists — **never print its contents** | `cp .env.example .env` |
+| `FAL_KEY` set | check the variable is non-empty without echoing it | fal.ai dashboard → Keys (https://fal.ai/dashboard/keys) |
+| `GEMINI_API_KEY` set | same | Google AI Studio (https://aistudio.google.com/apikey) |
+
+If anything is missing, offer to fix it now by following `INSTALL.md`. Nothing that generates images works without the keys; the story-writing parts (kickoff concept, cast DNA, pitch, storyboard) work without them.
+
+## Step 2 — The process in six steps
+
+Show this, nearly verbatim:
+
+1. **Kickoff** — give the story a slug and a one-line pitch. `/kav-kickoff <slug>`
+2. **Collect** — characters, locations and the key events, one at a time, with reference images. Ideas that come up early get parked with `/kav-plot-note`, not argued.
+3. **Visual style** — pick or build a style pack, then lock the look on cheap samples before spending on production references. `/kav-style`, `/kav-visual-style-lock`
+4. **Storyboard & brief** — the story's shape, intention/obstacle for each character, then a card per chapter and a one-page brief.
+5. **Chapter by chapter** — outline, scene list, panel images reviewed on a local page, lettering, assembled pages. `/kav-chapter <NN>`
+6. **Publish** — two readers per chapter (one panel per screen, or full pages), Instagram-ready carousel images, a trailer deck. `/kav-publish`, `/kav-trailer`
+
+Then the three standing rules: every step writes a file so you can stop anywhere; nothing gets generated past a decision that is yours; **you pick every image**.
+
+## Step 3 — The commands
+
+| Command | What it does |
+|---|---|
+| `/kav-start` | this tour and health check |
+| `/kav-kickoff <slug>` | scaffold a story: concept, cast, locations, style, pitch, storyboard, brief |
+| `/kav-character <name>` | build a character's reference mug shots |
+| `/kav-style <pack>` | register reference images as a named visual style |
+| `/kav-visual-style-lock <pack>` | test the style cheaply, then bake production references |
+| `/kav-plot-note <idea>` | park a story idea without arguing it; "show the notes" renders the board |
+| `/kav-chapter <NN>` | write and draw one chapter |
+| `/kav-panel` | one scene plus its text into one lettered panel |
+| `/kav-review <batch.json>` | open the local image review page and apply the author's picks |
+| `/kav-trailer` | build the story's swipeable trailer deck |
+| `/kav-publish` | build readers for every drawn chapter and explain where to post them |
+
+In Codex CLI the same commands are invoked as `/prompts:kav-start` etc. (see `INSTALL.md`). In any other agent, just ask for the step by name — the agent reads `kav/commands/kav-<name>.md`.
+
+## Step 4 — Offer the next move
+
+- If `stories/` holds a story folder (anything besides `.gitkeep`): list them with their `kickoff-state.md` status line and offer to resume one — `/kav-kickoff <slug>` resumes kickoff, `/kav-chapter <NN>` resumes a chapter. If a finished chapter has `pages/reader-story.html`, offer to open it so the author sees what the end product looks like.
+- Otherwise: ask for a slug and a one-line pitch and offer to run `/kav-kickoff <slug>` right away. If the author has no idea yet, offer to brainstorm three one-liners — then stop and let them pick.
+
+Wait for the author. Do not start a kickoff unasked.

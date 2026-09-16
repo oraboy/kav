@@ -1,0 +1,50 @@
+---
+name: kav-publish
+description: Build the readers for every drawn chapter of a story, link them chapter to chapter and back home, and explain the publishing surfaces (static HTML on any host, Netlify, GitHub Pages; Instagram carousel JPEGs; PDF later). Use when the author types /kav-publish, says "publish the story", "put it online", "build all the readers", or asks where they can post the book.
+argument-hint: "[--story <slug>]"
+---
+
+# /kav-publish — readers for every chapter, and where they can go
+
+## 1 · Inventory
+
+List `stories/<slug>/chapters/ch*/`. A chapter is **publishable** when `pages/layout.json` exists and every panel in it has a lettered `panels/pNN-panelK.png` (chapter row Written ✓ in `kickoff-state.md`). Show the author the list: publishable, in progress, not started. Only publishable chapters get readers.
+
+## 2 · Build and link
+
+Decide the output folder with the author. Default: in place, `stories/<slug>/chapters/chNN/pages/`. For a site, a single folder is easier to host: `stories/<slug>/site/` with `chNN/` subfolders, the trailer at the root as `index.html`.
+
+For each publishable chapter in order (make sure `pages/` and `carousel/` are current — `python3 tools/assemble.py chapters/chNN/pages/layout.json` if the lettering changed):
+
+```
+python3 tools/build_readers.py --story <slug> --chapters chNN --title "<chapter title>" --out <dir>/chNN \
+  --next "<next chapter title>" \
+  --next-story-url ../chMM/reader-story.html \
+  --next-pages-url ../chMM/reader-comic.html \
+  --home-url ../index.html
+```
+
+- Links are **relative** so the folder works on any host and from disk.
+- Each mode links to the **same mode** of the next chapter. The last chapter omits the `--next*` flags and closes on its last line.
+- Every reader links home — the trailer deck (rebuild it with `/kav-trailer` so each chapter slide's Story/Comic pills point at the readers) or a simple index.
+- Open the first chapter's story reader and click through to the last to check every link.
+
+## 3 · Surfaces — explain, then ask
+
+Every surface is fed by what chapters already produce; none needs new art.
+
+| Surface | What goes | How |
+|---|---|---|
+| **Any static host** | the readers + trailer folder | it's plain HTML and images — upload the folder anywhere |
+| **Netlify** | same folder | drag the folder onto app.netlify.com/drop, or connect a repo |
+| **GitHub Pages** | same folder in a repo | push it, enable Pages on the branch/folder |
+| **Instagram** | `pages/carousel/NN-*.jpg` per chapter (1080×1350, reading order) and `package/slides/*.png` for the trailer (1080×1920) | post manually as carousels (Instagram carousels cap at 20 items — split long chapters) |
+| **PDF / print** | `pages/pNN.png` | not built in yet; the page PNGs are print-shaped. Right-to-left books need reversed page order |
+
+Ask the author, once per story: which surfaces; for a site, where it's hosted and whether it should be a separate repo. Record the answers under Links in `kickoff-state.md`.
+
+## Hard rules
+
+- **Never publish, upload, push or post without the author's explicit yes** for that specific action.
+- Never commit `.env` or keys along with a site folder.
+- Readers are rebuilt from lettered panels — never hand-edit the generated HTML.

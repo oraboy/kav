@@ -1,0 +1,23 @@
+{
+  "_comment": "Copy to stories/the-lighthouse-cat/chapters/ch01/panels/batch-s1.json. n = candidates per panel (a panel's own n overrides). picked = settled candidate number (skipped by panel_batch, shown locked in review). only = [ids] reruns a subset. ar: 4:5 one cell, 8:5 two cells, 12:5 three cells, 9:16 phone.",
+  "story": "the-lighthouse-cat",
+  "chapter": "ch01",
+  "lane": "seedream",
+  "n": 3,
+  "workers": 4,
+  "panels": [
+    {
+      "id": "s1p1",
+      "ar": "12:5",
+      "line": "pip walking along the headland toward the lighthouse at dawn, wide establishing shot",
+      "text": "CAPTION: The keeper left on a Tuesday.\nPIP: Someone has to mind the light."
+    },
+    {
+      "id": "s1p2",
+      "ar": "4:5",
+      "line": "pip climbing the spiral stairs inside the lighthouse, seen from above",
+      "text": "PIP (thought): Two hundred and twelve steps.",
+      "picked": "2"
+    }
+  ]
+}

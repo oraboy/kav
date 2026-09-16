@@ -1,0 +1,22 @@
+{
+  "story": "the-lighthouse-cat",
+  "panel": "chapters/ch01/panels/candidates/s1p2-2.png",
+  "size": [2304, 2880],
+  "style": {
+    "caption": {"fill": "#1b2740", "stroke": "#1b2740", "stroke_w": 6, "color": "#f4ecd6", "size": 80},
+    "speech": {"fill": "#f7f1e2", "stroke": "#1a2130", "stroke_w": 8, "color": "#1f2636", "size": 64},
+    "thought": {"fill": "#f7f1e2", "stroke": "#1a2130", "stroke_w": 8, "color": "#1f2636", "size": 72, "slant": "normal"},
+    "shout": {"fill": "#f7f1e2", "stroke": "#1a2130", "stroke_w": 10, "color": "#1f2636", "size": 90}
+  },
+  "overlays": [
+    {"type": "caption", "y": 40, "lang": "en", "lines": ["The keeper left on a Tuesday."]},
+    {"type": "balloon", "kind": "thought", "cx": 1500, "cy": 760, "rx": 560, "ry": 180,
+     "lang": "en", "lines": ["Two hundred and", "twelve steps."], "tail": [1500, 1480]},
+    {"type": "balloon", "kind": "speech", "cx": 800, "cy": 2300, "rx": 520, "ry": 170,
+     "lang": "en", "lines": ["Someone has to", "mind the light."], "tail": [1100, 1900]},
+    {"type": "balloon", "kind": "shout", "cx": 1700, "cy": 1900, "rx": 380, "ry": 150,
+     "lang": "en", "lines": ["MEOW!"]},
+    {"type": "text", "x": 200, "y": 2600, "w": 1900, "h": 220, "lang": "en", "lines": ["Chapter One"],
+     "color": "#f4ecd6", "font": "balloon"}
+  ]
+}

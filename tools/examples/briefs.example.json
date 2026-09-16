@@ -1,0 +1,26 @@
+{
+  "_comment": "Copy to stories/the-lighthouse-cat/briefs.json. Descriptions are prompt text in English. Reference photos: cast/<name>/source.jpg (or built mug shots cast/<name>/front.png ...), locations/<loc>/*.jpg as listed below, objects/<obj>.png.",
+  "defaults": {
+    "register": "Quiet, naturalistic scene on a windy northern coast, soft overcast light, no exaggerated styling unless a style pack is given.",
+    "generations_per_brief": 1,
+    "seeds": [1001]
+  },
+  "characters": {
+    "pip": "a small grey tabby cat with a white chest and white front paws, a torn left ear, bright amber eyes and a thin red collar with a brass bell"
+  },
+  "mugshot_direction": {
+    "pip": "For the smiling shot: eyes half-closed in contentment, whiskers forward."
+  },
+  "locations": {
+    "lighthouse": {
+      "photos": ["locations/lighthouse/lighthouse-01.jpg"],
+      "description": "A white stone lighthouse with a red iron lantern room on a rocky headland, a narrow spiral staircase inside with whitewashed walls and small deep-set windows, grey sea all around."
+    }
+  },
+  "location_words": {
+    "lighthouse": ["lighthouse", "lantern room", "spiral stairs", "the headland"]
+  },
+  "objects": {},
+  "object_words": {},
+  "briefs": []
+}

@@ -1,0 +1,19 @@
+# secrets
+.env
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# os
+.DS_Store
+
+# stories are the author's own work: kept out of the Kav repo by default.
+# Only the placeholder and the (future) bundled sample story are tracked.
+stories/*
+!stories/.gitkeep
+!stories/sample/
+
+# optional local Codex skills copy (generated from adapters/codex/skills)
