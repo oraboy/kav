@@ -21,7 +21,7 @@ text:
 - sound: "<siren / growl / howl>"
 ```
 
-- The scene line must name at least one cast member of the active story (that's how references bind). **Name at most three subjects** (characters plus bound objects): each takes a reference slot ahead of the style pack, and past three the look itself stops binding on a capped provider. The tools warn when a line crosses it. Location and objects bind from the story's `location_words` / `object_words`.
+- The scene line must name at least one cast member of the active story (that's how references bind). **Name three subjects at most** (characters plus any bound object): past three, the style pack loses its slots and the look drifts. If the author's scene needs a fourth, say so in one line and offer to split it or push someone into the background; their call. Location and objects bind from the story's `location_words` / `object_words`.
 - Text lines are in **reading order**; earlier = higher on the panel.
 - Kinds: `caption` (narrator) · `speech` · `thought` · `shout`/sound burst. Balloons stay short — two tight lines.
 

@@ -37,26 +37,41 @@ Writing (concept, cast, pitch, storyboard) works without keys; drawing needs one
 
 **Now:**
 
-**(a) Look for what is already there.** `check_setup.py` reports keys found in the shell environment or in `.env`. If a key is set, say which lane it gives and offer to use it; skip to (d).
-
-If the agent has an image-generation tool of its own (an MCP server or built-in tool), say plainly that Kav's pipeline cannot use it yet: Kav's tools call fal.ai or Gemini directly so every panel carries the character, location and style references. One-off pictures only.
-
-**(b) The author has a key in another project.** Many authors already have a fal.ai or Gemini key in some other `.env`. Ask for the path, then run:
+**(a) First, look at what is already there.** `check_setup.py` lists the providers whose keys are set, in the shell or in `.env`. Say what was found in one line ("fal.ai is already set up here"). Ask whether they also keep a key in another project; if so, ask for the path and run:
 
 ```
 python3 tools/check_setup.py --import <path-to-other/.env>
 ```
 
-It copies only the key names Kav knows (`FAL_KEY`/`FAL_API_KEY`, `GEMINI_API_KEY`/`GOOGLE_API_KEY`), reports names only, and keeps keys already set in Kav's `.env` unless `--overwrite` is added. Never open, print or read the other file yourself.
+It copies only the key names Kav knows, reports names only, and keeps keys already set unless `--overwrite` is added. Never open, print or read that file yourself.
 
-**(c) No key yet.** Walk through the options, one at a time:
+If the agent has an image-generation tool of its own (an MCP server or built-in tool), say plainly that Kav's pipeline cannot use it yet: Kav's tools call the image APIs directly so every panel carries the character, location and style references. One-off pictures only.
 
-| Option | Covers | Steps |
+**(b) Then present the options, with the trade-offs, and let the author choose.** Show all four, marking what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it.
+
+| Provider | Models | Trade-offs |
 |---|---|---|
-| **fal.ai** (recommended, one key for everything) | Seedream (cheap, default) and Nano Banana Pro | Sign in at https://fal.ai → https://fal.ai/dashboard/keys → create a key → add a little credit under Billing (generation stops with a 403 when the balance runs low) |
-| **Google Gemini** | Nano Banana Pro only | https://aistudio.google.com/apikey → create a key → enable billing on the Google Cloud project behind it |
+| **fal.ai** *(recommended when nothing is set up)* | Seedream 4.5, Nano Banana Pro | One key for both. Takes Kav's full reference stack, which holds faces best. About $0.04 an image on Seedream. Needs a little credit up front, and generation stops with a 403 when the balance runs low |
+| **Magnific** *(tested, passes)* | Seedream 4.5 | Same model as fal.ai's default, similar quality, its own slightly different look. **5 reference images max**, so panels must stay at three named subjects or the style stops binding. No 4:5 output: page cells come back 3:4 and need cropping |
+| **Higgsfield** | Popcorn, Soul | Popcorn takes 8 references. Soul is Higgsfield's own look and takes one style reference, so it cannot hold a character's face across panels. Untested by us; API credits are separate from the app plan |
+| **Google Gemini** | Nano Banana Pro | Direct access without fal.ai. One model only, about 4× Seedream's price, and in our tests it ignored a rotoscope style pack for its own painterly look. Fine for other styles; needs billing enabled on the Google Cloud project |
 
-Then: `cp .env.example .env` if it doesn't exist, and ask the author to open `.env` and paste the key after `FAL_KEY=` (or `GEMINI_API_KEY=`) themselves. Offer to open the file. If they paste a key into the chat anyway, follow `INSTALL.md` §5. Re-run `check_setup.py` to confirm.
+Ask which they want, and what to use first and second (the default is Seedream first, Nano Banana Pro second). Record it in `.env`:
+
+```
+KAV_PROVIDER=fal      # or magnific / higgsfield / gemini
+```
+
+**Warn once, then respect the choice.** If they pick a model with a known cost (price, a reference cap, a style that resists style packs), say it in one line and move on. The author decides. The choice is not permanent: during `/kav-visual-style-lock` they can compare models on their own look and lock a different one for that story.
+
+**(c) Getting the key.** `cp .env.example .env` if it doesn't exist, then point at the right page and ask the author to paste the key into `.env` themselves. Offer to open the file. If they paste a key into the chat anyway, follow `INSTALL.md` §5. Re-run `check_setup.py` to confirm.
+
+| Provider | Where |
+|---|---|
+| fal.ai | https://fal.ai/dashboard/keys (add credit under Billing) |
+| Magnific | https://www.magnific.com/api |
+| Higgsfield | https://cloud.higgsfield.ai/api-keys (paste the whole key, including the `:`) |
+| Google Gemini | https://aistudio.google.com/apikey |
 
 **(d) Test it (GATE).** Ask before spending:
 
