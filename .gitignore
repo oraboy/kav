@@ -17,3 +17,7 @@ stories/*
 !stories/sample/
 
 # optional local Codex skills copy (generated from adapters/codex/skills)
+
+# style packs are the author's own (except the README)
+styles/*
+!styles/README.md
