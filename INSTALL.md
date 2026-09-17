@@ -31,7 +31,11 @@ Run `python3 tools/chrome.py`. It prints the Chrome/Chromium path it found, or a
 
 Create the env file: `cp .env.example .env` (skip if `.env` exists). `.env` is gitignored.
 
-Walk the author through getting each key, one at a time:
+**Ask first: "Set up image generation now, or later?"** Later is fine: writing works without keys, and `/kav-start` offers this again. If now:
+
+1. Run `python3 tools/check_setup.py`. It reports keys already set in the shell or in `.env` (never their values). If one is there, offer to use it.
+2. If the author has a key in another project's `.env`, ask for the path and run `python3 tools/check_setup.py --import <path>`. It copies only Kav's key names and reports names only. Don't open that file yourself.
+3. Otherwise walk the author through getting a key, one at a time (fal.ai alone is enough):
 
 | Variable | What it powers | Where to get it |
 |---|---|---|
@@ -75,7 +79,7 @@ python3 tools/letter.py tools/examples/lettering.example.json /tmp/kav-smoke.png
 
 Look at the output image to confirm a caption and balloon were drawn. If it fails, read the error: usually Chrome (step 4) or a missing package (step 3).
 
-Optional, if keys are set and the author agrees to spend a few cents: nothing yet — the first real generation happens inside `/kav-kickoff` or `/kav-character`, where the author can see what it costs.
+If a key is set, **ask before spending** (the *image lane* line of `check_setup.py` gives the cheapest lane and its cost, about $0.04 on Seedream), then run `python3 tools/welcome_panel.py`. It generates one cartoon panel of an author and a robot in a workshop and letters the robot's welcome balloon, proving the key, the lane, Chrome and lettering in one go. Look at `setup/welcome.png` and show it to the author; to move the balloon, edit `setup/welcome.lettering.json` and run it again with `--letter-only`.
 
 ## 8 · Hand over
 
@@ -85,4 +89,4 @@ Tell the author, in two or three sentences, that Kav is installed and what worke
 - Codex CLI: **`/prompts:kav-start`** (after restarting)
 - Other agents: "run kav-start"
 
-It checks the install again, explains the process in six steps, and offers to start their first story.
+It welcomes them, checks the install again, offers image setup if it was left for later, explains the process, and offers to start their first story.

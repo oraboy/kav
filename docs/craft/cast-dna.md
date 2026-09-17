@@ -71,7 +71,9 @@ With this DNA, a legitimate story intent is *"Mira intends to raise the money to
 
 ## Principal vs. background
 
-- **Principal** — the full schema, for anyone the story turns on.
+- **Principal** — for anyone the story turns on, at one of two depths:
+  - **Full** — the full schema.
+  - **Sketch** — the author's one-liner and look, plus 2–3 answers (what they want most · what trips them up · how they act when nothing pushes them). Kav drafts one or two lines each for Desires, Tendencies, Shadows, Don't and Voice from those answers and marks every drafted line `(draft)`. That is the minimum the drama formula needs, so PITCH can work from a sketch; it presses the `(draft)` lines first. A sketch deepens into full DNA whenever the author wants, or when PITCH needs more.
 - **Background** — four fields only: *character class · what they are* (the author's line) *· appearance + references · where they appear* (a standing instruction for panels). The DNA sections are omitted on purpose and the file says so. A chorus of market stallholders doesn't need Shadows; inventing them makes them read as guns that never fire.
 
 A background character can be promoted to principal later; that marks downstream artifacts stale.

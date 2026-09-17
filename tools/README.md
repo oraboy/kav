@@ -35,6 +35,28 @@ stories/<slug>/
 styles/<pack>/*.png + medium.txt   shared style packs
 ```
 
+## check_setup.py
+
+One-command health check: Python, Pillow, Chrome, `.env`, each API key (set or not, and whether it came from the shell or `.env`; values are never printed) and the cheapest configured image lane with its rough cost.
+
+```
+python3 tools/check_setup.py [--json]
+python3 tools/check_setup.py --import <other/.env> [--overwrite]
+```
+
+- **`--import`** copies only Kav's key names (and their aliases) from another env file into `<repo>/.env`, reporting names only. Keys already set are kept unless `--overwrite`.
+
+## welcome_panel.py (calls the API)
+
+The setup test image. Generates one cartoon panel (an author and a robot over a notepad in a workshop, no text in the image) on the cheapest configured lane, then letters the robot's welcome balloon through `letter.py`. No story, no references.
+
+```
+python3 tools/welcome_panel.py [--lane seedream|nanobanana] [--dry-run]
+python3 tools/welcome_panel.py --letter-only
+```
+
+- **Output:** `<repo>/setup/` (gitignored): `welcome-panel.png` (raw), `welcome.lettering.json` (balloon spec), `welcome.png` (lettered). Edit the spec and run `--letter-only` to move the balloon without a new generation.
+
 ## generate.py (calls the API)
 
 Makes one image from a plain-English scene line. The tool finds the cast, location, objects and style pack named in the line, using briefs.json, the pack folder names and the word maps.

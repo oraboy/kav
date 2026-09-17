@@ -90,6 +90,31 @@ Seeded from: <author's file / photos / interview> on <date>
 
 ---
 
+## cast/<name>.md — principal class, sketch depth
+
+For principals the author wants to breeze through: a one-liner, a look, 2–3 answers. Lines Kav drafted from those answers carry `(draft)`; PITCH presses them first. Deepens into the full principal template on request.
+
+```markdown
+# <NAME> — <story-slug> sketch
+*Status: <draft | locked> <date>.*
+**Character class: principal · depth: sketch.** Drafted lines are marked (draft); deepen to full DNA any time.
+
+**Who they are:** *(the author's one-liner, verbatim)*
+> <one line>
+
+**Appearance (ref canon):** <the author's written look, or what the images show> · reference set: `cast/<name>/` <or: images still to come — needed before VISUAL LOCK>
+
+**Desires:** <1–2 bullets>
+**Tendencies:** <1–2 bullets>
+**Shadows:** <1 bullet>
+**Don't:** <1 bullet>
+**Voice:** <one line>
+
+**Story state:** <only if the author gave one>
+```
+
+---
+
 ## locations/<name>.md
 
 ```markdown

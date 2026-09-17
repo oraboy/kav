@@ -28,7 +28,7 @@ Every step writes a file, so you can stop anywhere and pick up later. Nothing is
 
 | Claude Code | Codex CLI | What it does |
 |---|---|---|
-| `/kav-start` | `/prompts:kav-start` | tour and install health check |
+| `/kav-start` | `/prompts:kav-start` | welcome, install health check, image setup with a test panel |
 | `/kav-kickoff <slug>` | `/prompts:kav-kickoff <slug>` | scaffold a story: concept, cast, locations, style, pitch, storyboard, brief |
 | `/kav-character <name>` | `/prompts:kav-character <name>` | build a character's reference mug shots |
 | `/kav-style <pack>` | `/prompts:kav-style <pack>` | register reference images as a named style |

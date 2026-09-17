@@ -12,7 +12,7 @@ These instructions apply to any agent working in this repo (Codex CLI, Claude Co
 ## The process
 
 1. **Kickoff** — slug and one-line pitch → `stories/<slug>/`
-2. **Collect** — characters (images, then DNA), locations, objects, key events
+2. **Collect** — characters (a one-liner and a look, then a quick sketch or full DNA), locations, objects, key events
 3. **Visual style** — pick or build a style pack, lock it on cheap samples, bake production references
 4. **Storyboard & brief** — story shape, intention/obstacle, chapter cards, one-page brief
 5. **Chapter by chapter** — outline in content, scene list, image batches reviewed on a local page, lettering, pages and readers
