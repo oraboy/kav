@@ -47,7 +47,7 @@ It copies only the key names Kav knows, reports names only, and keeps keys alrea
 
 If the agent has an image-generation tool of its own (an MCP server or built-in tool), say plainly that Kav's pipeline cannot use it yet: Kav's tools call the image APIs directly so every panel carries the character, location and style references. One-off pictures only.
 
-**(b) Then present the options, with the trade-offs, and let the author choose.** Show all four, marking what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it.
+**(b) Then present the options, with the trade-offs, and let the author choose.** `check_setup.py` prints the current list from the registry (`tools/lanes/models.json`) with each model's status, price and reference cap — read it rather than trusting the table below, which is a snapshot. Mark what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it. Mention an entry the check marks as needing re-verification.
 
 | Provider | Models | Trade-offs |
 |---|---|---|

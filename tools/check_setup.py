@@ -87,10 +87,26 @@ def checks():
                      "fix": KEY_HELP[canonical]})
     lane = cheapest_lane()
     rows.append({"check": "image lane", "ok": bool(lane),
-                 "detail": f"{lane['lane']} via {lane['via']}, ~${lane['approx_cost_usd']}/image" if lane
-                 else "none: writing works, images need FAL_KEY or GEMINI_API_KEY",
-                 "fix": "set FAL_KEY (one key covers both lanes)"})
+                 "detail": f"{lane['lane']} via {lane['via']}, ~${lane['approx_cost_usd']}/image"
+                 + (f" · configured: {', '.join(lane['providers'])}" if lane else "") if lane
+                 else "none: writing works, images need an image-provider key",
+                 "fix": "set FAL_KEY (one key covers Seedream and Nano Banana)"})
     return rows
+
+
+def models_table():
+    """Every provider and model in the registry: key set or not, status, price, age."""
+    out = []
+    for name, p in lanes.PROVIDERS.items():
+        have = all(key_source(k) for k in p["keys"] if k in KEY_ALIASES)
+        for lane_name, m in p["models"].items():
+            age = lanes.days_since_verified(name, lane_name)
+            out.append({"provider": name, "lane": lane_name, "title": f"{p['title']} · {m['title']}",
+                        "key_set": have, "status": m.get("status"), "price": m.get("price"),
+                        "max_refs": m.get("max_refs"), "verified_on": m.get("verified_on"),
+                        "days_since_verified": age,
+                        "stale": bool(age and age > lanes.STALE_DAYS), "notes": m.get("notes", "")})
+    return out
 
 
 def import_keys(src, overwrite=False):
@@ -140,12 +156,22 @@ def main():
         return
     rows = checks()
     if a.json:
-        print(json.dumps({"checks": rows, "image_lane": cheapest_lane()}, indent=2))
+        print(json.dumps({"checks": rows, "image_lane": cheapest_lane(),
+                          "models": models_table()}, indent=2))
         return
     for r in rows:
         mark = "OK     " if r["ok"] else "MISSING"
         fix = "" if r["ok"] else f"  -> {r['fix']}"
         print(f"{mark}  {r['check']:<18} {r['detail']}{fix}")
+    print("\nImage models (tools/lanes/models.json):")
+    for m in models_table():
+        mark = "set    " if m["key_set"] else "no key "
+        price = f"~${m['price']}" if m["price"] else ""
+        caps = (f"{m['max_refs']} ref max" if m["max_refs"] == 1 else
+                f"{m['max_refs']} refs max") if m["max_refs"] else "full refs"
+        stale = f"  (last verified {m['verified_on']} — worth re-checking)" if m["stale"] else ""
+        print(f"  {mark} {m['provider']:<11} --lane {m['lane']:<11} {m['status']:<16} "
+              f"{price:<7} {caps}{stale}")
 
 
 if __name__ == "__main__":

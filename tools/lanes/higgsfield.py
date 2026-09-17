@@ -5,11 +5,11 @@ Reference images are uploaded first (POST /files/generate-upload-url, PUT to the
 URL) and passed by public URL. Submissions return a request id; poll
 GET /requests/<id>/status until completed and download images[0].url.
 
-Models Kav uses, by lane:
-  popcorn  /higgsfield-ai/popcorn/auto     up to 8 reference images (multi-reference scenes)
-  soul     /higgsfield-ai/soul/reference   Higgsfield's own look; one style reference image
-           /higgsfield-ai/soul/standard    text only
-Needs HIGGSFIELD_API_KEY (HIGGSFIELD_API_KEY_ID accepted).
+Endpoints and reference caps come from models.json (popcorn: 8 references; soul: 1 style
+reference). Needs HIGGSFIELD_API_KEY (HIGGSFIELD_API_KEY_ID accepted).
+
+Status: untested. The key and the upload step work, but no generation has ever run here
+(the test account had no credits), so nothing it makes has been judged.
 """
 import json
 import random
@@ -19,7 +19,6 @@ import urllib.request
 
 BASE = "https://api.higgsfield.ai"
 UA = "kav/1.0 (+https://github.com/oraboy/kav)"
-MAX_REFS = {"popcorn": 8, "soul": 1}
 ASPECTS = {"popcorn": {"1:1", "4:3", "3:4", "3:2", "2:3", "16:9", "9:16"},
            "soul": {"9:16", "16:9", "4:3", "3:4", "1:1", "2:3", "3:2"}}
 NEAREST = {"4:5": "3:4", "8:5": "16:9", "12:5": "16:9"}
@@ -56,23 +55,22 @@ def aspect(lane, ar):
     return ar if ar in ASPECTS[lane] else "3:4"
 
 
-def run(lane, prompt, ref_bytes, key, ar="9:16", seed=None, max_wait_s=600):
-    if lane not in MAX_REFS:
-        raise RuntimeError(f"Higgsfield runs: {', '.join(MAX_REFS)}")
-    urls = [upload(b, key) for b in ref_bytes[:MAX_REFS[lane]]]
+def run(lane, spec, prompt, ref_bytes, key, ar="9:16", seed=None, max_wait_s=600):
+    """spec: the model's entry from models.json (endpoints and the reference cap)."""
+    if lane not in ASPECTS:
+        raise RuntimeError(f"Higgsfield runs: {', '.join(ASPECTS)}")
+    urls = [upload(b, key) for b in ref_bytes]
     body = {"prompt": prompt, "aspect_ratio": aspect(lane, ar)}
     if seed is not None:
         body["seed"] = max(1, int(seed) % 1000000)
+    path = spec["edit"] if urls else spec["text_to_image"]
     if lane == "popcorn":
-        path = "/higgsfield-ai/popcorn/auto"
         body.update({"num_images": 1, "resolution": "1600p"})
         if urls:
             body["image_urls"] = urls
     elif urls:
-        path = "/higgsfield-ai/soul/reference"
         body.update({"batch_size": 1, "resolution": "1080p", "image_reference_url": urls[0]})
     else:
-        path = "/higgsfield-ai/soul/standard"
         body = {"prompt": prompt, "num_images": 1, "resolution": "2K", "aspect_ratio": body["aspect_ratio"]}
     sub = api(path, key, body)
     status_url = sub.get("status_url") or f"/requests/{sub['request_id']}/status"

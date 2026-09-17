@@ -10,12 +10,9 @@ Paths used below:
 
 API keys come from the environment or `<repo>/.env` (see `.env.example`). Every tool that makes an image goes through `tools/lanes/`, which keeps two choices apart: the **lane** (the model) and the **provider** (who runs it, `--provider`, or `KAV_PROVIDER` in `.env`).
 
-| Provider | Key | Lanes | Notes |
-|---|---|---|---|
-| `fal` | `FAL_KEY` (alias `FAL_API_KEY`) | `seedream`, `nanobanana` | the default; takes Kav's full reference stack |
-| `magnific` | `MAGNIFIC_API_KEY` (alias `FREEPIK_API_KEY`) | `seedream` | 5 reference images max, fixed aspect-ratio enum (4:5 lands as 3:4) |
-| `higgsfield` | `HIGGSFIELD_API_KEY` (alias `HIGGSFIELD_API_KEY_ID`) | `popcorn` (8 refs), `soul` (1 style ref) | needs API credits; untested |
-| `gemini` | `GEMINI_API_KEY` (alias `GOOGLE_API_KEY`) | `nanobanana` | Nano Banana direct, used when `FAL_KEY` is empty |
+**`tools/lanes/models.json` is the registry** — every provider and model with its endpoints, key names, reference cap, how it takes an aspect ratio, rough price, how far it has been tested (`recommended` · `tested` · `untested` · `not-recommended`) and the date that was last checked. The clients read it, so adding or refreshing a model is an edit there plus a bake-off run, not a code change. `python3 tools/check_setup.py` prints the table and flags entries older than 120 days.
+
+Today: `fal` (`seedream` recommended, `nanobanana` tested) · `magnific` (`seedream` tested, 5 refs max, no 4:5) · `higgsfield` (`popcorn`, `soul` — wired up but untested) · `gemini` (`nanobanana` tested).
 
 **The reference budget is the quality limit.** Characters, then the location photo, then objects, then the style pack. On a capped provider, a panel with four subjects leaves the style pack nothing and the look drifts — keep panels to three named subjects (see `/kav-panel`). `generate.py` and `panel_batch.py` report this as a `warning` in their output.
 

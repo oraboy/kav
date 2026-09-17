@@ -1,0 +1,117 @@
+{
+  "_comment": "The image-model registry: what Kav knows about every provider and model. Adding or refreshing a model is an edit here plus a bake-off run, not a code change. `status` says how far a model got: recommended (our default) · tested (passed a bake-off on a real book) · untested (wired up, never judged) · not-recommended (tested and lost, with why). `verified_on` is the last date a human looked at its output or its docs; check_setup.py reports how old that is. Prices are rough per-image USD, for warning the author, not for billing.",
+  "aspects": {
+    "_comment": "Panel shapes in pixels. Page cells are 4:5; a panel spans 1, 2 or 3 cells (4:5, 8:5, 12:5). Models that take a ratio rather than a size map these to their nearest own value.",
+    "9:16": [2160, 3840], "16:9": [3840, 2160], "1:1": [2880, 2880],
+    "3:4": [2496, 3328], "4:3": [3328, 2496], "2:3": [2304, 3456], "3:2": [3456, 2304],
+    "4:5": [2304, 2880], "8:5": [3456, 2160], "12:5": [3840, 1600]
+  },
+  "providers": {
+    "fal": {
+      "title": "fal.ai",
+      "keys": ["FAL_KEY"],
+      "docs": "https://fal.ai/dashboard/keys",
+      "status": "recommended",
+      "verified_on": "2026-09-17",
+      "notes": "One key for both models. Takes Kav's full reference stack, which holds faces best.",
+      "models": {
+        "seedream": {
+          "title": "Seedream 4.5",
+          "edit": "fal-ai/bytedance/seedream/v4.5/edit",
+          "text_to_image": "fal-ai/bytedance/seedream/v4.5/text-to-image",
+          "takes": "size",
+          "max_refs": null,
+          "price": 0.04,
+          "status": "recommended",
+          "verified_on": "2026-09-17",
+          "notes": "Kav's default panel lane. Replayed ten picked panels of berko-and-olive and matched the book."
+        },
+        "nanobanana": {
+          "title": "Nano Banana Pro",
+          "edit": "fal-ai/nano-banana-pro/edit",
+          "text_to_image": "fal-ai/nano-banana-pro",
+          "takes": "aspect",
+          "max_refs": null,
+          "price": 0.15,
+          "status": "tested",
+          "verified_on": "2026-09-17",
+          "notes": "Identity-strong for mug shots. In the roto bake-off it ignored the style pack for its own painterly look and drifted faces, at ~4x the price; not for that style. Rejects 8:5 and 12:5, which map to 16:9 and 21:9."
+        }
+      }
+    },
+    "magnific": {
+      "title": "Magnific",
+      "keys": ["MAGNIFIC_API_KEY"],
+      "docs": "https://www.magnific.com/api",
+      "status": "tested",
+      "verified_on": "2026-09-17",
+      "notes": "Formerly the Freepik API. Async: POST returns a task_id, then poll.",
+      "models": {
+        "seedream": {
+          "title": "Seedream 4.5",
+          "edit": "seedream-v4-5-edit",
+          "text_to_image": "seedream-v4-5",
+          "takes": "aspect_enum",
+          "max_refs": 5,
+          "price": 0.05,
+          "status": "tested",
+          "verified_on": "2026-09-17",
+          "notes": "Passed the ten-panel bake-off: composition, style and identity all held. Its own slightly different look. Five references is the real limit — past three named subjects the style pack loses its slots. No 4:5: page cells come back 3:4."
+        }
+      }
+    },
+    "higgsfield": {
+      "title": "Higgsfield",
+      "keys": ["HIGGSFIELD_API_KEY"],
+      "docs": "https://cloud.higgsfield.ai/api-keys",
+      "status": "untested",
+      "verified_on": "2026-09-17",
+      "notes": "Parked until an author who uses Higgsfield wants it. The client works — key accepted, references upload — but the test account had no credits, so no image has ever been judged. Cloudflare rejects a default Python user agent. The key is the key id and secret joined by ':'. Its catalogue is per account (its CLI lists 23 image models), so a future version should read the account's own list.",
+      "models": {
+        "popcorn": {
+          "title": "Popcorn",
+          "edit": "/higgsfield-ai/popcorn/auto",
+          "text_to_image": "/higgsfield-ai/popcorn/auto",
+          "takes": "aspect",
+          "max_refs": 8,
+          "price": 0.05,
+          "status": "untested",
+          "verified_on": "2026-09-17",
+          "notes": "The multi-reference lane, closest in shape to how Kav works."
+        },
+        "soul": {
+          "title": "Soul",
+          "edit": "/higgsfield-ai/soul/reference",
+          "text_to_image": "/higgsfield-ai/soul/standard",
+          "takes": "aspect",
+          "max_refs": 1,
+          "price": 0.05,
+          "status": "untested",
+          "verified_on": "2026-09-17",
+          "notes": "Higgsfield's own look. One style reference only, so it cannot hold a character's face across panels."
+        }
+      }
+    },
+    "gemini": {
+      "title": "Google Gemini",
+      "keys": ["GEMINI_API_KEY"],
+      "docs": "https://aistudio.google.com/apikey",
+      "status": "tested",
+      "verified_on": "2026-09-17",
+      "notes": "Nano Banana without fal.ai. Needs billing on the Google Cloud project behind the key.",
+      "models": {
+        "nanobanana": {
+          "title": "Nano Banana Pro",
+          "edit": "gemini-3-pro-image-preview",
+          "text_to_image": "gemini-3-pro-image-preview",
+          "takes": "aspect",
+          "max_refs": null,
+          "price": 0.15,
+          "status": "tested",
+          "verified_on": "2026-09-17",
+          "notes": "Same model and the same caveats as Nano Banana on fal.ai. KAV_GEMINI_MODEL overrides the model id."
+        }
+      }
+    }
+  }
+}

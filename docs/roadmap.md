@@ -14,12 +14,11 @@ Each needs a lane client in `tools/lanes/`, a key entry in `tools/kav_env.py` (`
 
 ## Keeping the provider/model list current
 
-Providers ship new models constantly, and Kav's list is hand-written in `tools/lanes/<provider>.py`. Nothing discovers them. Neither Magnific nor Higgsfield exposes a "list models" endpoint that carries what Kav needs (reference-image support, caps, aspect ratios, price), so the list cannot be refreshed from the API today. Planned instead:
+The registry exists: `tools/lanes/models.json` holds every provider and model with endpoints, key names, reference cap, aspect handling, rough price, status and `verified_on`; the clients read it, and `check_setup.py` prints it and flags anything older than 120 days. No API offers a "list models" endpoint carrying what Kav needs (reference support, caps, price), so entries are verified by hand. Still to do:
 
-- **One registry file** (`tools/lanes/models.json`): per provider and model — endpoint, reference cap, aspect ratios, rough price, `verified_on` date and a link to the docs. The clients read it instead of holding their own constants; adding a model becomes a data edit and one bake-off run.
-- **A staleness nudge:** `check_setup.py` says when a provider's entry was last verified, and `/kav-start` mentions it when the date is old.
-- **A bake-off command** (`stories/<slug>/bakeoff/replay_book.py`, generalised): point it at any set of picked panels and a new model, get the comparison board. That is how a new model earns a place on the menu, since only the author's eye can say whether it passes.
-- **Higgsfield's catalogue** is per account (its CLI lists 23 image models), so its client should read the account's own model list where the API allows it.
+- **A bake-off command:** generalise `stories/<slug>/bakeoff/replay_book.py` — point it at any set of picked panels and a new model, get the comparison board. That is how a new model earns a place on the menu, since only the author's eye can say whether it passes.
+- **Higgsfield's catalogue** is per account (its CLI lists 23 image models), so its client should read the account's own list where the API allows it.
+- **Parked: Higgsfield.** The client works (key accepted, references upload) but nothing it makes has ever been judged, because the test account had no credits. Left `untested` in the registry until an author who uses Higgsfield wants it; then run the replay and set its status.
 
 ## Per-story model choice at visual lock
 

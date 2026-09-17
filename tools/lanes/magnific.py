@@ -1,9 +1,9 @@
-"""Magnific API client (formerly the Freepik API): Seedream 4.5, with or without references.
+"""Magnific API client (formerly the Freepik API).
 
 POST https://api.magnific.com/v1/ai/text-to-image/<model> with header x-magnific-api-key,
 then poll GET .../<model>/<task_id> until COMPLETED and download data.generated[0].
-Seedream 4.5 edit takes up to 5 reference images; aspect ratios are a fixed enum, so the
-page-cell shapes map to the nearest one. Needs MAGNIFIC_API_KEY.
+Aspect ratios are a fixed enum, so the page-cell shapes map to the nearest one. Which
+models exist, and their reference caps, come from models.json. Needs MAGNIFIC_API_KEY.
 """
 import base64
 import json
@@ -11,9 +11,7 @@ import time
 import urllib.error
 import urllib.request
 
-BASE = "https://api.magnific.com/v1/ai/text-to-image"
-MODELS = {"seedream": ("seedream-v4-5", "seedream-v4-5-edit")}   # lane: (text-only, with refs)
-MAX_REFS = 5
+BASE = "https://api.magnific.com/v1/ai/text-to-image"   # models and caps: models.json
 
 ASPECT = {
     "1:1": "square_1_1", "16:9": "widescreen_16_9", "9:16": "social_story_9_16",
@@ -35,15 +33,13 @@ def api(url, key, payload=None, timeout=180):
         raise RuntimeError(f"Magnific HTTP {e.code}: {body[:400]}") from None
 
 
-def run(lane, prompt, ref_bytes, key, ar="9:16", seed=None, poll_s=3, max_polls=200):
-    """ref_bytes: list of JPEG bytes, best first (trimmed to MAX_REFS by the caller)."""
-    if lane not in MODELS:
-        raise RuntimeError(f"Magnific runs: {', '.join(MODELS)}")
-    model = MODELS[lane][1 if ref_bytes else 0]
+def run(spec, prompt, ref_bytes, key, ar="9:16", seed=None, poll_s=3, max_polls=200):
+    """spec: the model's entry from models.json. ref_bytes: JPEG bytes, best first."""
+    model = spec["edit"] if ref_bytes else spec["text_to_image"]
     payload = {"prompt": prompt[:4096], "aspect_ratio": ASPECT.get(ar or "9:16", "social_story_9_16"),
                "enable_safety_checker": False}
     if ref_bytes:
-        payload["reference_images"] = [base64.b64encode(b).decode() for b in ref_bytes[:MAX_REFS]]
+        payload["reference_images"] = [base64.b64encode(b).decode() for b in ref_bytes]
     if seed is not None:
         payload["seed"] = int(seed)
     task = api(f"{BASE}/{model}", key, payload)["data"]
