@@ -20,7 +20,7 @@ text:
 - sound: "<siren / growl / howl>"
 ```
 
-- The scene line must name at least one cast member of the active story (that's how references bind). **Keep the named subjects** (characters plus any bound object) **inside the selected model's reference budget** — three on a capped provider like Magnific, more on fal.ai, per the story's lock in `style/style.md` or `KAV_PROVIDER`. Past it the style pack loses its slots and the look drifts. If the author's scene needs one more, name the model and its limit in one line and offer to split it or push someone into the background; their call. Location and objects bind from the story's `location_words` / `object_words`.
+- The scene line must name at least one cast member of the active story (that's how references bind). **Keep the named subjects** (characters plus any bound object) **inside the selected model's reference budget** — three on a capped provider like Magnific, more on fal.ai, per the story's lock in `style/style.md` or `KAV_PROVIDER`. Past it the style pack loses its slots and the look drifts. If the author's scene needs one more, say it plainly first — *"On Magnific we can't fit more than three cast members and objects in one panel; a scene like that means switching provider"* — then offer to split it, push someone into the background, or switch. Their call. Location and objects bind from the story's `location_words` / `object_words`.
 - Text lines are in **reading order**; earlier = higher on the panel.
 - Kinds: `caption` (narrator) · `speech` · `thought` · `shout`/sound burst. Balloons stay short — two tight lines.
 
