@@ -47,7 +47,10 @@ def run_one(story, lane, panel, k, out_dir):
     dst = out_dir / f"{panel['id']}-{k}.png"
     dst.write_bytes(src.read_bytes())
     (out_dir / f"{panel['id']}-{k}.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))
-    return {"id": panel["id"], "k": k, "ok": True, "file": dst.name, "seed": res["seed"]}
+    out = {"id": panel["id"], "k": k, "ok": True, "file": dst.name, "seed": res["seed"]}
+    if res.get("warning"):
+        out["warning"] = res["warning"]
+    return out
 
 
 def load_font(size):

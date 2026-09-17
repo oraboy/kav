@@ -318,40 +318,76 @@ def portrait_path(name, pack=None):
     raise SystemExit(f"No portrait for '{name}': expected {base}/[<pack>/]front.png")
 
 
-def build_refs(brief, spec, style_pack=None):
-    """Ordered reference images: characters, then location photos, then objects, then
-    style-pack images. Returns a list of {kind, name, local}."""
-    refs = []
-    n_chars = len(brief["characters"])
-    for name in brief["characters"]:
-        for p in mugshots(name, n_chars, style_pack):
-            refs.append({"kind": "character", "name": name, "local": p})
+def plan_refs(brief, spec, style_pack=None, max_refs=None):
+    """What each reference slot holds: {characters: {name: [paths]}, location: [paths],
+    objects: [(name, path)], style: [paths]}. `max_refs` is a provider's image cap: past it,
+    each character keeps its best shot, the location its first photo, objects stay, and the
+    style pack gets what is left."""
+    chars = brief["characters"]
+    shots = {n: mugshots(n, len(chars), style_pack) for n in chars}
     loc = brief.get("location")
-    if loc:
-        for photo in spec["locations"][loc].get("photos", []):
-            refs.append({"kind": "location", "name": loc, "local": root() / photo})
+    loc_photos = [root() / p for p in spec["locations"][loc].get("photos", [])] if loc else []
+    objects = []
     for obj in brief.get("objects", []):
         p = next((root() / "objects" / f"{obj}{e}" for e in (".png", ".jpg", ".jpeg", ".webp")
                   if (root() / "objects" / f"{obj}{e}").exists()), None)
         if p:
-            refs.append({"kind": "object", "name": obj, "local": p})
-    if style_pack:
-        for p in style_pack_images(style_pack, limit=style_budget(n_chars, bool(loc))):
-            refs.append({"kind": "style", "name": style_pack, "local": p})
+            objects.append((obj, p))
+    style = style_pack_images(style_pack, limit=style_budget(len(chars), bool(loc))) if style_pack else []
+    total = sum(len(v) for v in shots.values()) + len(loc_photos) + len(objects) + len(style)
+    if max_refs and total > max_refs:
+        shots = {n: v[:1] for n, v in shots.items()}
+        loc_photos = loc_photos[:1]
+        used = sum(len(v) for v in shots.values()) + len(loc_photos) + len(objects)
+        style = style[:max(0, max_refs - used)]
+    return {"characters": shots, "location": loc_photos, "objects": objects, "style": style}
+
+
+def ref_warning(plan, style_pack, max_refs=None):
+    """The style cliff on a capped provider, in one line, or None.
+
+    With a cap (Magnific: 5 images), every character, the location photo and each object
+    take a slot before the style pack does. Past three characters — or three counting a
+    bound object — the pack is left one image or none, and the panel comes back in the
+    model's own house style instead of the story's. Proven on berko-and-olive's ch01 s7p1
+    and ch03 s6p3 (2026-09-17). The fix is the panel, not the provider: split the cast.
+    """
+    if not style_pack or not max_refs:
+        return None
+    if len(plan["style"]) >= 2:
+        return None
+    n = len(plan["characters"]) + len(plan["objects"])
+    return (f"style pack got {len(plan['style'])} reference(s): {n} characters/objects plus the "
+            f"location fill the {max_refs}-image budget. Expect the look to drift. Split the panel "
+            f"or drop a character.")
+
+
+def build_refs(brief, spec, style_pack=None, max_refs=None):
+    """Ordered reference images: characters, then location photos, then objects, then
+    style-pack images. Returns a list of {kind, name, local}."""
+    plan = plan_refs(brief, spec, style_pack, max_refs)
+    refs = []
+    for name, paths in plan["characters"].items():
+        refs += [{"kind": "character", "name": name, "local": p} for p in paths]
+    refs += [{"kind": "location", "name": brief.get("location"), "local": p} for p in plan["location"]]
+    refs += [{"kind": "object", "name": n, "local": p} for n, p in plan["objects"]]
+    refs += [{"kind": "style", "name": style_pack, "local": p} for p in plan["style"]]
     return refs
 
 
-def build_prompt(brief, spec, style_pack=None):
+def build_prompt(brief, spec, style_pack=None, max_refs=None):
     """One prompt string: image-index preamble, scene with bound names, location/style blocks.
 
     A style pack (images) replaces the spec's written register: defining the look by
-    example is the point of the pack.
+    example is the point of the pack. The image numbers follow plan_refs, the same plan
+    build_refs sends, so the preamble always points at the right picture.
     """
+    plan = plan_refs(brief, spec, style_pack, max_refs)
     chars = brief["characters"]
     lines, n = [], 0
     at = {}                    # where each character's images actually start
     for name in chars:
-        shots = mugshots(name, len(chars), style_pack)
+        shots = plan["characters"][name]
         first = n + 1
         at[name] = first
         n += max(1, len(shots))
@@ -362,10 +398,13 @@ def build_prompt(brief, spec, style_pack=None):
             lines.append(f"Images {first} to {n} show {title(name)} — one character, "
                          f"photographed from several angles: {desc}.")
     loc = brief.get("location")
-    if loc:
-        n += 1
-        lines.append(f"Image {n} shows the real location the scene takes place in.")
-    for obj in brief.get("objects", []):
+    if loc and plan["location"]:
+        first, n = n + 1, n + len(plan["location"])
+        if n == first:
+            lines.append(f"Image {n} shows the real location the scene takes place in.")
+        else:
+            lines.append(f"Images {first} to {n} show the real location the scene takes place in.")
+    for obj, _ in plan["objects"]:
         n += 1
         desc = spec.get("objects", {}).get(obj, {}).get("description", "")
         lines.append(f"Image {n} is a photograph of a real physical object — the "
@@ -377,7 +416,7 @@ def build_prompt(brief, spec, style_pack=None):
                      "though they had been photographed there. Any lettering on them is copied "
                      "verbatim, glyph for glyph, in the same script and spelling — never "
                      "re-typeset, translated, or replaced with different words.")
-    pack = style_pack_images(style_pack, limit=style_budget(len(chars), bool(loc))) if style_pack else []
+    pack = plan["style"]
     if pack:
         first, last = n + 1, n + len(pack)
         span = f"Image {first}" if len(pack) == 1 else f"Images {first} to {last}"
@@ -417,7 +456,7 @@ def build_prompt(brief, spec, style_pack=None):
         # style refs to fill. The named medium is the verbal reinforcement.
         medium = style_medium(style_pack)
         as_medium = f"as a {medium}" if medium else "in the style of the style-reference images"
-        n_content = len(chars) + (1 if loc else 0)
+        n_content = n          # n counts content images only; style images come after
         span = "image 1" if n_content == 1 else f"images 1 to {n_content}"
         parts.append(
             f"Render the entire final image {as_medium}, matching the style pack's line quality, "

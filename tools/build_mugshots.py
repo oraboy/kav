@@ -15,9 +15,9 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kav_env import REPO, data_uri, require_key  # noqa: E402
+from kav_env import REPO  # noqa: E402
 from kav_refs import cast_dir, load_spec, root, set_story, style_medium, style_pack_images  # noqa: E402
-from lanes import fal  # noqa: E402
+import lanes  # noqa: E402
 
 SEEDREAM_SIZES = {"1:1": (2048, 2048), "9:16": (1152, 2048)}
 
@@ -61,7 +61,7 @@ def seed_images(name, extra=None):
     return out
 
 
-def build(name, key, describe=None, extra=None, force=False, style_pack=None, lane="nanobanana",
+def build(name, provider=None, describe=None, extra=None, force=False, style_pack=None, lane="nanobanana",
           shots=None, seed=7):
     seeds = seed_images(name, extra)
     if not seeds and not describe:
@@ -114,19 +114,12 @@ def build(name, key, describe=None, extra=None, force=False, style_pack=None, la
                       f"rendering technique only (line, shading, palette): ignore any people, "
                       f"animals, props or settings they show — none of that content belongs in "
                       f"this image.")
-        if lane == "seedream":
-            w, h = SEEDREAM_SIZES[ratio]
-            payload = {"prompt": prompt, "image_urls": [data_uri(p) for p in images],
-                       "image_size": {"width": w, "height": h}, "seed": seed}
-            endpoint = fal.SEEDREAM
-        else:
-            payload = {"prompt": prompt, "image_urls": [data_uri(p) for p in images],
-                       "aspect_ratio": ratio, "resolution": "2K",
-                       "safety_tolerance": "5", "output_format": "png", "seed": seed}
-            endpoint = fal.NANOBANANA
+        size = SEEDREAM_SIZES[ratio] if lane == "seedream" else None
         try:
-            out.write_bytes(fal.run(endpoint, payload, key))
-            print(f"  {shot} -> {out}")
+            img, via = lanes.generate(prompt, images, lane=lane, ar=ratio, size=size, seed=seed,
+                                      provider=provider)
+            out.write_bytes(img)
+            print(f"  {shot} -> {out}  ({lane} via {via})")
         except Exception as e:
             failed += 1
             print(f"  {shot} FAILED: {str(e)[:300]}")
@@ -144,6 +137,8 @@ def main():
     ap.add_argument("--style-pack", help="render the set in a style pack, into cast/<name>/<pack>/")
     ap.add_argument("--lane", default="nanobanana", choices=["nanobanana", "seedream"],
                     help="seedream = cheap draft pass saved under .../draft/; nanobanana = production set")
+    ap.add_argument("--provider", choices=list(lanes.PROVIDERS),
+                    help="who runs the lane (default: $KAV_PROVIDER, else the first configured)")
     ap.add_argument("--shots", help="comma list of shots (front,three-quarter,smile,full-body); default all")
     ap.add_argument("--seed", type=int, default=7,
                     help="generation seed (default 7). Change it to reroll a shot that drifted")
@@ -153,8 +148,8 @@ def main():
     if not names:
         sys.exit("Name a character: --char <name>")
     print(f"[root] {root().relative_to(REPO)}")
-    key = require_key("FAL_KEY")
-    failed = sum(build(n, key, a.describe, a.extra, a.force, a.style_pack, a.lane, a.shots, a.seed)
+    provider = lanes.resolve(a.lane, a.provider)
+    failed = sum(build(n, provider, a.describe, a.extra, a.force, a.style_pack, a.lane, a.shots, a.seed)
                  for n in names)
     sys.exit(1 if failed else 0)
 

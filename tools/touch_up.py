@@ -13,9 +13,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kav_env import data_uri, require_key  # noqa: E402
 from kav_refs import cast_dir, set_story  # noqa: E402
-from lanes import fal  # noqa: E402
+import lanes  # noqa: E402
 
 FRAME = ("Edit this single illustration. {instruction}. Keep the drawing style, linework, "
          "colours, framing, pose, expression, clothing, hair and background exactly as they are — "
@@ -32,10 +31,12 @@ def main():
                     help="shot(s) to touch up, comma list (front,three-quarter,smile,full-body); default front")
     ap.add_argument("--pack", help="style-pack subfolder of the set (cast/<name>/<pack>/); default the plain set")
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--provider", choices=list(lanes.PROVIDERS),
+                    help="who runs the Seedream edit (default: $KAV_PROVIDER, else the first configured)")
     a = ap.parse_args()
     set_story(a.story)
     from PIL import Image
-    key = require_key("FAL_KEY")
+    provider = lanes.resolve("seedream", a.provider)
 
     folder = cast_dir() / a.char / a.pack if a.pack else cast_dir() / a.char
     out_dir = folder / "touch"
@@ -47,10 +48,9 @@ def main():
             print(f"  {shot}: no file at {src}, skipping")
             continue
         w, h = Image.open(src).size
-        payload = {"prompt": FRAME.format(instruction=a.instruction.rstrip(".")),
-                   "image_urls": [data_uri(src)], "image_size": {"width": w, "height": h},
-                   "seed": a.seed}
-        (out_dir / f"{shot}.png").write_bytes(fal.run(fal.SEEDREAM, payload, key))
+        img, _ = lanes.generate(FRAME.format(instruction=a.instruction.rstrip(".")), [src],
+                                lane="seedream", size=(w, h), seed=a.seed, provider=provider)
+        (out_dir / f"{shot}.png").write_bytes(img)
         print(f"  {shot} -> {out_dir / (shot + '.png')}")
         done += 1
     sys.exit(0 if done else 1)

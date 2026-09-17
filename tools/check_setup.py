@@ -22,7 +22,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kav_env import KEY_ALIASES, KEY_HELP, REPO, get_key  # noqa: E402
+from kav_env import KEY_ALIASES, KEY_HELP, REPO  # noqa: E402
+import lanes  # noqa: E402
 
 ENV = REPO / ".env"
 
@@ -52,12 +53,12 @@ def key_source(canonical):
 
 
 def cheapest_lane():
-    """Seedream on fal.ai is the cheapest lane; Gemini direct is the fallback."""
-    if get_key("FAL_KEY"):
-        return {"lane": "seedream", "via": "fal", "approx_cost_usd": 0.04}
-    if get_key("GEMINI_API_KEY"):
-        return {"lane": "nanobanana", "via": "gemini", "approx_cost_usd": 0.15}
-    return None
+    """The cheapest configured lane/provider pair (tools/lanes/__init__.py knows the costs)."""
+    best = lanes.cheapest()
+    if not best:
+        return None
+    return {"lane": best[0], "via": best[1], "approx_cost_usd": best[2],
+            "providers": lanes.configured()}
 
 
 def checks():

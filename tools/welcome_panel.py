@@ -23,13 +23,12 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kav_env import REPO, get_key  # noqa: E402
+from kav_env import REPO  # noqa: E402
+import lanes  # noqa: E402
 
 OUT = REPO / "setup"
 RAW, SPEC, FINAL = OUT / "welcome-panel.png", OUT / "welcome.lettering.json", OUT / "welcome.png"
-W, H = 2304, 2880  # one 4:5 page cell
-SEEDREAM_T2I = "fal-ai/bytedance/seedream/v4.5/text-to-image"
-NANOBANANA_T2I = "fal-ai/nano-banana-pro"
+W, H = lanes.ASPECTS["4:5"]  # one page cell
 
 PROMPT = (
     "A simple, warm cartoon comic panel, clean bold ink outlines and flat bright colours. "
@@ -52,28 +51,14 @@ BALLOON = {
 }
 
 
-def pick_lane(forced):
-    fal, gem = get_key("FAL_KEY"), get_key("GEMINI_API_KEY")
-    if forced == "nanobanana" or (not forced and not fal and gem):
-        if fal:
-            return "nanobanana", "fal"
-        if gem:
-            return "nanobanana", "gemini"
-    elif fal:
-        return "seedream", "fal"
-    sys.exit("No image key set. Run: python3 tools/check_setup.py")
-
-
-def generate(lane, via):
-    from lanes import fal, gemini
-    seed = int(time.time()) % 100000
-    if via == "gemini":
-        return gemini.run(PROMPT, [], get_key("GEMINI_API_KEY"), ar="4:5", seed=seed)
-    if lane == "seedream":
-        payload = {"prompt": PROMPT, "image_size": {"width": W, "height": H}, "seed": seed}
-        return fal.run(SEEDREAM_T2I, payload, get_key("FAL_KEY"))
-    payload = {"prompt": PROMPT, "aspect_ratio": "4:5", "resolution": "2K", "output_format": "png"}
-    return fal.run(NANOBANANA_T2I, payload, get_key("FAL_KEY"))
+def pick_lane(lane, provider):
+    if lane or provider:
+        lane = lane or "seedream"
+        return lane, lanes.resolve(lane, provider)
+    best = lanes.cheapest()
+    if not best:
+        sys.exit("No image key set. Run: python3 tools/check_setup.py")
+    return best[0], best[1]
 
 
 def letter():
@@ -88,7 +73,8 @@ def letter():
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--lane", choices=["seedream", "nanobanana"])
+    ap.add_argument("--lane", choices=list(lanes.LANES))
+    ap.add_argument("--provider", choices=list(lanes.PROVIDERS))
     ap.add_argument("--letter-only", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
@@ -97,13 +83,15 @@ def main():
         letter()
         print(json.dumps({"ok": True, "lettered": str(FINAL)}, indent=2))
         return
-    lane, via = pick_lane(a.lane)
+    lane, via = pick_lane(a.lane, a.provider)
     if a.dry_run:
         print(json.dumps({"lane": lane, "via": via, "prompt": PROMPT,
                           "raw": str(RAW), "spec": str(SPEC), "lettered": str(FINAL)}, indent=2))
         return
     try:
-        RAW.write_bytes(generate(lane, via))
+        img, via = lanes.generate(PROMPT, [], lane=lane, ar="4:5", size=(W, H),
+                                  seed=int(time.time()) % 100000, provider=via)
+        RAW.write_bytes(img)
     except Exception as e:
         sys.exit(f"Generation failed on {lane} via {via}: {str(e)[:600]}")
     SPEC.write_text(json.dumps(BALLOON, indent=2))  # fresh panel, fresh default balloon

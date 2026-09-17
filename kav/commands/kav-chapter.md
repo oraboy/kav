@@ -49,7 +49,9 @@ captions, balloons, thoughts, sounds — inline>
 *<N> panels — <shape per panel: 1/2/3 cells>.*
 ```
 
-Plan panels per scene within the card's layout budget. A panel is **one drawable frozen moment**, not a summary. Shot size follows the cell count: wide establishing = 3 cells, mid = 2, close = 1. For the Instagram-master format, rows on a page sum to 3 cells; a scene may end mid-row so the next scene closes it.
+Plan panels per scene within the card's layout budget. A panel is **one drawable frozen moment**, not a summary.
+
+**Three named subjects per panel, at most.** Every character and every bound object takes a reference slot before the style pack gets one, and a provider with a reference cap (Magnific: 5) then has nothing left for the look: the panel comes back in the model's own house style instead of the story's. Counting a bound object as a subject, keep it to three — the fourth face belongs in the next panel, in the background unnamed, or out of the scene. `generate.py` and `panel_batch.py` print a warning when a panel crosses the line; take it as a note to split the panel, not as something to override. On fal.ai, which takes the full stack, four subjects still cost identity: faces drift first when references compete. Shot size follows the cell count: wide establishing = 3 cells, mid = 2, close = 1. For the Instagram-master format, rows on a page sum to 3 cells; a scene may end mid-row so the next scene closes it.
 
 **Present the list and wait.** The author cuts panels ("it added nothing"), merges scenes, rewrites beats. Record every cut in `plan.md` as a one-line italic note so the history stays readable. Script changes after images exist mark the affected panels stale.
 

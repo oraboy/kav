@@ -8,10 +8,16 @@ Paths used below:
 - `S` = `<repo>/stories/<slug>/`
 - `CH` = `S/chapters/<chNN>/`
 
-API keys come from the environment or `<repo>/.env` (see `.env.example`):
+API keys come from the environment or `<repo>/.env` (see `.env.example`). Every tool that makes an image goes through `tools/lanes/`, which keeps two choices apart: the **lane** (the model) and the **provider** (who runs it, `--provider`, or `KAV_PROVIDER` in `.env`).
 
-- `FAL_KEY` (alias `FAL_API_KEY`) runs Seedream and Nano Banana through fal.ai.
-- `GEMINI_API_KEY` (alias `GOOGLE_API_KEY`) runs Nano Banana directly, but only when `FAL_KEY` is empty.
+| Provider | Key | Lanes | Notes |
+|---|---|---|---|
+| `fal` | `FAL_KEY` (alias `FAL_API_KEY`) | `seedream`, `nanobanana` | the default; takes Kav's full reference stack |
+| `magnific` | `MAGNIFIC_API_KEY` (alias `FREEPIK_API_KEY`) | `seedream` | 5 reference images max, fixed aspect-ratio enum (4:5 lands as 3:4) |
+| `higgsfield` | `HIGGSFIELD_API_KEY` (alias `HIGGSFIELD_API_KEY_ID`) | `popcorn` (8 refs), `soul` (1 style ref) | needs API credits; untested |
+| `gemini` | `GEMINI_API_KEY` (alias `GOOGLE_API_KEY`) | `nanobanana` | Nano Banana direct, used when `FAL_KEY` is empty |
+
+**The reference budget is the quality limit.** Characters, then the location photo, then objects, then the style pack. On a capped provider, a panel with four subjects leaves the style pack nothing and the look drifts — keep panels to three named subjects (see `/kav-panel`). `generate.py` and `panel_batch.py` report this as a `warning` in their output.
 
 Browser renders use Chrome, Chromium or Edge, found automatically or set with `KAV_CHROME`. No tool calls an image API unless it says so below.
 

@@ -18,8 +18,14 @@ KEY_HELP = {
     "FAL_KEY": "Seedream and Nano Banana via fal.ai. Get one at https://fal.ai/dashboard/keys",
     "GEMINI_API_KEY": "Nano Banana (Gemini image) direct. Get one at https://aistudio.google.com/apikey",
 }
+KEY_HELP.update({
+    "MAGNIFIC_API_KEY": "Seedream 4.5 via Magnific (formerly the Freepik API). Get one at https://www.magnific.com/api",
+    "HIGGSFIELD_API_KEY": "Higgsfield Popcorn and Soul. Get one at https://cloud.higgsfield.ai/api-keys (paste the whole id:secret key)",
+})
 KEY_ALIASES = {"FAL_KEY": ("FAL_KEY", "FAL_API_KEY"),
-               "GEMINI_API_KEY": ("GEMINI_API_KEY", "GOOGLE_API_KEY")}
+               "GEMINI_API_KEY": ("GEMINI_API_KEY", "GOOGLE_API_KEY"),
+               "MAGNIFIC_API_KEY": ("MAGNIFIC_API_KEY", "FREEPIK_API_KEY"),
+               "HIGGSFIELD_API_KEY": ("HIGGSFIELD_API_KEY", "HIGGSFIELD_API_KEY_ID", "HF_CREDENTIALS")}
 
 
 def story_dir(slug):

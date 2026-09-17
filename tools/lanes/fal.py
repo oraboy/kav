@@ -13,6 +13,8 @@ import urllib.request
 QUEUE = "https://queue.fal.run"
 SEEDREAM = "fal-ai/bytedance/seedream/v4.5/edit"
 NANOBANANA = "fal-ai/nano-banana-pro/edit"
+SEEDREAM_T2I = "fal-ai/bytedance/seedream/v4.5/text-to-image"
+NANOBANANA_T2I = "fal-ai/nano-banana-pro"
 
 
 def api(url, key, payload=None, timeout=180):
