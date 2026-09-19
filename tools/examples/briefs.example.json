@@ -1,7 +1,9 @@
 {
   "_comment": "Copy to stories/the-lighthouse-cat/briefs.json. Descriptions are prompt text in English. Reference photos: cast/<name>/source.jpg (or built mug shots cast/<name>/front.png ...), locations/<loc>/*.jpg as listed below, objects/<obj>.png.",
   "defaults": {
-    "register": "Quiet, naturalistic scene on a windy northern coast, soft overcast light, no exaggerated styling unless a style pack is given.",
+    "style_pack": "inkwash",
+    "_style_pack": "The story's locked pack, written when the style locks. Every generation uses it unless a scene line names another pack or --style overrides it. Without this field a line that doesn't name the pack generates unstyled, whatever style/style.md says.",
+    "register": "Quiet, naturalistic scene on a windy northern coast, soft overcast light, no exaggerated styling unless a style pack is given. Ignored while a style pack is bound — the pack defines the look.",
     "generations_per_brief": 1,
     "seeds": [1001]
   },

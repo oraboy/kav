@@ -22,6 +22,13 @@ The roster is `stories/<slug>/cast/*.md` — use that explicit list for every st
 
 **Worksheets are the paper trail.** Every board or contact sheet you show is also saved as `stories/<slug>/style/worksheets/step<N>-<name>_iter<M>.png` the moment it's shown. Every board carries a **`Visual Style: <pack>`** marker in its header. Boards are self-contained: images embedded (or rendered to a PNG), never `file://` links that break when the file moves.
 
+**How boards reach the author:** their `KAV_REVIEW` surface (`docs/know-how/review-surfaces.md`) — inline in the conversation, a published page, or the local server. A localhost page is never the only route to a gate.
+
+**Three rules for every gate here:**
+- **Show it, don't describe it.** A lettering theme, a palette, a border treatment, a page device, a style: render a sample and put it in front of the author. Anything described in prose and not shown is provisional, never approved.
+- **Label every option inside the image** — a large `A` / `B` / `C` burned onto each candidate, repeated in the text. The author answers "B" from a phone. In elimination rounds the survivors keep their letters; never renumber.
+- **Comparisons carry cast faces.** A board of locations proves nothing about a book with people in it. Early rounds show the protagonist plus one contrasting cast member; finalist rounds show every principal you can fit. (The pack's own images may show faces — a pack with no close-up face never teaches the model how to render one — but they must not resemble the cast, or they compete with identity.)
+
 ## Step 1 — Summary sheet (GATE)
 
 One sheet showing everything collected: every character's reference (front shot or source) + name · every location's primary photo + name · the pack's images, the `medium.txt` line verbatim, and the lettering theme rendered (a sample caption and balloon). The author confirms the input set is complete.
@@ -48,9 +55,11 @@ Contact sheet + sample scenes → approve. Rebuild bad shots individually — a 
 
 **If the author picks Seedream as the single production lane** (the simple default), skip step 4 and **promote** the step-3 drafts: copy `cast/<name>/<pack>/draft/*.png` → `cast/<name>/<pack>/`. Record the promotion in `style/style.md`. Generation must never bind a `draft/` folder directly.
 
-## Step 5 — Sample scenes, both lanes
+## Step 5 — Concept scenes, both lanes
 
-Five varied scenes (different characters, locations, times of day, group sizes), each on **both** lanes, production mugs now binding automatically. Show them **side by side per scene**, one lane against the other — the author decides the explore/publish lane split by comparison, not assertion.
+Five varied scenes (different characters, locations, times of day, group sizes), each on **both** lanes, production mugs now binding automatically. **Letter them** — a caption and a balloon per scene, in the story language, through `tools/letter.py`. This is the author's first real look at the book: art, type and language together, not a gallery of untexted pictures. Show them **side by side per scene**, one lane against the other, labelled `A` / `B` — the author decides the lane by comparison, not assertion.
+
+These are concept art for the brief and the trailer. They never become page art: a page image is only one the author picked in a chapter review.
 
 ## Step 6 — Save the samples
 
@@ -58,7 +67,13 @@ Approved samples are story artifacts: `stories/<slug>/style/samples/<scene-slug>
 
 ## Step 7 — Confirm and close
 
-Verify every roster character has four production shots in `cast/<name>/<pack>/`. Append to `style/style.md`'s lock log: date, lanes tested, samples path. Update `kickoff-state.md` (visual lock: locked).
+Verify every roster character has four production shots in `cast/<name>/<pack>/`.
+
+**Bind the pack for real.** Write `defaults.style_pack: "<pack>"` into `stories/<slug>/briefs.json`. Without it, every later scene line that doesn't happen to name the pack generates unstyled — a locked `style.md` and a linked `styles/<pack>/` bind nothing on their own. Confirm with `python3 tools/generate.py --story <slug> "<a line that does not name the pack>" --dry-run`: the output must name the pack and list style references.
+
+**Lock the lane as a production decision.** Record in `style/style.md`: the lane and provider, the evidence (which samples, which comparison board), and the date. A model that wins on one image can still lose a book — identity drift across scenes is what matters, and that only shows in a multi-scene comparison. Once locked, the lane is not switched panel by panel; reopening it is a gate of this command, not a passing choice. Keep the bake-off boards in `style/worksheets/`, and keep the losing model's images out of the story brief: the brief carries the chosen look as concept art, not an argument about models.
+
+Append to `style/style.md`'s lock log: date, lanes tested, samples path. Update `kickoff-state.md` (visual lock: locked).
 
 ## Step 8 — The style sheet
 

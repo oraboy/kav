@@ -26,6 +26,7 @@ A **style pack** is a folder of reference images that define a visual language, 
    - **Test on a portrait too** — a portrait has no location reference, so the medium line is the only background instruction; content smuggled into the line shows up there first.
 6. **Add a short entry to `styles/README.md`**: the pack name, what it looks like, the medium line.
 7. **Link it into the story** (when a story is active): `stories/<slug>/styles/<pack>` → symlink to `../../../styles/<pack>` (or copy if the author wants the story self-contained); copy the references into `stories/<slug>/style/moodboard/`; write or update `style/style.md` from `docs/templates.md`, including the **lettering theme** (caption and balloon colours and fonts that suit the look).
+8. **Bind it for generation:** set `defaults.style_pack: "<pack>"` in `stories/<slug>/briefs.json` as soon as the story adopts the pack. The symlink and `style.md` are documentation; this field is what puts the pack into a prompt when a scene line doesn't name it. Check with a `--dry-run` line that omits the pack name and confirm the style resolves.
 
 ## Testing it
 
@@ -34,6 +35,8 @@ Quick look: a few cheap generations on the explore lane, e.g.
 ```
 python3 tools/generate.py --story <slug> "<a character from the story> in <a location of the story>, <pack>" --lane seedream --ar 4:5
 ```
+
+**Put a cast face in at least one test.** A pack that looks right on rooms can still render people badly, and that is what the book is made of. Conversely, keep faces that resemble the cast *out of the pack itself* — the pack teaches rendering, and a look-alike in it competes with the character's own references. A pack with no close-up face at all teaches nothing about faces; one with unrelated faces is what you want.
 
 Vary the scene: one interior, one bright daylight exterior, one portrait. **Styles drift toward ordinary colour illustration on bright outdoor scenes** — the location photo's own light fights the pack — so test a daylight exterior before adopting. The full, gated test is `/kav-visual-style-lock <pack>`.
 

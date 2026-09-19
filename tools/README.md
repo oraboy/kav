@@ -23,7 +23,9 @@ Browser renders use Chrome, Chromium or Edge, found automatically or set with `K
 ```
 stories/<slug>/
   story.json                 optional: {"title", "lang", "dir"}
-  briefs.json                characters, locations, objects, word maps (tools/examples/briefs.example.json)
+  briefs.json                characters, locations, objects, word maps, defaults.style_pack (the
+                             story's locked style; without it a line that doesn't name a pack
+                             generates unstyled) — tools/examples/briefs.example.json
   scenes.md                  optional extra briefs
   cast/<name>/source*.jpg    seed photos
   cast/<name>/front.png ...  mug shots: front, three-quarter, smile, full-body

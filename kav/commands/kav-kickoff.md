@@ -64,7 +64,7 @@ Cross-story reuse happens only when the author asks for it in words. Otherwise a
 
 Default order: **CONCEPT · CAST · LOCATIONS · STYLE · VISUAL LOCK · PITCH · STORYBOARD · PACKAGE** (objects as needed, any time). The author may jump freely ("let's build the villain", "style time"); the state file absorbs it. Three standing jobs:
 
-1. **Persist every step.** Each block writes its artifact immediately.
+1. **Persist every step.** Each block writes its artifact immediately. **An approval is durable:** record it in `kickoff-state.md` the moment it happens, and don't reopen it without a downstream inconsistency or the author's word. Approving a board and saying "go on" approves that gate — don't ask a second time in different words.
 2. **Track staleness.** When a change touches a locked artifact's inputs — a character added after the pitch locked, a location invented mid-storyboard — mark the downstream artifact **stale** in `kickoff-state.md` with a one-line why, and add the re-check to open questions. Never absorb an inconsistency silently.
 3. **Keep the map.** Update statuses, open questions and the change log as you go. Suggest the next most valuable block when asked; otherwise follow the author.
 
@@ -103,9 +103,11 @@ A background character can be promoted later; that marks downstream artifacts st
 
 ### LOCATIONS → `locations/<name>.md` + `locations/images/`
 
+**Ask only for the places the author already wants in the book** — the room, the landmark, the street they can picture. Do not walk them through every setting the story might need; the story doesn't exist yet, and inventing settings to fill a form produces places nobody uses. Three or four real places are enough to start. Everything else emerges at PITCH, STORYBOARD or inside a chapter and gets registered then, when it is real. Say so plainly, and close the block on a deliberately small set.
+
 Interview or import, per the template: what it is · **whose turf** (every location has an owner; power tilts toward them there) · dramatic affordances · visual notes · reference images · history. **Register each location** as it lands: photos into `locations/<name>/`, an entry (photos + written English description) under `locations` in `briefs.json`, and trigger words under `location_words`. **Order matters**: the parser takes the first match, so a more specific place (`shop-entrance`) is listed before a general one (`shop`), and generic words ("apartment", "room") stay out of the trigger list — a generic word steals scenes meant for another place. **GATE on the set.**
 
-**A reference photo must show the surfaces the panels will need; a written description cannot add one back.** An interior shot without its ceiling tends to come back roofless — a tall panel forces the model to invent the top of the frame, and it reaches for sky. Ask for at least one frame that includes the ceiling (and a corner where wall meets ceiling when enclosure matters). The same goes for floors, doorways and the view out of a window.
+**A reference photo must show the surfaces the panels will need; a written description cannot add one back.** The same goes for an interior invented from an exterior: describe floor, ceiling and the wall-to-ceiling junction, or a tall panel opens the room to the sky. An interior shot without its ceiling tends to come back roofless — a tall panel forces the model to invent the top of the frame, and it reaches for sky. Ask for at least one frame that includes the ceiling (and a corner where wall meets ceiling when enclosure matters). The same goes for floors, doorways and the view out of a window.
 
 ### OBJECTS → `objects/<name>.md` + `objects/<name>.<ext>` (as needed)
 
@@ -143,9 +145,17 @@ At PITCH, raise everything in `pitch-inbox.md` at once — each note is adopted 
 
 ### STORYBOARD → `storyboard/chNN.md`
 
-**1 · Progression — the whole arc on the table.** Per chapter, a few lines of *this is the story* plus a **writer's note** tying it to the machinery (*"here her man-in-a-hole dives: the letter she was counting on never came; meanwhile his strand climbs"*). The author sees where every strand's highs and lows land across the book. **GATE on the arc.**
+**1 · The whole story on one table, in this order — and nothing deepens until it is approved.**
 
-**2 · Chapter cards.** Deepen non-linearly — by **thread** ("the two sisters' feud" → touches ch 3–6) or by **chapter**. Per card (template): position · **chapter question** · **chapter I/O** · synopsis · writer's note · **layout** · beats per character with I/O at beat resolution · the **gun ledger** (nothing pays off unplanted; nothing planted goes unused) · **concept visual** (one generated image that captures the chapter). Checks: theme · feel line · curve placement. Inciting action by chapter 2. **Lock per card**; partial coverage is normal.
+1. **Name the curve, in the literal sentence:** *"The story uses <Man in a Hole | Boy Meets Girl | Cinderella | From Bad to Worse> as its main fortune curve."* Then say in plain language what that curve requires — *Boy Meets Girl means she gets what she wants, loses it, and wins it back by her own doing* — so it reads as the plot's contour and guardrail, not craft vocabulary. Changing it later reopens PITCH.
+2. **Every chapter placed on that curve, with its turn** — where it sits on the rise or fall, and the moment it pivots.
+3. **The protagonist's intention/obstacle, chapter by chapter, beside the curve:** *"in ch 3 she intends to X, but Y stands in the way."* Curve and I/O sit together on purpose: one is the emotional shape, the other the causal drive, and seeing them in one view is what shows whether the book actually moves.
+4. **One short synopsis per chapter** — a few lines of *this is the story*, plus a **writer's note** tying it to the machinery (*"here her man-in-a-hole dives: the letter she was counting on never came; meanwhile his strand climbs"*).
+5. **One concept visual per chapter** where the style is already locked, on the author's review surface.
+
+Press both sides of every I/O before presenting: why would this character want this, and why can't they simply solve it? **GATE on this whole-story view.** Chapter cards written before it are premature: mark them superseded rather than treating them as approved.
+
+**2 · Chapter cards** (only after the arc is approved). Deepen non-linearly — by **thread** ("the two sisters' feud" → touches ch 3–6) or by **chapter**. Per card (template): position · **chapter question** · **chapter I/O** · synopsis · writer's note · **layout** · beats per character with I/O at beat resolution · the **gun ledger** (nothing pays off unplanted; nothing planted goes unused) · **concept visual** (one generated image that captures the chapter). Checks: theme · feel line · curve placement. Inciting action by chapter 2. **Lock per card**; partial coverage is normal.
 
 Reader-facing synopses (brief, trailer) **gesture and withhold** — they never give away the ending. Internal cards stay fully explicit.
 
@@ -156,6 +166,8 @@ Assembled when pitch, storyboard and style are locked: **`brief.md`** (the story
 ## Hard rules
 
 - Interactive always. Never generate past a gate; never autopilot a block the author hasn't entered.
+- **Ask for consent once, then stop.** When the author hands over personal photos for the cast, record the consent in `kickoff-state.md` (what, for which story, which generation service) and work. Ask again only when the scope actually changes: publishing outside the story, a new provider, reuse in another story. Repeating a settled question is not caution, it's friction.
+- **Show every visual proposal.** Lettering themes, palettes, borders, page devices, a style: render a sample first. Nothing visual is approved from prose. Boards reach the author on their `KAV_REVIEW` surface (`docs/know-how/review-surfaces.md`), with `A`/`B`/`C` burned into each option.
 - **CONCEPT, CAST and LOCATIONS are collection, not story.** Write down what the author gives, sharpen the language, ask what's missing, and stop. Do not derive plot mechanisms, obstacles, thematic readings, endings or panel ideas from a DNA line or a photo — that's PITCH's job, and doing it early pulls the author into arguing story before the material is on the table. Park observations with `/kav-plot-note` (one line, not-yet-agreed) and raise them at PITCH. Keep replies short during collection. The one exception is a quick sketch's `(draft)` lines: character traits drafted from the author's own answers, marked as drafts, never plot.
 - **Don't dramatise the author's world details.** Record facts about the world. If one genuinely forces a rewrite elsewhere, say so in one line.
 - **Languages.** Story material (names, DNA lines, captions, dialogue, cards) is written in the story language; schema labels (Desires · Skills · Tendencies · Shadows · Don't · Relationships · Story state · Voice · Chapter I/O · Guns) stay in English — downstream commands read them. Meta talk (your commentary, questions, options, summaries) is in the room's language. A summary quotes story material in the story language and frames it in the room's language. Exception: when the language itself is the topic (how a line scans, RTL typography).

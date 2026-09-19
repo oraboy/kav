@@ -7,15 +7,21 @@ description: "Open the local image review page for a panel batch, wait for the a
 
 # /kav-review <batch.json> — the author picks
 
-The author chooses every image that lands in a page. This is where that happens: a local page, not a chat thread.
+The author chooses every image that lands in a page. This is where that happens.
 
-## 1 · Open the page
+## 1 · Show the takes, on the author's surface
+
+Read `KAV_REVIEW` (`docs/know-how/review-surfaces.md`): `inline` posts boards into the conversation, `artifact` publishes a page, `local` serves the click-to-pick page. When it is unset, use `artifact` where Artifacts exist, else `inline`, and confirm once.
+
+**`inline` or `artifact`.** Post the batch's contact sheet, `.../candidates/<batch-stem>_sheet.png` (rebuild it any time with `python3 tools/panel_batch.py <batch.json> --sheet-only`). Every take is burned in as `<panel-id> A/B/C`, so the author replies "s2p1 B, s2p2 A, reroll s2p3 — too dark". Write their answer into `reviews/<batch-stem>.json` yourself, in the shape the page saves, then carry on at step 2. Split a long chapter into a few sheets rather than posting a stack of separate images.
+
+**`local`.**
 
 ```
 python3 tools/review.py <batch.json> [--port 8765]
 ```
 
-Run it in the background (it serves until stopped) and give the author the local URL it prints. If the port is busy, pick another with `--port`.
+Run it in the background (it serves until stopped) and give the author the local URL it prints. If the port is busy, pick another with `--port`. **Post the contact sheet as well** — `127.0.0.1` cannot be reached from a phone or from a hosted session, and a gate must never depend on a surface the author can't open.
 
 What the author sees: **the whole chapter in reading order** — every scene's panels; already-picked panels shown locked as their chosen image; open panels showing every take, **full image and phone crop side by side**. Per panel: pick a take, mark reroll (with a note on why), edit the caption/balloon text. Plus a notes box. One save writes:
 
@@ -23,7 +29,7 @@ What the author sees: **the whole chapter in reading order** — every scene's p
 stories/<slug>/chapters/<ch>/panels/reviews/<batch-stem>.json
 ```
 
-Say, briefly: the page is open, pick / reroll / edit text, press save, then tell me "picks in". **Then wait.** Don't poll the author, don't pre-pick.
+Say, briefly, what is waiting and how to answer — pick / reroll / edit text (on the page: press save, then "picks in"). **Then wait.** Don't poll the author, don't pre-pick.
 
 ## 2 · Picks in
 

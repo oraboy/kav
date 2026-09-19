@@ -34,11 +34,18 @@ slug: <slug> · format: <N> chapters × ~<P> pages · panel format: <instagram-m
 - Trailer deck: <path or URL>
 - Readers: <per chapter, when published>
 
+## Consent
+- <date> · personal photos supplied for <characters>, for this story, generated through <provider>. Re-ask only on a scope change: publishing outside the story, a new provider, reuse in another story.
+
 ## Open questions
 - <question — who owes the answer>
 
 ## Change log
 - <date> · <what changed> · <what it made stale, if anything>
+
+## Process learnings
+*What this story taught us about working in Kav — not story canon. Candidates for the repo's commands and docs.*
+- <date> · <what went wrong or worked> · <the rule it suggests>
 ```
 
 ---
@@ -72,6 +79,8 @@ Seeded from: <author's file / photos / interview> on <date>
 **Bio:** <two lines, narrator voice>
 **Bio (self-written):** <two lines, their own voice — how they'd introduce themselves>
 **Appearance (ref canon):** <1–2 sentences> · reference set: `cast/<name>/`
+**Hard traits:** <the few things that carry identity and must never drift — eye colour, a scar, an ear shape. Canon: also in briefs.json, and fixed across the whole approved set when one changes>
+**References:** active `cast/<name>/source*` · excluded `cast/<name>/_excluded/<file>` — <why it was parked> · <target age when a reference is from another age>
 **Identity:** <Passion/True Calling | Profession | Character>
 
 **Desires:** · **Skills:** · **Tendencies:** · **Shadows:** · **Don't:** (hard constraints)
@@ -103,6 +112,7 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 > <one line>
 
 **Appearance (ref canon):** <the author's written look, or what the images show> · reference set: `cast/<name>/` <or: images still to come — needed before VISUAL LOCK>
+**Hard traits:** <anything that must never drift; omit if none yet>
 
 **Desires:** <1–2 bullets>
 **Tendencies:** <1–2 bullets>

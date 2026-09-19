@@ -9,6 +9,7 @@ A character's DNA is a set of **instructions to the co-writer**, not a prose bio
 | **Bio** | Two lines in narrator voice |
 | **Bio (self-written)** | Two lines in the character's own voice — how they'd introduce themselves |
 | **Appearance (ref canon)** | 1–2 sentences + the path to the reference set. The images are canon; the sentence describes them |
+| **Hard traits** | The few details that carry identity and must never drift (eye colour, a scar, an ear shape). Mirrored in `briefs.json`; when one changes, the whole approved reference set is corrected, never a single shot |
 | **Identity** | Passion / true calling · Profession · Character — what they care about, what they do day to day, what governs their actions |
 | **Desires** | What they want |
 | **Skills** | What they're good at |

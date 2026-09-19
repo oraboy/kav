@@ -50,6 +50,19 @@ One instruction per call; look at the result.
 
 The author gives only a description. Generate a candidate source with `python3 tools/generate.py --story <slug> "<a plain photographic portrait of …>" --ar 4:5`, show 2–4 takes, and let the author pick or redirect — **casting a face is the author's call.** Copy the pick to `cast/<name>/source.png`, then run intake.
 
+## Choosing which references stay active
+
+More images is not better. References compete, and conflicting ones average into a weaker likeness: a photo from a different decade, a different haircut, a three-quarter squint against a straight-on smile, a childhood picture beside an adult one. Keep the active set deliberately narrow — the shots that agree about this person.
+
+- **Park, don't delete.** Move a reference out of `cast/<name>/source*` into `cast/<name>/_excluded/` and note in `cast/<name>.md` which one and **why** ("2019 beard, reads as a different man"). A deleted photo comes back as an argument six weeks later.
+- **Aging a reference:** when the only photo is from another age, say the target age out loud ("she is 34 in this story, the photo is 9"), put it in the description, and **check the result at that age** before approving. An identity lock copies apparent age from the photo unless the set is rebuilt against it.
+
+## Hard visual traits
+
+A few traits carry identity more than the rest: eye colour, a scar, a birthmark, the shape of an ear, a hairline. Name them explicitly in `briefs.json` and in the cast file's **Hard traits** line, and treat them as canon.
+
+When one changes or turns out wrong, **fix the whole approved set**, not one shot. A set with three brown-eyed shots and one green-eyed one poisons every later panel, because panels bind two or three shots at a time and the odd one out wins about a third of the time. The cheap route is `touch_up.py` on each finished shot (one detail per call), not regenerating a set the author already approved — regeneration rerolls the whole face and loses things nobody asked to change.
+
 ## Getting descriptions right
 
 - **Ground them in what the photo shows.** Read the source image and describe it; don't guess from the name.
@@ -73,3 +86,5 @@ The tools send views best-first and scale the count to the cast size: more refer
 - The author picks faces. Never adopt one on their behalf.
 - Look at every shot before moving on.
 - Story-local in and out.
+- The author's own photos stay theirs: keep originals where they landed, and never present a generated portrait as the source image. A cast presentation shows the real reference next to the generated canon, each labelled for what it is.
+- A hard trait fixed in one shot is fixed in all of them, or not at all.

@@ -84,13 +84,29 @@ One batch per 2–4 scenes: `chapters/chNN/panels/batch-<name>.json`
 - `text` carries the proposed lettering so the author can edit it on the review page.
 - A panel already settled carries `"picked": "<take>"` — it renders locked (its chosen image only, still open for text edits) so one page covers a mixed round of rerolls and text passes.
 
-Run: `python3 tools/panel_batch.py chapters/chNN/panels/batch-<name>.json` (paths relative to `stories/<slug>/` or absolute, per the tool's help). Candidates land in `panels/candidates/<id>-<take>.png` with a `.json` sidecar naming what bound.
+**Prove the binding before paying for the batch** (first batch of a chapter, and after any change to `briefs.json`, the pack or the lane):
+
+```
+python3 tools/panel_batch.py chapters/chNN/panels/batch-<name>.json --preflight
+```
+
+It resolves one panel without generating and prints the style, the reference counts, the `medium.txt` line and the prompt. A locked `style/style.md` and a linked `styles/<pack>/` bind nothing by themselves — the pack reaches the prompt only from `defaults.style_pack` in `briefs.json`, the scene line, or `--style`. If it says `style=NONE`, fix `briefs.json` before generating; a batch run without a style is a chapter of the model's own look. Then generate **one proof panel** (`n: 1`, one id in `"only"`), look at it, and only then run the batch:
+
+```
+python3 tools/panel_batch.py chapters/chNN/panels/batch-<name>.json
+```
+
+Candidates land in `panels/candidates/<id>-<take>.png` with a `.json` sidecar naming what bound. The tool refuses to call a batch clean when any candidate came back with no style bound; those are a failed batch, not options — never put them in front of the author.
 
 ### 2 · Open the review page
 
-`python3 tools/review.py <batch.json>` — or run `/kav-review <batch.json>`. The page shows **the full chapter in reading order**: every scene's panels, locked picks shown as their chosen image, open panels showing all takes, each take with **the full image and its phone crop side by side**. Per panel the author can pick, reroll (with a note), and edit the caption/balloon text. One save writes `panels/reviews/<batch-stem>.json`.
+**Use the author's review surface** (`KAV_REVIEW`, see `docs/know-how/review-surfaces.md`):
 
-Tell the author the page is open and wait. **The author picks — through the page, not by typing into chat.** A contact sheet in chat is fine for a quick look, never a substitute.
+- **`inline`** — post the batch's contact sheet (`panels/candidates/<batch-stem>_sheet.png`, every take burned in as `<id> A/B/C`) and take the picks by name: "s2p1 B". Apply them by writing `panels/reviews/<batch-stem>.json` yourself, in the same shape the page saves.
+- **`artifact`** — publish the same board as a page and share the link.
+- **`local`** — `python3 tools/review.py <batch.json>`, or `/kav-review <batch.json>`: **the full chapter in reading order**, locked picks shown as their chosen image, open panels showing every take with the full image and its phone crop side by side, click to pick, reroll with a note, edit the caption text; one save writes `panels/reviews/<batch-stem>.json`. Post the contact sheet as well — a page on `127.0.0.1` is invisible from a phone or a hosted session.
+
+Then tell the author what is waiting and stop. **The author picks every image.**
 
 ### 3 · Picks in
 

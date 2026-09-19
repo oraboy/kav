@@ -84,6 +84,16 @@ python3 tools/welcome_panel.py
 
 It generates the panel with no text in it, then letters the balloon with `tools/letter.py`, so one run proves the key, the lane, Chrome and lettering. **Look at `setup/welcome.png`, then show it to the author.** If the balloon's tail doesn't point at the robot or the balloon covers a face, edit `cx`/`cy`/`tail` in `setup/welcome.lettering.json` and run `python3 tools/welcome_panel.py --letter-only` (free). If generation fails, show the error: a 401/403 is usually the key or the fal.ai balance.
 
+## Step 3b — How you'll review images (one question)
+
+Kav stops at every visual decision and shows you the work. Ask where the author wants to see it, and record the answer as `KAV_REVIEW` in `.env`:
+
+- **`inline`** — boards posted into this conversation. Works everywhere, including a phone. The default in ChatGPT / Codex.
+- **`artifact`** — a published interactive page you open from a link. The default in Claude Code.
+- **`local`** — the local review page (`tools/review.py`) with click-to-pick. Desktop only, since it runs on `127.0.0.1`.
+
+Suggest the default for the host you are running in, take their answer, and don't ask again. Full rules: `docs/know-how/review-surfaces.md`. A localhost page is never the only way to see a gate; `local` always comes with the same board posted inline.
+
 ## Step 4 — The process
 
 1. **Kickoff** — a slug and a one-line pitch. `/kav-kickoff <slug>`
@@ -121,5 +131,6 @@ Wait for the author. Do not start a kickoff unasked.
 ## Hard rules
 
 - Never print, echo or read back a key, `.env`, or another project's env file.
+- Ask the review-surface question once; record it and move on.
 - Nothing is generated without the author's yes to the cost.
 - Text on the test panel goes through the lettering tool, never into the generation prompt.

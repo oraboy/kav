@@ -17,8 +17,8 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from kav_refs import (build_prompt, build_refs, current_story, load_spec,  # noqa: E402
-                      out_dir, parse_quick_line, plan_refs, ref_warning, set_story)
+from kav_refs import (build_prompt, build_refs, current_story, default_style_pack,  # noqa: E402
+                      load_spec, out_dir, parse_quick_line, plan_refs, ref_warning, set_story)
 import lanes  # noqa: E402
 
 # The centre 4:5 of a wider panel is its phone crop, so subject and balloons stay there.
@@ -47,8 +47,8 @@ def generate(line, style=None, lane="seedream", seed=None, ar=None, provider=Non
     if not brief:
         return {"ok": False, "error": "No cast member named. Mention at least one of: "
                                       + ", ".join(spec["characters"])}
-    pack = style or brief.get("style_pack")
-    if pack == "none":
+    pack = style or brief.get("style_pack") or default_style_pack(spec)
+    if pack == "none" or style == "none":
         pack = None
 
     try:
@@ -98,8 +98,8 @@ def main():
         brief = parse_quick_line(line, 0, list(spec["characters"]))
         if not brief:
             sys.exit("No cast member named. Known: " + ", ".join(spec["characters"]))
-        pack = a.style or brief.get("style_pack")
-        pack = None if pack == "none" else pack
+        pack = a.style or brief.get("style_pack") or default_style_pack(spec)
+        pack = None if pack == "none" or a.style == "none" else pack
         via = lanes.resolve(a.lane, a.provider)
         cap = lanes.max_refs(via, a.lane)
         out = {"brief": brief, "provider": via, "max_refs": cap,

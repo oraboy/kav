@@ -210,6 +210,18 @@ def load_spec():
     return spec
 
 
+def default_style_pack(spec=None):
+    """The story's locked style pack (`defaults.style_pack` in briefs.json), or None.
+
+    Written when the style locks. Without it a scene line that doesn't happen to name the
+    pack generates unstyled — a locked style/style.md and a linked styles/<pack>/ are not
+    enough on their own, and a whole chapter can come back in the model's own look.
+    """
+    spec = spec if spec is not None else load_spec()
+    pack = (spec.get("defaults") or {}).get("style_pack")
+    return pack or None
+
+
 def title(name):
     return name[0].upper() + name[1:]
 
