@@ -61,8 +61,13 @@ def cheapest_lane():
             "providers": lanes.configured()}
 
 
+def version():
+    f = REPO / "VERSION"
+    return f.read_text().strip() if f.exists() else "unknown"
+
+
 def checks():
-    rows = []
+    rows = [{"check": "Kav version", "ok": True, "detail": version(), "fix": ""}]
     ok_py = sys.version_info >= (3, 10)
     rows.append({"check": "Python 3.10+", "ok": ok_py, "detail": sys.version.split()[0],
                  "fix": "install Python 3.10+ (python.org, or `brew install python`)"})
@@ -156,7 +161,7 @@ def main():
         return
     rows = checks()
     if a.json:
-        print(json.dumps({"checks": rows, "image_lane": cheapest_lane(),
+        print(json.dumps({"version": version(), "checks": rows, "image_lane": cheapest_lane(),
                           "models": models_table()}, indent=2))
         return
     for r in rows:

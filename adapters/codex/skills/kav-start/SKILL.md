@@ -23,9 +23,18 @@ Show this, verbatim, as the first thing the author reads:
 >
 > Everything is saved as files in one folder per story, so work stays organised and you can run several stories side by side.
 
-## Step 2 — Health check
+Then, in your own words, say what happens next: a quick look at this machine, image generation set up (or left for later), and a first story whenever they're ready.
 
-Run `python3 tools/check_setup.py` (use `.venv/bin/python3` if a venv exists) and show its table. It never prints key values. For anything MISSING other than the keys, offer to fix it now following `INSTALL.md`. Keys are Step 3.
+## Step 2 — Where you are right now
+
+Run `python3 tools/check_setup.py` (use `.venv/bin/python3` if a venv exists) and turn it into a short, plain report — not a raw dump:
+
+- **Kav version** (from the check) and that this is an early release shared with a small group.
+- **This machine:** Python, Chrome, dependencies — one line, and what to fix if something is missing.
+- **Image generation:** which providers already have a key, which model Kav would use, roughly what an image costs.
+- **What's next:** set up image generation now or later, then start a story.
+
+For anything missing other than keys, offer to fix it now following `INSTALL.md`. Keys are Step 3.
 
 ## Step 3 — Image generation (GATE)
 
@@ -121,6 +130,19 @@ Suggest the default for the host you are running in, take their answer, and don'
 | `/kav-publish` | build readers for every drawn chapter and explain where to post them |
 
 In Codex CLI the same commands are invoked as `/prompts:kav-start` etc. (see `INSTALL.md`). In any other agent, just ask for the step by name — the agent reads `kav/commands/kav-<name>.md`.
+
+## Step 5b — Telling us how it went
+
+Once, near the end of the tour, and never again unless asked:
+
+> **Kav is new, and we read everything.** We're comic writers and illustrators, AI people and software builders — some of us flesh and blood, some of us silicon and electricity — trying to build the tool graphic-novel makers will use for the next decade. Tell us what worked, what broke, and what you wish it did.
+
+Then give the route that suits them. Ask which they'd prefer, or read the room:
+
+- **Comfortable with GitHub:** open an issue at https://github.com/oraboy/kav/issues, send a pull request, or star the repo so others find it.
+- **Everyone else:** email **oraboy+kav@gmail.com**.
+
+When the author finishes a book, `/kav-publish` offers a proper feedback pass — a few questions, written to a file they can send. Don't pre-empt it here.
 
 ## Step 6 — Offer the next move
 
