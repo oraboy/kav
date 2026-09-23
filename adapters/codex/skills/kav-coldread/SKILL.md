@@ -42,6 +42,8 @@ Output shape, verbatim (`cold-read.md` §2):
 ## Where I stopped caring
 ```
 
+**Language.** Tell the cold reader which language to answer in. It is the one thing about the project it may be told, because it is a fact about the room and not about the story. The reconstruction and the confusions are meta commentary, so they come back in the language the author is talking to you in; every quotation from the book stays **verbatim in the story's language**, never translated — a translated line is a line nobody can check. The four section headers stay English; they are schema labels the rest of Kav reads.
+
 Save it to `chapters/chNN/cold-reads/<date>-<stage>.md` (`stage` = `scenes` or `pages`).
 
 ## Step 3 — The diff, and the ledger
