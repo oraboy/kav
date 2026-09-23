@@ -24,6 +24,8 @@ If there are several stories, identify the active one from the author or from th
 
 New chapter: scaffold `chapters/chNN/` with `panels/{candidates,reviews,lettering}/`, `pages/`, and `chapter-state.md` from `docs/templates.md`.
 
+**Say where the author is, at every gate.** A chapter runs **outline → picks → lettering → review → publish**, and every message that asks for a decision opens with the one-line progress header (`docs/know-how/progress.md`): story, chapter, step, and how much of the book is done. Update the Progress block in `kickoff-state.md` as each step closes. A chapter is finished when it is **published** and the author can read it on a phone — not when the panels are lettered.
+
 ## Stage A — Outline, in content (GATE)
 
 Open with the chapter **in content, not process**. Three short parts:
@@ -57,7 +59,7 @@ Plan panels per scene within the card's layout budget. A panel is **one drawable
 
 When the author asks for a panel that crosses it, say it plainly and early, in the room's language: *"On Magnific we can't put more than three cast members and objects in one panel. For a scene like that we'd have to switch to another image provider."* Then offer the two ways out — split the panel, or switch the provider — and do as they say. Save the mechanism (reference slots, the style pack losing its images) for when they ask why. The tools print the same warning if one slips through. Under a different lock the number changes, so re-read it rather than quoting this one. Shot size follows the cell count: wide establishing = 3 cells, mid = 2, close = 1. For the Instagram-master format, rows on a page sum to 3 cells; a scene may end mid-row so the next scene closes it.
 
-**Present the list and wait.** The author cuts panels ("it added nothing"), merges scenes, rewrites beats. Record every cut in `plan.md` as a one-line italic note so the history stays readable. Script changes after images exist mark the affected panels stale.
+**Present the list and wait.** Then, when it is approved, **go straight to the images** — don't stop again to confirm that you are about to generate what was just agreed. "Proceed" means: do the work and come back with the takes to pick from. The author cuts panels ("it added nothing"), merges scenes, rewrites beats. Record every cut in `plan.md` as a one-line italic note so the history stays readable. Script changes after images exist mark the affected panels stale.
 
 ## Stage C — Panels: batch → review page → picks in
 

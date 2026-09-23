@@ -10,6 +10,19 @@ One template per story artifact. `/kav-kickoff` and `/kav-chapter` instantiate t
 # <Story name> — Kickoff State
 slug: <slug> · format: <N> chapters × ~<P> pages · panel format: <instagram-master | ...> · story language: <he/en/...> · updated: <date>
 
+## Progress
+*(docs/know-how/progress.md — read first, written last)*
+Stage: <Planning | ChN · outline|picks|lettering|review|publish | Done> · <n> of <N> chapters published
+Planning: <in progress | locked <date> · brief published <url>>
+Chapters: <ch01 published · ch02 picks · ch03–06 not started>
+Next gate: <the decision the author owes>
+
+## Publishing
+- WIP surface: <ChatGPT Sites | Claude artifact | static host | none yet>
+- URL: <...> · Access: <owner-only | shared | public> · Deployed: <version/date>
+- Included chapters: <ch01–chNN> · Package: `stories/<slug>/site/dist/`
+- Stale when a reader, the brief, a chapter title, chapter art or a nav link changes
+
 ## Flight plan
 <the block order the author agreed to>
 

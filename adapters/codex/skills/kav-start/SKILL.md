@@ -140,7 +140,7 @@ Once, near the end of the tour, and never again unless asked:
 Then give the route that suits them. Ask which they'd prefer, or read the room:
 
 - **Comfortable with GitHub:** open an issue at https://github.com/oraboy/kav/issues, send a pull request, or star the repo so others find it.
-- **Everyone else:** email **oraboy+kav@gmail.com**.
+- **Everyone else:** email or WhatsApp — say that Kav's author reads both and that the beta invitation carries the details. Never invent an address or a number.
 
 When the author finishes a book, `/kav-publish` offers a proper feedback pass — a few questions, written to a file they can send. Don't pre-empt it here.
 

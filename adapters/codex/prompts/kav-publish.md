@@ -1,5 +1,5 @@
 ---
-description: "Build the readers for every drawn chapter of a story, link them chapter to chapter and back home, and explain the publishing surfaces (static HTML on any host, Netlify, GitHub Pages; Instagram carousel JPEGs; PDF later). Use when the author types /kav-publish, says \"publish the story\", \"put it online\", \"build all the readers\", or asks where they can post the book."
+description: "Build the readers for every drawn chapter of a story, link them chapter to chapter and back home, hand them over somewhere the author can actually read and share them (ChatGPT Sites in ChatGPT/Codex, an artifact in Claude, any static host elsewhere; Instagram carousel JPEGs; PDF later), and when the book is finished, close it and collect the author's feedback. Use when the author types /kav-publish, says \"publish the story\", \"put it online\", \"build all the readers\", \"share it with a friend\", or asks where they can post the book."
 argument-hint: "[--story <slug>]"
 ---
 

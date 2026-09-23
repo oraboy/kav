@@ -66,6 +66,7 @@ Cross-story reuse happens only when the author asks for it in words. Otherwise a
 
 Default order: **CONCEPT · CAST · LOCATIONS · STYLE · VISUAL LOCK · PITCH · STORYBOARD · PACKAGE** (objects as needed, any time). The author may jump freely ("let's build the villain", "style time"); the state file absorbs it. Three standing jobs:
 
+0. **Say where the author is.** Every gate opens with the one-line progress header (`docs/know-how/progress.md`) and `kickoff-state.md`'s Progress block is updated as the stage changes. Kickoff is the **Planning** stage; it ends when the story brief is published and read, not when the file is written.
 1. **Persist every step.** Each block writes its artifact immediately. **An approval is durable:** record it in `kickoff-state.md` the moment it happens, and don't reopen it without a downstream inconsistency or the author's word. Approving a board and saying "go on" approves that gate — don't ask a second time in different words.
 2. **Track staleness.** When a change touches a locked artifact's inputs — a character added after the pitch locked, a location invented mid-storyboard — mark the downstream artifact **stale** in `kickoff-state.md` with a one-line why, and add the re-check to open questions. Never absorb an inconsistency silently.
 3. **Keep the map.** Update statuses, open questions and the change log as you go. Suggest the next most valuable block when asked; otherwise follow the author.
@@ -162,6 +163,8 @@ Press both sides of every I/O before presenting: why would this character want t
 Reader-facing synopses (brief, trailer) **gesture and withhold** — they never give away the ending. Internal cards stay fully explicit.
 
 ### PACKAGE → `package/`
+
+**Planning ends by publishing the brief**, on the author's surface (`docs/know-how/review-surfaces.md`): a ChatGPT Site or an artifact they can open on a phone, not a file path. Then say plainly that planning is done and chapter 1 is next.
 
 Assembled when pitch, storyboard and style are locked: **`brief.md`** (the story in a page — theme, feel line, the cast and what each wants, the look; reads like book-jacket copy grown into a bible intro; co-author framing), the concept visuals, a storyboard index. **GATE:** the author confirms. Close by naming the handoff — **`/kav-chapter 01` consumes this package** — and list open questions the writing will have to answer. Offer `/kav-trailer` for a shareable preview.
 

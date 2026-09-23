@@ -14,6 +14,8 @@ Every creative gate ends with the author looking at something. How they look dep
 
 Unset: use `artifact` when Artifacts are available, otherwise `inline`. Ask the author to confirm the first time it matters, then stop asking.
 
+**Finished readers are a different question.** A board is for deciding; a reader is for reading, on a phone, in bed, and for showing someone else. That handoff belongs to `/kav-publish`: a ChatGPT Site in ChatGPT/Codex, an artifact in Claude, any static host elsewhere. Don't leave an author with a `127.0.0.1` link and call the chapter delivered.
+
 ## Rules that hold on every surface
 
 - **A localhost page is never the only route to a gate.** It cannot be opened from a phone, from a remote session, or from a chat-hosted agent. Whenever `local` is used, post the same content as a composite board as well.

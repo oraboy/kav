@@ -16,7 +16,9 @@ These instructions apply to any agent working in this repo (Codex CLI, Claude Co
 3. **Visual style** — pick or build a style pack, lock it on cheap samples, bake production references
 4. **Storyboard & brief** — story shape, intention/obstacle, chapter cards, one-page brief
 5. **Chapter by chapter** — outline in content, scene list, image batches reviewed on a local page, lettering, pages and readers
-6. **Publish** — linked readers, carousel images, trailer
+6. **Publish** — linked readers handed over where they can be read on a phone and shared, carousel images, trailer; at the end of the book, the author's feedback
+
+The author always knows which stage they are in: **Planning ▸ Ch1 ▸ … ▸ ChN ▸ Done**, each chapter running outline → picks → lettering → review → publish.
 
 Full detail: `docs/process.md`. Craft: `docs/craft/`. Know-how: `docs/know-how/`. Templates: `docs/templates.md`.
 
@@ -39,6 +41,8 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-publish` · "publish", "build all the readers" | `kav/commands/kav-publish.md` |
 
 Writing or revising any story material, with or without a command: apply `docs/know-how/story-craft.md`. Writing any image prompt: apply `docs/know-how/image-prompting.md`.
+
+**At every gate**, open with the one-line progress header — where the author is in the book — and show the work on their review surface: `docs/know-how/progress.md`, `docs/know-how/review-surfaces.md`.
 
 ## Tools
 
