@@ -23,8 +23,11 @@ The first build shared with beta authors. It grew out of two finished books: *ב
 - `tools/welcome_panel.py`: one test image, lettered, proving key, model, Chrome and lettering together.
 - `KAV_REVIEW` chooses how work is shown for approval: inline boards, a published page, or the local review server.
 
+**Costs**
+- `tools/ledger.py`: a row per request in `stories/<slug>/ledger.jsonl`, written when the request is made, so rerolls, rejects and charged failures all count. Totals by model and stage, reported as a documented minimum.
+
 **Known limits**
 - Higgsfield is wired up but untested; no image it made has been judged.
 - Magnific takes five reference images, so panels stay at three named subjects, and it returns 3:4 rather than 4:5.
 - Nano Banana Pro is not recommended for rotoscope-style looks: it drifts faces and ignores the style pack.
-- There is no cost ledger yet. Spend has to be read off the provider's dashboard, which mixes in unrelated work.
+- The ledger counts what Kav generated from the day it was added; earlier work in an existing story isn't in it, and it can't yet say which images reached the finished pages.

@@ -26,6 +26,14 @@ FONT_CANDIDATES = ["/System/Library/Fonts/Helvetica.ttc", "/Library/Fonts/Arial.
                    "DejaVuSans.ttf", "Arial.ttf"]
 
 
+def chapter_of(out_dir):
+    """chNN from .../chapters/chNN/panels/candidates — the ledger's stage."""
+    for part in Path(out_dir).parts[::-1]:
+        if part.startswith("ch") and part[2:].isdigit():
+            return part
+    return "chapter"
+
+
 def run_one(story, lane, panel, k, out_dir):
     import generate as G
     set_story(story)
@@ -35,7 +43,7 @@ def run_one(story, lane, panel, k, out_dir):
     res = {}
     for _ in range(3):
         res = G.generate(panel["line"], lane=lane, ar=panel.get("ar", "9:16"), seed=seed,
-                         style=panel.get("style"))
+                         style=panel.get("style"), stage=f"{chapter_of(out_dir)}:{panel['id']}")
         if res.get("ok"):
             break
         if "No cast member" in res.get("error", "") or "Missing API key" in res.get("error", ""):

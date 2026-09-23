@@ -15,6 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_refs import cast_dir, set_story  # noqa: E402
 import lanes  # noqa: E402
+import ledger  # noqa: E402
 
 FRAME = ("Edit this single illustration. {instruction}. Keep the drawing style, linework, "
          "colours, framing, pose, expression, clothing, hair and background exactly as they are — "
@@ -48,9 +49,12 @@ def main():
             print(f"  {shot}: no file at {src}, skipping")
             continue
         w, h = Image.open(src).size
-        img, _ = lanes.generate(FRAME.format(instruction=a.instruction.rstrip(".")), [src],
-                                lane="seedream", size=(w, h), seed=a.seed, provider=provider)
+        img, via = lanes.generate(FRAME.format(instruction=a.instruction.rstrip(".")), [src],
+                                  lane="seedream", size=(w, h), seed=a.seed, provider=provider)
         (out_dir / f"{shot}.png").write_bytes(img)
+        ledger.record(a.story, stage=f"touch-up:{a.char}", tool="touch_up.py", provider=via,
+                      lane="seedream", seed=a.seed, file=out_dir / f"{shot}.png",
+                      line=a.instruction)
         print(f"  {shot} -> {out_dir / (shot + '.png')}")
         done += 1
     sys.exit(0 if done else 1)

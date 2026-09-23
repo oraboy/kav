@@ -20,6 +20,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_refs import (build_prompt, build_refs, current_story, default_style_pack,  # noqa: E402
                       load_spec, out_dir, parse_quick_line, plan_refs, ref_warning, set_story)
 import lanes  # noqa: E402
+import ledger  # noqa: E402
 
 # The centre 4:5 of a wider panel is its phone crop, so subject and balloons stay there.
 ASPECTS = lanes.ASPECTS
@@ -40,7 +41,7 @@ def out_name(line, lane):
     return f"{int(time.time())}-{lane}-{slugify(line)}.png"
 
 
-def generate(line, style=None, lane="seedream", seed=None, ar=None, provider=None):
+def generate(line, style=None, lane="seedream", seed=None, ar=None, provider=None, stage=None):
     """Returns {ok, file, prompt, refs, cast, location, style, seed, ...} or {ok: False, error}."""
     spec = load_spec()
     brief = parse_quick_line(line, 0, list(spec["characters"]))
@@ -66,7 +67,13 @@ def generate(line, style=None, lane="seedream", seed=None, ar=None, provider=Non
         name = out_name(line, f"{lane}-{via}")
         (playground() / name).write_bytes(img)
     except Exception as e:
+        ledger.record(current_story(), stage=stage or "playground", tool="generate.py",
+                      provider=via, lane=lane, ar=ar, seed=seed, outcome="error",
+                      error=e, line=line)
         return {"ok": False, "error": str(e)[:600]}
+    ledger.record(current_story(), stage=stage or "playground", tool="generate.py",
+                  provider=via, lane=lane, ar=ar, seed=seed,
+                  file=playground() / name, line=line)
 
     meta = {"ok": True, "file": name, "path": str(playground() / name), "line": line,
             "prompt": prompt, "cast": brief["characters"], "location": brief.get("location"),

@@ -94,7 +94,15 @@ Ask the author, once per story: which surfaces; for a site, where it's hosted an
 
 ## 5 · Closing the book
 
-When the last chapter is published, say so plainly — the book is finished, here is the whole thing in one link — and update `kickoff-state.md`'s Progress to **Done**. Then, once and only once per book, offer the feedback pass:
+When the last chapter is published, say so plainly — the book is finished, here is the whole thing in one link — and update `kickoff-state.md`'s Progress to **Done**.
+
+**Report what it cost**, from the story's own ledger:
+
+```
+python3 tools/ledger.py --story <slug>
+```
+
+Give the figure as what it is: a **documented minimum** — every image Kav generated for this story, rerolls and rejects included. Name what it leaves out (anything made before the ledger existed, failures a provider may still have charged for, rows with no price on record) and say plainly that a provider dashboard covers the whole account and is **not** this book's cost. Keep model spend separate from subscriptions, hosting and time. Then, once and only once per book, offer the feedback pass:
 
 > Kav is new, and we read everything. Five minutes of what worked and what didn't shapes what gets built next. Want to do it now?
 

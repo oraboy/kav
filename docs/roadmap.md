@@ -26,7 +26,9 @@ Setup records a default provider and model order (recommended: fal.ai, Seedream 
 
 ## Cost ledger per story
 
-Every generation appends a row to a story-local ledger (e.g. `stories/<slug>/ledger.jsonl`): timestamp, tool, provider, model, prompt, reference list, output path, approximate cost, and later whether the image made it into published work. Kav surfaces running totals as the story progresses (per block, per chapter, spent vs. used) so the author sees what the book costs and how much generation was discarded.
+Built: `tools/ledger.py` writes a row per request to `stories/<slug>/ledger.jsonl` (time, stage, tool, provider, model, aspect, seed, outcome, price, file), including failures, and reports totals by model and stage as a documented minimum. `/kav-chapter` quotes the running total; `/kav-publish` reports it when the book closes.
+
+Still open: marking which generations actually reached the published pages, so the report can separate spent from used, and a rough per-chapter forecast before a batch runs.
 
 ## Agent-side image tools
 

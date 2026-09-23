@@ -33,6 +33,7 @@ stories/<slug>/
   locations/<loc>/*.jpg      paths listed in briefs.json
   objects/<obj>.png
   playground/                generate.py output
+  ledger.jsonl               one row per image request (tools/ledger.py)
   chapters/chNN/panels/      batch-*.json, candidates/, reviews/, lettering specs, lettered pNN-panelK.png
   chapters/chNN/pages/       layout.json, pNN.png, carousel/
   storyboard/chNN.md         first "# heading" = chapter title
@@ -61,6 +62,16 @@ python3 tools/welcome_panel.py --letter-only
 ```
 
 - **Output:** `<repo>/setup/` (gitignored): `welcome-panel.png` (raw), `welcome.lettering.json` (balloon spec), `welcome.png` (lettered). Edit the spec and run `--letter-only` to move the balloon without a new generation.
+
+## ledger.py
+
+What a story cost. Every tool that calls an image API appends a row to `S/ledger.jsonl` at request time — model, stage, price, outcome, output path — so rerolls, rejected takes and charged failures are counted, which a file count never does.
+
+```
+python3 tools/ledger.py --story <slug> [--detail] [--json]
+```
+
+- **Output:** totals by model and by stage, failed requests, rows with no price. The total is a **documented minimum**: what Kav generated for this story through its own tools. A provider dashboard covers the whole account and is not this book's cost.
 
 ## generate.py (calls the API)
 

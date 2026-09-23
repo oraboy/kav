@@ -16,8 +16,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_env import REPO  # noqa: E402
-from kav_refs import cast_dir, load_spec, root, set_story, style_medium, style_pack_images  # noqa: E402
+from kav_refs import (cast_dir, current_story, load_spec, root, set_story,  # noqa: E402
+                      style_medium, style_pack_images)
 import lanes  # noqa: E402
+import ledger  # noqa: E402
 
 SEEDREAM_SIZES = {"1:1": (2048, 2048), "9:16": (1152, 2048)}
 
@@ -115,13 +117,19 @@ def build(name, provider=None, describe=None, extra=None, force=False, style_pac
                       f"animals, props or settings they show — none of that content belongs in "
                       f"this image.")
         size = SEEDREAM_SIZES[ratio] if lane == "seedream" else None
+        stage = f"mugshots:{name}" + (f":{style_pack}" if style_pack else "")
         try:
             img, via = lanes.generate(prompt, images, lane=lane, ar=ratio, size=size, seed=seed,
                                       provider=provider)
             out.write_bytes(img)
+            ledger.record(current_story(), stage=stage, tool="build_mugshots.py", provider=via,
+                          lane=lane, ar=ratio, seed=seed, file=out, line=shot)
             print(f"  {shot} -> {out}  ({lane} via {via})")
         except Exception as e:
             failed += 1
+            ledger.record(current_story(), stage=stage, tool="build_mugshots.py",
+                          provider=provider, lane=lane, ar=ratio, seed=seed,
+                          outcome="error", error=e, line=shot)
             print(f"  {shot} FAILED: {str(e)[:300]}")
     return failed
 
