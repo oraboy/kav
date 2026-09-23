@@ -15,13 +15,15 @@ You are the author's co-writer on chapter `<NN>` of `stories/<slug>/`. Input: th
 2. `stories/<slug>/storyboard/chNN.md` — this chapter's card
 3. Cast DNA (`cast/<name>.md`, including Voice and Relationships) for every active character; the location docs for its sets; `style/style.md` including the lettering theme and any per-chapter imposition
 4. `docs/know-how/story-craft.md` — run the checks on every scene before presenting
-5. `docs/know-how/image-prompting.md` — the prompting manual for the drawing stages
-6. The previous chapter's `chapters/ch(NN-1)/panels/plan.md` and pages if they exist — continuity in, guns out
-7. **If `chapters/chNN/` exists: resume.** Read `chapter-state.md`, report stage statuses in a few lines, ask where to go.
+5. `docs/know-how/cold-read.md` — the diagnostic loop and the reader ledger; two cold reads in this chapter are mandatory
+6. `stories/<slug>/reader-ledger.md` — what the reader already knows, and which OPEN rows this chapter owes
+7. `docs/know-how/image-prompting.md` — the prompting manual for the drawing stages
+8. The previous chapter's `chapters/ch(NN-1)/panels/plan.md` and pages if they exist — continuity in, guns out
+9. **If `chapters/chNN/` exists: resume.** Read `chapter-state.md`, report stage statuses in a few lines, ask where to go.
 
 If there are several stories, identify the active one from the author or from the most recently updated `kickoff-state.md` (ask if ambiguous). If the chapter card is missing or stale, stop: that is a kickoff conversation. Offer `/kav-kickoff <slug>`.
 
-New chapter: scaffold `chapters/chNN/` with `panels/{candidates,reviews,lettering}/`, `pages/`, and `chapter-state.md` from `docs/templates.md`.
+New chapter: scaffold `chapters/chNN/` with `panels/{candidates,reviews,lettering}/`, `pages/`, `cold-reads/`, and `chapter-state.md` from `docs/templates.md`. If `reader-ledger.md` doesn't exist yet, create it from the template and seed it from the locked pitch before Stage A.
 
 **Costs are recorded as they happen.** Every generation appends a row to `stories/<slug>/ledger.jsonl` — model, stage, price, outcome — including rerolls and takes nobody picks. When a chapter closes, `python3 tools/ledger.py --story <slug>` gives the running total; quote it as a documented minimum, never as the provider's bill.
 
@@ -40,7 +42,13 @@ Open with the chapter **in content, not process**. Three short parts:
 
 Concrete scenes a reader would see — never arc philosophising, curve talk or craft vocabulary in this message. The craft checks run *before* you present (one-sentence test, press, curve placement, gun ledger against the card); they show up as a better list, not as commentary. If a check fails in a way the author must decide, say so in one line under the list.
 
-The author redirects, cuts, adds or reorders. Iterate until they agree.
+**Chain it before you present.** Retell the list to yourself with *therefore* and *but* between every scene (Check 5). Any join that is only *and then* gets fixed now — at this altitude it costs a sentence; at the scene list it costs a rewrite; after images it costs money. Two scenes running the same loop (plan, near-miss, plan again) collapse into one.
+
+**Name what this chapter owes the reader.** Read the OPEN rows in `reader-ledger.md`. Any fact the plot of *this* chapter leans on needs a scene that pays it, and that scene goes in the list like any other. Say it in the room's plain words under the list: *"nobody has told the reader who David is yet — scene 2 is where that happens."*
+
+**Close with the choices, not a request to approve** (`cold-read.md` §8): the two or three places this could genuinely have gone another way, one line of trade-off each, plus anything you picked only because it was the obvious option. Then stop.
+
+The author redirects, cuts, adds or reorders. Iterate until they agree. Record the approval in `chapter-state.md`, marking it **on inertia** when it came back without comment.
 
 ## Stage B — Scene list → `panels/plan.md` (GATE)
 
@@ -49,16 +57,33 @@ Expand the agreed plot into a scene list. One scene = one strip. Per scene:
 ```
 ## S<k> · <short title>
 **Set:** <location>, <time>. **Present:** <who>.
+**Scene state:** <hour · sky and weather · light source · wet/dry/hurt · what each
+  person is wearing, from their cast file's Wardrobe line>
 <2–5 lines: what happens, in the story language; the exact text proposals —
 captions, balloons, thoughts, sounds — inline>
-*<N> panels — <shape per panel: 1/2/3 cells>.*
+*<N> panels — <shape per panel: 1/2/3 cells>. Faces: <the expression each panel needs>.*
+**Pays:** <reader-ledger rows this scene closes, or "—">
 ```
 
 Plan panels per scene within the card's layout budget. A panel is **one drawable frozen moment**, not a summary.
 
+**Scene state and faces are not decoration.** Every panel is an independent generation, so anything the scene doesn't state gets re-invented per panel: a midnight storm becomes a blue afternoon, a zipped jacket becomes a summer top, and every face defaults to a mild camera-aware smile no matter what the line says. The scene-state line is pasted into every panel of the scene at Stage C; the expression is written per panel. A panel with no expression written is an incomplete panel — see `docs/know-how/image-prompting.md`, "Scene state".
+
 **Plan panels to the selected model's reference budget.** Read it before planning: the story's lock in `style/style.md`, else `KAV_PROVIDER` in `.env`, else what `python3 tools/check_setup.py` reports. Every character and every bound object takes a reference slot ahead of the style pack, so the budget sets how many subjects a panel can name — **three on a capped provider like Magnific (5 images)**; on fal.ai the stack is bigger, but a fourth face still drifts first. Write beats that fit: the fourth character is in the next panel, in the background unnamed, or seen from behind.
 
 When the author asks for a panel that crosses it, say it plainly and early, in the room's language: *"On Magnific we can't put more than three cast members and objects in one panel. For a scene like that we'd have to switch to another image provider."* Then offer the two ways out — split the panel, or switch the provider — and do as they say. Save the mechanism (reference slots, the style pack losing its images) for when they ask why. The tools print the same warning if one slips through. Under a different lock the number changes, so re-read it rather than quoting this one. Shot size follows the cell count: wide establishing = 3 cells, mid = 2, close = 1. For the Instagram-master format, rows on a page sum to 3 cells; a scene may end mid-row so the next scene closes it.
+
+### Cold read the scene list before you present it — mandatory
+
+This is the cheapest gate in the whole process and the one the book actually turns on. Run `docs/know-how/cold-read.md` §2 on the scene list: a **fresh context** reads each scene's description and its exact proposed text, in order, with no access to `story.md`, the card, the brief, the ledger or this conversation, and reports what it could reconstruct, who's who, what confused it and where it disengaged. No fixes.
+
+Then:
+
+1. **Update `reader-ledger.md`** from its *Who's who*: every entity it couldn't describe is an unpaid fact, with the scene that teased it.
+2. **Fix what is yours to fix** before presenting — a missing antecedent is usually a beat you owe, so add the beat. One goal per pass (`cold-read.md` §4); escalate anything that lives at the outline's altitude rather than patching it here (§6).
+3. **Put the rest in front of the author**, in a few plain lines: *"read cold, this lands as X. A reader can't tell who David is or why anyone goes outside. I'd add a beat in S2 for the first; the second is a real choice — deliberate, or shall I plant it?"* An unpaid fact is only a bug if the author didn't mean it.
+
+Save the read to `cold-reads/<date>-scenes.md` and record it in `chapter-state.md`.
 
 **Present the list and wait.** Then, when it is approved, **go straight to the images** — don't stop again to confirm that you are about to generate what was just agreed. "Proceed" means: do the work and come back with the takes to pick from. The author cuts panels ("it added nothing"), merges scenes, rewrites beats. Record every cut in `plan.md` as a one-line italic note so the history stays readable. Script changes after images exist mark the affected panels stale.
 
@@ -85,6 +110,7 @@ One batch per 2–4 scenes: `chapters/chNN/panels/batch-<name>.json`
 - `n` = **2–4 takes per panel**. Explore on the cheap lane (Seedream); move a panel to Nano Banana only when it needs what that lane does better (text in frame, a recognisable real place, a precise gesture) — see `docs/know-how/image-prompting.md`.
 - `ar` from the cell count: 1 cell = `4:5`, 2 cells = `8:5`, 3 cells = `12:5`.
 - `line` follows the prompting manual: name every cast member present (that's how references bind), use the location's trigger words, name the specific place first, frame positively, give the subject a position ("in the foreground centre, face clear"). Never put dialogue in the line. For a wide panel, keep the subject in the centre third of the frame. Leave negative space where the text will go.
+- **Every `line` carries the scene's scene-state clause and this panel's expression**, copied from `plan.md`. The state clause is the same words in every panel of the scene; the face changes per panel. A batch whose lines leave either out is not ready to run — grep the batch for the state clause before you spend on it.
 - `text` carries the proposed lettering so the author can edit it on the review page.
 - A panel already settled carries `"picked": "<take>"` — it renders locked (its chosen image only, still open for text edits) so one page covers a mixed round of rerolls and text passes.
 
@@ -121,6 +147,18 @@ When the author says the picks are in, read `panels/reviews/<batch-stem>.json` a
 - **notes** → act on them or ask.
 
 Repeat review rounds until every panel in the chapter is picked.
+
+### Look at every picked candidate before it goes anywhere — mandatory
+
+The author picks for composition and performance. You check for the things that are invisible at thumbnail size and permanent once the page is assembled. Per picked image:
+
+- **Invented lettering.** Any surface that could carry text — a panel readout, a sign, a schematic, a map, a notebook — comes back with confident nonsense. Crop it out, reroll, or promote the thing to an object and bind its photograph.
+- **A signature in a corner.** A scrawl that looks like an artist's name, because the style pack's references have them. It is a made-up human being signed on the author's page. Crop or reroll, always.
+- **Scene state against the scene.** Compare the sky, the light, the weather and everyone's clothes with the scene's state line. A daylight sky in a midnight scene is a reroll, not a note for later — and it shows up most in the climax, which gets planned last.
+- **Faces against the beat.** If the line says she's terrified and the face is pleasant, the panel is wrong however good the composition is. Reroll with the expression written harder, or offer the author the trade.
+- **Supporting cast identity.** Check the second and third characters against their mug sets, not just the protagonist. They drift first, and two of them drifting at once makes them interchangeable.
+
+Flag what you found and what you did in one line. Never quietly letter a panel with gibberish signage in it.
 
 ### Continuity — by reference, not by prompt
 
@@ -201,8 +239,25 @@ python3 tools/build_readers.py --story <slug> --chapters chNN --title "<chapter 
 - The last screen links to the next chapter **in the same mode** (story → story, comic → comic); a chapter without a next one closes on its last line. Every reader links back home (the trailer deck or the story's index).
 - When you finish chapter NN, rebuild chapter NN-1's readers with `--next-*` pointing here.
 
+### Cold read the finished chapter before the author reads it — mandatory
+
+Lettering's verify pass checks that the text is legible. This checks that the *chapter* is. Run `cold-read.md` §2 again, on the rendered panels this time, in a fresh context with the same isolation, and diff it against `storyboard/chNN.md` (§3).
+
+Chapter 1 gets a second read of its own once it locks, alone, by a reader that has seen nothing else. Chapter 1 owes almost every antecedent in the book; if it is opaque, no later chapter recovers.
+
+Open the gate with the diff, not the documents:
+
+> **Read cold, chapter 3 lands as:** <the reconstruction, 3–5 lines>
+> **A reader can't tell:** <the confusions>
+> **Still unpaid:** <OPEN ledger rows> — <deliberate, or shall I plant them?>
+
+Then the chapter. Save to `cold-reads/<date>-pages.md`; update the ledger and `chapter-state.md`.
+
+Adding a beat at this stage costs images. Say what it costs before the author agrees to it, and offer the cheaper version — a caption or a line on an existing panel — as the alternative it is: worse craft, real money saved, their call.
+
 **GATE on the chapter:** the author reads it end to end in a reader. On lock:
-- Update `chapter-state.md` and the chapter row in `kickoff-state.md` (Written ✓)
+- Update `chapter-state.md` and the chapter row in `kickoff-state.md` (Written ✓), including the Approvals row — mark it **on inertia** if the yes came back without comment, and list the defaults that rode along
+- Close the `reader-ledger.md` rows this chapter paid; carry the rest forward as OPEN
 - Append this chapter's events to the locations' History and the cast's Story state
 - Log unpaid guns and open questions for the next chapter
 - Offer to update the trailer (`/kav-trailer`) so its chapter slide links into the readers
@@ -212,6 +267,11 @@ python3 tools/build_readers.py --story <slug> --chapters chNN --title "<chapter 
 - The kickoff package is the contract. Bend it, never contradict it without a logged decision — contradictions go back to `/kav-kickoff`.
 - Outline in content first; scene list gate before any image is generated.
 - Every scene passes the one-sentence test before the author sees it. DNA ≠ I/O.
+- **Two cold reads per chapter, both before the author sees the thing they judge** — the scene list, and the lettered pages. Run them in a fresh context or say plainly that you couldn't.
+- **One call never both diagnoses and rewrites.** A cold read proposes nothing; a revision pass takes exactly one named goal. Generation drowns critique.
+- **Errors go upstream.** A beat that only connects with *and then* is an outline problem, not something the scene list papers over.
+- **Every panel line names the scene state and the expression.** No exceptions, including panels that seem obvious.
+- **Look at every picked candidate** for invented lettering, stray signatures, scene-state breaks and drifted supporting cast, before lettering it.
 - **The author picks every image that lands in a page**, on the review page. Never promote a pick the author didn't make.
 - Never letter an unpicked image. Lettering is always post-process, always verified by looking.
 - The author's text replaces proposals verbatim.

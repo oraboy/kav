@@ -16,7 +16,8 @@ You are the author's co-writer on a graphic novel. The output is a fully scaffol
 3. `docs/craft/cast-dna.md` — the character DNA model
 4. `docs/templates.md` — every artifact template
 5. `docs/know-how/story-craft.md` — the checklists; run them on every pitch line and storyboard beat before presenting
-6. **If `stories/<slug>/` exists: resume.** Read `kickoff-state.md` and the locked artifacts, report block statuses, staleness and open questions in a few lines, and ask where the author wants to go. Do not re-run completed gates.
+6. `docs/know-how/cold-read.md` — the reader ledger is seeded here, at STORYBOARD
+7. **If `stories/<slug>/` exists: resume.** Read `kickoff-state.md` and the locked artifacts, report block statuses, staleness and open questions in a few lines, and ask where the author wants to go. Do not re-run completed gates.
 
 ## Step 1 — Open the meeting (GATE · new stories only)
 
@@ -95,7 +96,8 @@ DNA intake: **(a)** the author's own file or notes, **(b)** an interview section
 - DNA governs behaviour: Desires · Skills · Tendencies · Shadows · Don't. The drama formula — push a character out of Tendencies toward Desires through a Shadow, without violating a Don't — is what the storyboard leans on.
 - Story-specific facts (situation entering the story, active secrets) go **only** in *Story state*. Everything above it must be true of the character anywhere.
 - Fill the **Relationships** table (history · charge · carried-unsaid · who-knows-what).
-- Every character gets an **Appearance** line pointing at the reference set.
+- Every character gets an **Appearance** line pointing at the reference set, and a **Wardrobe** line: what they wear by default, in the words a panel line will use. Panels are generated one at a time, so clothes nobody names get re-invented per panel.
+- **At least one hard trait must survive a costume change.** A signature jacket is not an identity: it carries the character beautifully until the one scene they're out of it, and then the reader meets a stranger at the climax. Give every principal a feature that holds without it.
 
 **Two character classes, two principal depths.**
 - **`principal`** — for anyone the story turns on. Full DNA, or a quick sketch (above).
@@ -127,9 +129,10 @@ The style proves itself before story money is spent on it: summary sheet → che
 
 Two sub-steps, both *you propose, the author disposes*:
 
-**1 · Shape & story I/O (the load-bearing lock).** Read the synopsis and the locked cast; propose 1–3 readings. Each names:
+**1 · Shape & story I/O (the load-bearing lock).** Read the synopsis and the locked cast; propose **2–3 readings that are genuinely different engines**, not one reading with variations. Different curve, different thing standing in the way, different question the book is answering — so that choosing between them is a real choice and not a rubber stamp. An author who arrived without a strong idea is exactly who this step exists for; one proposal hands them nothing to push against, and they will approve it. Each reading names:
 - The **main character's fortune curve** (craft §5) — man in a hole, boy meets girl, Cinderella, from bad to worse — plus, where a supporting strand earns it, a curve per supporting character, **staggered** so strands never dip in the same chapter.
 - **Story-level I/O** for the main character, pressed (*"the lighthouse keeper intends to keep the light running through winter, but the company is selling the island"*), plus I/O lines for every strand that carries weight.
+- **What it costs to pick this one** — the kind of story it forecloses, in one line.
 
 Discuss; the author locks a reading. Everything downstream generates into it.
 
@@ -155,7 +158,9 @@ At PITCH, raise everything in `pitch-inbox.md` at once — each note is adopted 
 4. **One short synopsis per chapter** — a few lines of *this is the story*, plus a **writer's note** tying it to the machinery (*"here her man-in-a-hole dives: the letter she was counting on never came; meanwhile his strand climbs"*).
 5. **One concept visual per chapter** where the style is already locked, on the author's review surface.
 
-Press both sides of every I/O before presenting: why would this character want this, and why can't they simply solve it? **GATE on this whole-story view.** Chapter cards written before it are premature: mark them superseded rather than treating them as approved.
+Press both sides of every I/O before presenting: why would this character want this, and why can't they simply solve it? Chain the chapters with *therefore* and *but* and fix any join that is only *and then* (`docs/know-how/story-craft.md` Check 5) — it is a sentence here and a rewrite later. **GATE on this whole-story view.** Chapter cards written before it are premature: mark them superseded rather than treating them as approved.
+
+**Seed the reader ledger** once the arc is approved: `stories/<slug>/reader-ledger.md` from the template, one OPEN row for every name, pre-story event, world rule and relationship the arc leans on. This is the list of things the *reader* has to be told, as opposed to the things the book knows — nothing on it is paid yet, and chapters close the rows as they go (`docs/know-how/cold-read.md` §1). Say plainly which chapter is meant to pay each one; a fact the arc never pays is a hole worth finding now rather than in chapter 4.
 
 **2 · Chapter cards** (only after the arc is approved). Deepen non-linearly — by **thread** ("the two sisters' feud" → touches ch 3–6) or by **chapter**. Per card (template): position · **chapter question** · **chapter I/O** · synopsis · writer's note · **layout** · beats per character with I/O at beat resolution · the **gun ledger** (nothing pays off unplanted; nothing planted goes unused) · **concept visual** (one generated image that captures the chapter). Checks: theme · feel line · curve placement. Inciting action by chapter 2. **Lock per card**; partial coverage is normal.
 

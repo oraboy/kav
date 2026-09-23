@@ -26,6 +26,8 @@ The prompt names each by index *and* role: *"Image 1 shows <name>: …"*, *"Imag
 - **Say "including the background."** Style drift shows up in backgrounds first.
 - **Set the aspect ratio explicitly** (`--ar`). On Nano Banana the model otherwise takes it from the *last* image — the style pack's shape would decide the framing.
 - **Give the subject a position.** A character lost in a crowd comes back with "in the foreground centre, close to the camera, face clear" plus their identity words repeated.
+- **Name the expression, always.** A line that carries the action and not the face returns the model's default: a mild, pleasant, camera-aware smile, on a character dangling off a railing in a storm. Nothing in the reference stack corrects it, because mug shots are neutral by design. Write the face as an instruction — "jaw set, eyes narrowed against the rain, not looking at the camera" — and write it even when it seems obvious from the beat. It is never obvious to the model. A panel spec without an expression is an incomplete spec.
+- **Carry the scene state into every panel of the scene.** Time of day, weather, light source, wet or dry, hurt or whole, and what each character is wearing. Panels are generated independently; anything the line doesn't say gets re-invented per panel, so a midnight storm turns into a blue afternoon three panels later and a jacket becomes a summer top. See below.
 - **Keep real place names out of the line** once the photo binds — the name becomes invented signage.
 - **Wide panels:** put the subject in the centre third; the phone crop keeps only the middle.
 - **Never put story dialogue in the line.** Lettering is post-process.
@@ -70,6 +72,24 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 
 When a place drifts across panels, bind an **approved earlier panel** of it as an extra location reference (copy it into `locations/<name>/`, add it to `photos` in `briefs.json`). The next generation binds the drawn place, not only the photo. Adjectives in the prompt don't fix drift; references do.
 
+## Scene state — what drifts when nobody names it
+
+References hold identity. They hold nothing about the moment. Every panel is an independent call, so whatever the line leaves out, the model invents fresh — and it invents toward the pleasant and the well-lit.
+
+Five things drift, in rough order of how badly they break a reader:
+
+| Drifts | Looks like | Carry it in the line |
+|---|---|---|
+| **Expression** | the same mild smile through terror, exhaustion and fury | the face, as an instruction, in every panel |
+| **Time and weather** | a midnight storm rendered as a blue afternoon at the climax | the hour, the sky, the sea state, the light source, every panel |
+| **Wardrobe** | a zipped jacket becomes a summer top mid-scene | the character's clothes for *this chapter*, from their cast file |
+| **Condition** | soaked and bleeding in one panel, dry and neat in the next | wet, torn, bruised, carrying-something |
+| **Identity of the second and third character** | the mother and the sister become interchangeable | one distinguishing feature per supporting character, named every time |
+
+A **scene-state line** written once at the top of a scene and pasted into every panel of it costs nothing and fixes most of this. Put it in `panels/plan.md` at the scene header so the author can see it and change it.
+
+Two notes on where this bites hardest. Supporting characters drift far more than the protagonist, because the protagonist usually has one loud visual anchor (a signature jacket, a braid) doing the identity work — which means the moment that anchor is out of frame, they drift too; give every principal a feature that survives a costume change. And the climax is the most likely scene in a book to be rendered in daylight, because it tends to be planned last, at the end of a long batch, when scene state has quietly stopped being repeated.
+
 ## Debugging a wrong image
 
 1. Read the candidate's `.json` sidecar: which cast, location, objects and style actually bound?
@@ -78,6 +98,8 @@ When a place drifts across panels, bind an **approved earlier panel** of it as a
 
 ## Known failure modes
 
+- **Invented lettering in frame.** Any surface that could carry text — a control panel, a sign, a schematic, a map, a notebook — comes back with confident nonsense ("FINKTESSTATICK CHECK"). It reads as a typo to the author and as a broken world to a reader. Either keep text surfaces out of the framing, or promote the thing to an object and bind its photograph (see above).
+- **Hallucinated artist signatures.** A scrawl in a bottom corner that looks like a signature, because the style pack's references have them. It is a made-up human name signed on the author's page. Check every corner of every picked candidate; crop or reroll.
 - **Three-plus characters** get less reliable as the count rises.
 - **Seed-to-seed style drift** — first suspect an ambiguous `medium.txt`.
 - **Interiors losing their ceiling** — the location photo doesn't show it; get a photo that does.

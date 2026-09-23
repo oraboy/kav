@@ -32,9 +32,21 @@ The declared mechanisms govern: the asset never carries plot; each strand answer
 
 Obstacles compound **serially** — rocks, not rotation; each worse than the last. Nothing pays off unplanted; nothing planted goes unused — update the card's gun ledger on every plant and payoff. The character **visibly tries** every unit. Inciting action by chapter 2.
 
+**Therefore / but.** Retell the unit as a chain and check every link: each beat follows the last with *therefore* or *but*, never *and then*. Where it's *and then* there is no causality, and that is exactly where a reader lets go. Two scenes that run the same loop (plan, near-miss, plan again) are the common version of it: cut or merge the second.
+
 ## Check 6 — stakes legible on the page
 
 A reader opening the chapter cold gets why it matters from the panels and balloons. Captions may frame, never carry. If the stakes only exist in a caption's explanation, redraw the beat so the want and the obstacle are visible in what characters do.
+
+## Check 7 — antecedents: can the reader resolve every noun?
+
+For every name, place, task, object and pronoun in the unit's text, ask where a reader who has read **only the panels so far** learned what it refers to. Not the brief, not the card, not the blurb on the index page. The panels.
+
+Check it against `stories/<slug>/reader-ledger.md` and update the ledger as you write: a fact teased here with no payment yet is an OPEN row, and an OPEN row this chapter was meant to pay is a beat you still owe.
+
+Teasing ahead of payment is legal and often good — a name in a thought balloon with nothing behind it is a hook. It turns into a bug when nothing pays it, and into an author decision when the payment lands a chapter later. Say that out loud at the gate rather than deciding it yourself.
+
+**This check and Check 6 are the two that a writer holding the brief cannot run on themselves.** Both are enforced by a cold read: `docs/know-how/cold-read.md`. Therefore/but will happily pass a chapter whose causality is perfect and whose nouns mean nothing — run Check 7 alongside it, never instead.
 
 ## How results show up
 

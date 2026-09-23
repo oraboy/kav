@@ -41,24 +41,26 @@ Register or choose a style pack (reference images + one `medium.txt` line) and a
 
 **Story shape and I/O first.** The agent proposes 1–3 readings: the main character's fortune curve (man in a hole, Cinderella…) and a pressed intention/obstacle line for each character who carries weight. The author locks one. Then the full pitch: O/I grid, topology and braid for ensembles, key events, core drama, feel line. The inbox is raised and each note adopted, kept or dropped.
 
-**Then the storyboard:** the whole arc chapter by chapter with a writer's note each (gate), then a card per chapter — chapter question, chapter I/O, synopsis, beats, gun ledger, a concept image.
+**Then the storyboard:** the whole arc chapter by chapter with a writer's note each (gate), then a card per chapter — chapter question, chapter I/O, synopsis, beats, gun ledger, a concept image. The arc also seeds `reader-ledger.md`: every name, pre-story event and world rule the book leans on, as an OPEN row, with the chapter meant to pay it.
 
 **Then the package:** a one-page brief in reader-facing language. Optionally the trailer deck.
 
 **Gates:** the reading · the full pitch · the arc · each chapter card · the package
-**Produces:** `story.md` (the contract) · `storyboard/chNN.md` + concept images · `package/brief.md` · `package/trailer.json` + `trailer.html`
+**Produces:** `story.md` (the contract) · `reader-ledger.md` · `storyboard/chNN.md` + concept images · `package/brief.md` · `package/trailer.json` + `trailer.html`
 
-## 5 · Chapter by chapter — outline, scenes, images, lettering, pages
+## 5 · Chapter by chapter — outline, scenes, cold read, images, lettering, cold read, pages
 
-**Commands:** `/kav-chapter <NN>` · `/kav-review <batch.json>` · `/kav-panel`
+**Commands:** `/kav-chapter <NN>` · `/kav-coldread [NN]` · `/kav-review <batch.json>` · `/kav-panel`
 
 1. **Outline in content.** "In the last chapter X; in this one Y happens; the suggested plot is 1…n" — concrete scenes. The author redirects. *(gate)*
-2. **Scene list.** One scene = one strip, with panels, shapes and proposed text. The author cuts and rewrites. *(gate)* → `panels/plan.md`
-3. **Images.** Batches of 2–4 takes per panel → a local review page showing the whole chapter in reading order, full image and phone crop side by side → the author picks, rerolls with a reason, edits text → "picks in": the agent applies the saved review. Repeat until every panel is picked. *(gate per round)* → `panels/candidates/`, `panels/reviews/`, `panels/manifest.md`
-4. **Lettering.** Specs written by looking at each picked image; rendered; every render checked by eye for faces, collisions and the phone-safe zone. → `panels/lettering/*.json`, `panels/pNN-panelK.png`
-5. **Pages and readers.** Layout in reading order (RTL for RTL languages) → assembled pages + Instagram carousel images → the Story reader (panel per screen) and Comic reader (full pages), linked to the next chapter in the same mode and back home. *(gate: the author reads it end to end)* → `pages/`
+2. **Scene list.** One scene = one strip, with panels, shapes, scene state, the expression each panel needs, and proposed text. The author cuts and rewrites. *(gate)* → `panels/plan.md`
+3. **Cold read, before a cent is spent.** A context-starved reader gets the scenes and their text and nothing else, and says what it could reconstruct and what confused it. The ledger absorbs the unpaid facts; the author decides which gaps are deliberate. The cheapest gate in the process. → `cold-reads/<date>-scenes.md`
+4. **Images.** Batches of 2–4 takes per panel → a local review page showing the whole chapter in reading order, full image and phone crop side by side → the author picks, rerolls with a reason, edits text → "picks in": the agent applies the saved review. Repeat until every panel is picked. *(gate per round)* → `panels/candidates/`, `panels/reviews/`, `panels/manifest.md`
+5. **Lettering.** Specs written by looking at each picked image; rendered; every render checked by eye for faces, collisions and the phone-safe zone. → `panels/lettering/*.json`, `panels/pNN-panelK.png`
+6. **Cold read the finished chapter**, on the rendered panels, before the author reads it. The gate opens with the diff between what a reader got and what the card intended. Chapter 1 gets a second read alone once it locks. → `cold-reads/<date>-pages.md`
+7. **Pages and readers.** Layout in reading order (RTL for RTL languages) → assembled pages + Instagram carousel images → the Story reader (panel per screen) and Comic reader (full pages), linked to the next chapter in the same mode and back home. *(gate: the author reads it end to end)* → `pages/`
 
-On lock: state files updated, locations' history and cast story state appended, unpaid guns logged.
+On lock: state files updated, locations' history and cast story state appended, unpaid guns logged, ledger rows closed.
 
 ## 6 · Final draft & publish
 
@@ -71,6 +73,8 @@ Readers rebuilt for every finished chapter and linked in order; the trailer's ch
 ## Standing rules
 
 - Interactive always. Gates at every creative decision; nothing generated past one.
+- **Each stage diagnoses its own output before the author sees it.** The agent can see the brief; the reader can't, so the check has to come from something context-starved. Diagnosis and repair are never the same call.
+- **Errors escalate upstream.** No lettering pass saves a weak outline, and a nicer scene never fixes a missing beat.
 - Every step persists to a file immediately.
 - Staleness is tracked and logged, never silently absorbed.
 - The author picks every image. The agent prepares, generates candidates and may suggest.

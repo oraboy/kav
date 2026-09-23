@@ -109,7 +109,7 @@ Suggest the default for the host you are running in, take their answer, and don'
 2. **Collect** — characters (a quick sketch or a full DNA, your pick), locations and the key events. Ideas that come up early get parked with `/kav-plot-note`.
 3. **Visual style** — pick or build a style pack, then lock the look on cheap samples before spending on production references. `/kav-style`, `/kav-visual-style-lock`
 4. **Storyboard & brief** — the story's shape, what each character wants and what stands in the way, then a card per chapter and a one-page brief.
-5. **Chapter by chapter** — outline, scene list, panel images reviewed on a local page, lettering, assembled pages. `/kav-chapter <NN>`
+5. **Chapter by chapter** — outline, scene list, a cold read before any image money is spent, panel images reviewed on a local page, lettering, a second cold read, assembled pages. `/kav-chapter <NN>`
 6. **Publish** — readers per chapter, Instagram-ready carousel images, a trailer deck. `/kav-publish`, `/kav-trailer`
 
 ## Step 5 — The commands
@@ -123,6 +123,7 @@ Suggest the default for the host you are running in, take their answer, and don'
 | `/kav-visual-style-lock <pack>` | test the style cheaply, then bake production references |
 | `/kav-plot-note <idea>` | park a story idea without arguing it; "show the notes" renders the board |
 | `/kav-chapter <NN>` | write and draw one chapter |
+| `/kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |
 | `/kav-panel` | one scene plus its text into one lettered panel |
 | `/kav-review <batch.json>` | open the local image review page and apply the author's picks |
 | `/kav-trailer` | build the story's swipeable trailer deck |

@@ -2,6 +2,23 @@
 
 Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version you were on when something goes wrong — it's the fastest way to work out what happened.
 
+## Unreleased
+
+From reading *Last Light* end to end as a reader rather than as its authors. The story's dialogue was compressed and confident and, in several chapters, unparseable: nobody is told who David is, that he vanished, or why anyone has to go outside, because every agent that wrote a scene could see the brief and the reader never can. The visuals drifted the same way, in the things a reference set doesn't hold.
+
+**Cold reads** — a diagnostic stage that runs on a context-starved reader, `docs/know-how/cold-read.md` and `/kav-coldread`.
+- Two are mandatory per chapter, both before the author sees what they're judging: on the scene list before any image money is spent, and on the lettered pages before the read-through gate. Chapter 1 gets a third, alone, once it locks.
+- One call never both diagnoses and rewrites. A revision pass takes exactly one named goal from a taxonomy; a second cold read that wasn't told the goal verifies it.
+- Errors escalate upstream. A beat that only joins with *and then* is an outline problem.
+
+**The reader ledger** — `stories/<slug>/reader-ledger.md`: every name, pre-story event, world rule and relationship the plot leans on, with where it was teased and where it was paid. Seeded at STORYBOARD, closed chapter by chapter. Teasing ahead of payment is a hook; never paying is a bug; paying a chapter late is the author's call to make out loud. The brief is not payment.
+
+**Scene state and faces** — a line without an expression returns the model's default pleasant smile, on a character hanging off a railing in a storm. Every panel line now carries the scene's state clause (hour, sky, light, wardrobe, condition) and that panel's expression. Cast files gain a Wardrobe line and must hold one identity trait that survives a costume change.
+
+**Picked-candidate checks** — invented lettering on any text surface, hallucinated artist signatures in the corners, scene state against the scene, faces against the beat, supporting cast against their mug sets. Checked before lettering, not after publishing.
+
+**Gates for an author who approves by default** — decisions instead of documents, defaults named as defaults, and a silent yes recorded as a silent yes in `chapter-state.md` so a later cold read knows where to look first. At PITCH, 2–3 genuinely different engines rather than one outline to rubber-stamp.
+
 ## 1.0.0-rc1 — 2026-09-22
 
 The first build shared with beta authors. It grew out of two finished books: *ברקוביץ ואוליב*, five chapters in Hebrew, and *Last Light*, six chapters written in ChatGPT with Codex. Nearly every rule in here was earned making one of them.

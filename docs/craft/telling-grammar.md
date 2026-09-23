@@ -32,6 +32,16 @@ Decide what the reader knows versus what the protagonist knows, and write it dow
 - **The readable misread:** the reader understands a balloon the protagonist gets wrong. A cheap, strong source of dramatic irony.
 - **Non-speaking characters** (animals, infants, the silent type) never get speech balloons; sounds are bursts, feelings are faces or thoughts.
 
+### What the reader has actually been given
+
+POV decides what the reader is *allowed* to know. This decides what they have *been told*, and it is the easier one to get wrong, because everyone writing the book can see the brief and the reader can't.
+
+Before a line ships, resolve every noun in it against the panels alone. *"Finish it."* is a fine line if the reader saw what was started. *"I won't send you out there"* is a fine line if the reader knows where out there is and why anyone would go. Neither is a fine line otherwise, and neither *sounds* wrong: compressed dialogue over missing antecedents has the exact surface texture of good comics writing. That's what makes it hard to catch from the inside.
+
+**The tease is the hook; the payment is the contract.** Ending a chapter on a name nobody has explained is a strong move. It obliges the next few panels — a flashback, someone saying the name out loud with a fact attached, a photograph — to pay it. Track both ends in `stories/<slug>/reader-ledger.md`; the rule and the gap tolerances are in `docs/know-how/cold-read.md`.
+
+A comic's bandwidth is narrow, so exposition delivered plainly is not the sin it is in prose. A clumsy line that lands a fact beats an elegant one that assumes it. Fix the clumsiness on a later pass; a reader who is lost has already closed the chapter.
+
 ## 4 · Form is characterisation
 
 The *shape* of a character's text characterises before the words do. Give each principal a Voice line in their DNA and let it govern:

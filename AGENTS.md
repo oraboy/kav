@@ -15,7 +15,7 @@ These instructions apply to any agent working in this repo (Codex CLI, Claude Co
 2. **Collect** — characters (a one-liner and a look, then a quick sketch or full DNA), locations, objects, key events
 3. **Visual style** — pick or build a style pack, lock it on cheap samples, bake production references
 4. **Storyboard & brief** — story shape, intention/obstacle, chapter cards, one-page brief
-5. **Chapter by chapter** — outline in content, scene list, image batches reviewed on a local page, lettering, pages and readers
+5. **Chapter by chapter** — outline in content, scene list, a cold read before a cent is spent, image batches reviewed on a local page, lettering, a second cold read, pages and readers
 6. **Publish** — linked readers handed over where they can be read on a phone and shared, carousel images, trailer; at the end of the book, the author's feedback
 
 The author always knows which stage they are in: **Planning ▸ Ch1 ▸ … ▸ ChN ▸ Done**, each chapter running outline → picks → lettering → review → publish.
@@ -35,12 +35,13 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-visual-style-lock <pack>` · "lock the style", "styled mug shots" | `kav/commands/kav-visual-style-lock.md` |
 | `/kav-plot-note <idea>` · "note this down", "show the notes" | `kav/commands/kav-plot-note.md` |
 | `/kav-chapter <NN>` · "write/draw chapter N", "next chapter" | `kav/commands/kav-chapter.md` |
+| `/kav-coldread [NN]` · "is this clear", "read it like a reader", "what's confusing" | `kav/commands/kav-coldread.md` |
 | `/kav-panel` · one scene plus its text into a lettered panel | `kav/commands/kav-panel.md` |
 | `/kav-review <batch.json>` · "open the review page", "picks are in" | `kav/commands/kav-review.md` |
 | `/kav-trailer` · "the trailer", "rebuild the slides" | `kav/commands/kav-trailer.md` |
 | `/kav-publish` · "publish", "build all the readers" | `kav/commands/kav-publish.md` |
 
-Writing or revising any story material, with or without a command: apply `docs/know-how/story-craft.md`. Writing any image prompt: apply `docs/know-how/image-prompting.md`.
+Writing or revising any story material, with or without a command: apply `docs/know-how/story-craft.md`. Writing any image prompt: apply `docs/know-how/image-prompting.md`. Judging whether any of it reaches a reader: `docs/know-how/cold-read.md` — you can see the brief and they can't, so you cannot run that check on yourself.
 
 **At every gate**, open with the one-line progress header — where the author is in the book — and show the work on their review surface: `docs/know-how/progress.md`, `docs/know-how/review-surfaces.md`.
 
@@ -68,10 +69,11 @@ python3 tools/chrome.py
 ```
 stories/<slug>/
   story.json (title, lang, dir)  briefs.json  story.md  kickoff-state.md  pitch-inbox.md
+  reader-ledger.md (what the reader has been told, and where)
   cast/<name>.md  cast/<name>/            locations/<loc>.md  locations/<loc>/   objects/
   styles/<pack> -> ../../styles/<pack>    style/{style.md, moodboard/, samples/, worksheets/}
   storyboard/chNN.md                      package/{brief.md, trailer.json}
-  chapters/chNN/{chapter-state.md, panels/{plan.md, batch-*.json, candidates/, reviews/, lettering/*.json, pNN-panelK.png}, pages/{layout.json, pNN.png, carousel/, reader-story.html, reader-comic.html}}
+  chapters/chNN/{chapter-state.md, cold-reads/*.md, panels/{plan.md, batch-*.json, candidates/, reviews/, lettering/*.json, pNN-panelK.png}, pages/{layout.json, pNN.png, carousel/, reader-story.html, reader-comic.html}}
 styles/<pack>/   shared style packs (images + medium.txt)
 ```
 
@@ -81,8 +83,10 @@ styles/<pack>/   shared style packs (images + medium.txt)
 2. **Gates are real.** Never generate or advance past a creative decision the author hasn't made. Interactive always, never autopilot.
 3. **Story-local assets.** Every generation carries `--story <slug>`; every reference read and every file written stays under `stories/<slug>/` (shared style packs in `styles/` are the one exception, linked into the story). Never borrow another story's characters, places or objects unless the author asks in words.
 4. **Persist every step** to its file immediately; track staleness in the state files; never absorb an inconsistency silently.
-5. **Never publish, upload, push or post** anything outside this repo without the author's explicit yes for that action.
-6. **API keys live only in `.env`**, which is gitignored. Never commit keys, never print them, never paste them into files other than `.env`, never echo them back in chat.
-7. **Languages:** story material in the story's language; schema labels in English; meta discussion in the language the author talks to you in.
-8. **Lettering is post-process.** Story text is never generated into images.
-9. Keep replies short. It's a working session, not a report.
+5. **Diagnose cold, and never in the same call that fixes.** Every chapter is read twice by a context-starved reader — once on the scene list, once on the lettered pages — before the author sees the thing they're judging. Report confusions; never quietly close a gap the author may have meant. A revision pass takes exactly one named goal, and something that wasn't told the goal verifies it.
+6. **Never publish, upload, push or post** anything outside this repo without the author's explicit yes for that action.
+7. **API keys live only in `.env`**, which is gitignored. Never commit keys, never print them, never paste them into files other than `.env`, never echo them back in chat.
+8. **Languages:** story material in the story's language; schema labels in English; meta discussion in the language the author talks to you in.
+9. **Lettering is post-process.** Story text is never generated into images.
+10. **Every panel line names the scene state and the face.** Time, weather, light, wardrobe, condition, and the expression the beat needs. Panels generate independently; anything unsaid is re-invented per panel, and faces default to a pleasant smile.
+11. Keep replies short. It's a working session, not a report.

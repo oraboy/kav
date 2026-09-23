@@ -92,7 +92,8 @@ Seeded from: <author's file / photos / interview> on <date>
 **Bio:** <two lines, narrator voice>
 **Bio (self-written):** <two lines, their own voice — how they'd introduce themselves>
 **Appearance (ref canon):** <1–2 sentences> · reference set: `cast/<name>/`
-**Hard traits:** <the few things that carry identity and must never drift — eye colour, a scar, an ear shape. Canon: also in briefs.json, and fixed across the whole approved set when one changes>
+**Hard traits:** <the few things that carry identity and must never drift — eye colour, a scar, an ear shape. Canon: also in briefs.json, and fixed across the whole approved set when one changes. At least one must survive a costume change: a signature garment is not an identity>
+**Wardrobe:** <what they wear by default, named in panel lines> · per-chapter overrides: `| ch | what changed | why |`
 **References:** active `cast/<name>/source*` · excluded `cast/<name>/_excluded/<file>` — <why it was parked> · <target age when a reference is from another age>
 **Identity:** <Passion/True Calling | Profession | Character>
 
@@ -125,7 +126,8 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 > <one line>
 
 **Appearance (ref canon):** <the author's written look, or what the images show> · reference set: `cast/<name>/` <or: images still to come — needed before VISUAL LOCK>
-**Hard traits:** <anything that must never drift; omit if none yet>
+**Hard traits:** <anything that must never drift; at least one that survives a costume change>
+**Wardrobe:** <what they wear by default, named in panel lines>
 
 **Desires:** <1–2 bullets>
 **Tendencies:** <1–2 bullets>
@@ -184,6 +186,29 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 11. **O/I grid** — Intent | Obstacle | Curve | Relationship line per character
 12. **Core drama** — the collisions, which levers fire
 13. **Open forks** — decisions deferred to the writing
+```
+
+---
+
+## reader-ledger.md
+
+What the reader has actually been told, and where. Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the arc leans on, all rows OPEN), filled chapter by chapter, checked by every cold read. Rules and gap tolerances: `docs/know-how/cold-read.md`.
+
+```markdown
+# <Story name> — Reader Ledger
+*What a reader knows from the panels alone. The brief is not payment; the blurb is not payment.*
+updated: <date>
+
+| Fact | Teased | Paid | Gap | How it's paid |
+|---|---|---|---|---|
+| <who a named character is> | <chNN sKpN> | <chNN sKpN> | same scene / same chapter / <N> chapters / **OPEN** | <the panel that does it> |
+| <a pre-story event the plot needs> | | | **OPEN** | |
+| <a rule of the world> | | | | |
+| <a relationship a beat leans on> | | | | |
+
+## Deliberate withholds
+*Gaps the author has decided to keep. Not bugs; cold reads stop reporting them.*
+- <fact> — withheld until <chNN>, decided <date>
 ```
 
 ---
@@ -247,13 +272,21 @@ updated: <date>
 |---|---|---|
 | outline | empty · in-progress · locked · stale | |
 | scenes | | |
+| cold read · scenes | not run · clean · <n> confusions · passed <goal> | `cold-reads/<date>-scenes.md` |
 | panels (images) | | |
 | lettering | | |
+| cold read · pages | not run · clean · <n> confusions · passed <goal> | `cold-reads/<date>-pages.md` |
 | pages + readers | | |
 
 ## Batches
 | Batch | Scenes | Review status |
 |---|---|---|
+
+## Approvals
+*A silent yes is still a yes. This is only so a later cold read knows where to look first.*
+| Gate | Approved | How | Defaults that rode along |
+|---|---|---|---|
+| <stage> | <date> | considered · **on inertia** (no comment) | <what was chosen because it was the obvious option> |
 
 ## Open questions
 ## Change log
