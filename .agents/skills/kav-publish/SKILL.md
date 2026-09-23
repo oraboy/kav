@@ -75,7 +75,7 @@ Every path relative, every font, image, stylesheet and script inside the package
 
 Mark the site **stale** whenever a deployed reader, the brief, a chapter title, chapter art or a navigation link changes.
 
-**In Claude** — publish the same package as an artifact and share the link; the interactive review tools stay the better surface for picking. **Elsewhere** — any static host (below).
+**In Claude** — publish the readers as artifacts and share the links; the interactive review tools stay the better surface for picking. Readers embed their images, and `build_readers.py` prints each file's size: **one artifact holds about 16 MB**, so publish **one artifact per chapter** rather than the whole book in one page, and dial the art back with `--page-px` / `--slide-px` / `--slide-q` if a chapter comes out over. Publish the contents page as its own artifact and link the chapters from it. **Elsewhere** — any static host (below).
 
 The story files are the source of truth on every host. A Site or an artifact is the review handoff, not the book's permanent home.
 
