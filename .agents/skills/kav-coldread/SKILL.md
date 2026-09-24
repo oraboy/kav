@@ -15,17 +15,24 @@ Default target: the chapter the author is in. `NN-MM` reads a range in order; `b
 
 | The chapter is at | Read |
 |---|---|
-| lettered or published | `chapters/chNN/panels/pNN-panelK.png`, in page order |
+| assembled | `chapters/chNN/pages/pNN.png`, in order — what the comic reader shows |
+| lettered, not yet assembled | `chapters/chNN/panels/pNN-panelK.png`, in page order |
 | scene list approved, no images | each scene's description and its **exact** proposed text from `panels/plan.md`, stripped of writer's notes |
 | outline only | say so and stop. There is nothing a reader could hold yet. |
 
-For a range or the book, read every chapter's panels in order, in one pass, with no resets in between. Cross-chapter antecedents only show up that way.
+Also give the reader, as plain text in the prompt, **the book's title and each chapter's title** — they're on every reader's title screens and the page images don't carry them. Nothing else from outside the pages: not the index-page logline, not the trailer, not the brief. The book has to stand without its blurb.
+
+For a range or the book, read every chapter's pages in order, in one pass, with no resets in between. Cross-chapter antecedents only show up that way.
+
+**Write the reader's prompt before you open any story material yourself.** Build it from the file listing and the chapter titles. An operator who has just read the storyboard leaks it into the prompt as "context" without noticing.
 
 ## Step 2 — Run it cold (the whole point)
 
 Run the read in a **fresh context** that gets the file paths above and nothing else. Claude Code: the Agent tool, with the allow-list in the prompt. Codex and others: a sub-agent where the tool has one.
 
 The reader **must not** see `story.md`, `storyboard/`, `package/brief.md`, `reader-ledger.md`, `chapter-state.md`, the writer's notes in `plan.md`, or this conversation. Not summarised, not quoted, not "for context".
+
+**Verify it held.** Pick a canary before the results come back: one fact that is in the brief and not on the page (a name the page never says, a relationship only the pitch states). If a reader knows it, that read saw something it shouldn't — discard it and say so. Record the canary and the outcome at the top of the saved read.
 
 Where the tool genuinely has no sub-context, say so to the author in one line — *"no fresh context here, so this read is self-administered and weaker"* — then read the panels in order and answer before opening anything else. Never present it as equivalent.
 
@@ -61,7 +68,7 @@ Now, with the card open, do two things:
 0. **Intersect the two reads.** Match questions and disengagement points across both readers. Both → a finding. One → reported as single-reader, lower confidence, never recommended for a fix on its own.
 1. **Put every question on the ladder** (`cold-read.md` §3, axis 1): rung 1 with the protagonist, rung 2 about the world, rung 3 about the protagonist, rung 4 about the page. The rung is set by *whose* understanding is missing. A question the reader went back *looking for* an answer to behaves like rung 4 whatever it is nominally about; one carried forward, or thought back to only in *recognition*, behaves like rung 2. Anything already listed under **Declared unknowns** in `story.md` drops out here and is not reported.
 2. **Carry the register forward** (axis 2). Add new questions to the **Open questions** table in `reader-ledger.md` with the chapter that opened them; close the ones this chapter answered; age the rest. Rungs 1 and 2 open three chapters or more get raised once as a composition question. Rungs 3 and 4 open past the chapter that raised them are compounding and get raised every time.
-3. **Diff** the reconstruction against `storyboard/chNN.md`. Axis 3: an author question, not a defect. Say explicitly which diff items appear in no question and no disengagement, because those are choices, not repairs.
+3. **Diff** the reconstruction against `storyboard/chNN.md` (for a book read, the whole-story storyboard). Axis 3: an author question, not a defect. **In order of weight:** each chapter's turn on the fortune curve first, then the key story events, then the contested object and its price, then individual beats. A curve turn missing from both reconstructions goes at the top of the report even though no reader complained — nobody misses a turn they never saw. Say explicitly which diff items appear in no question and no disengagement, because those are choices, not repairs. And when both readers carry a question the pitch itself can't answer consistently, say the bug is in `story.md` and route it to PITCH.
 4. **Update the facts table in `reader-ledger.md`.** Every *Who's who* row the reader couldn't fill is an unpaid fact: mark it OPEN with the panel that teased it. Every row the reader filled correctly gets its Paid panel recorded. A ledger row nobody teased and nobody paid is a fact the plot is silently assuming. OPEN is a neutral state; a book with no OPEN rows has no questions in it.
 
 ## Step 4 — Report (GATE)
@@ -73,7 +80,9 @@ Open with the progress header. Then, short:
 > **Broken (rung 4 · about the page):** <who spoke, where we are, what just happened — fix these, no discussion needed>
 > **Costly (rung 3 · about the protagonist):** <locked out of the one thing they came for, and how long it has been open>
 > **Pulling (rungs 1–2 · with the protagonist, about the world):** <what they're still asking and carried forward — named so you can protect it, not fix it. Flag any open three chapters or more.>
-> **Against the card:** <the diff — say which items no reader noticed, because those are yours to keep or spend>
+> **Landing:** <setups both readers *recognised* when they paid off — what's working, so no pass breaks it>
+> **Against the card:** <the diff, heaviest first — curve turns, key events, the price. Say which items no reader noticed, because those are yours to keep or spend>
+> **Single-reader:** <one line each, for weighing only>
 >
 > **I'd run one pass: `<goal>`** — <the assignment in one line> · <what it costs>
 > Or: <the one other pass worth considering, and why I didn't pick it>
@@ -91,7 +100,7 @@ On the author's yes, run **exactly one** goal from the taxonomy (`cold-read.md` 
 - Adding a beat after images exist marks the affected panels stale, and the new beat needs its own panels. Say what that costs in images before the author agrees.
 - Text the author has written stays verbatim. A revision pass rewrites your proposals, never their lines.
 
-Then **verify with a second cold read**, same isolation, and do not tell the reader what was fixed. Compare the new Confusions with the old. Report: gone, still there, or new.
+Then **verify with a second cold read**, two readers, same isolation, and do not tell the readers what was fixed. Compare the new questions and disengagement points with the old. Report: gone, still there, new — and whether what was *Pulling* and *Landing* survived. A pass that closes a hook along with the hole has made the book worse.
 
 If the pass didn't land, say so plainly and propose either a second attempt at the same goal or an escalation. Never declare a goal met because the work was done.
 
@@ -104,4 +113,5 @@ If the pass didn't land, say so plainly and propose either a second attempt at t
 - **The rung is set by whose understanding is missing.** Confusion the reader shares with the protagonist is the book working. Confusion *about* the protagonist is the expensive kind, and it has to be declared in `story.md` to stop being reported.
 - **The diff against the card is an author question, not a defect.** Items no reader noticed get reported, never repaired on your initiative.
 - No craft vocabulary in the report. "A reader can't tell who David is" — not "the antecedent is unresolved".
-- Persist every read under `chapters/chNN/cold-reads/`; update the ledger and `chapter-state.md` immediately.
+- Persist every read — both readers verbatim, the canary, the synthesis — under `chapters/chNN/cold-reads/` (or `stories/<slug>/cold-reads/` for a range); update the ledger and `chapter-state.md` immediately.
+- When a run confirms or breaks something the method claims, update `cold-read.md` §9. The method is measured, not assumed.

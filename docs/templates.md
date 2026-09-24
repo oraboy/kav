@@ -92,7 +92,8 @@ Seeded from: <author's file / photos / interview> on <date>
 **Bio:** <two lines, narrator voice>
 **Bio (self-written):** <two lines, their own voice — how they'd introduce themselves>
 **Appearance (ref canon):** <1–2 sentences> · reference set: `cast/<name>/`
-**Hard traits:** <the few things that carry identity and must never drift — eye colour, a scar, an ear shape. Canon: also in briefs.json, and fixed across the whole approved set when one changes. At least one must survive a costume change: a signature garment is not an identity>
+**Hard traits:** <the few things that carry identity and must never drift — eye colour, a scar, an ear shape, **apparent age**. Canon: also in briefs.json, and fixed across the whole approved set when one changes. At least one must survive a costume change: a signature garment is not an identity>
+**Named on the page as:** <what the reader will call them — a name, or a role like "Mom" — and the scene that first says it>
 **Wardrobe:** <what they wear by default, named in panel lines> · per-chapter overrides: `| ch | what changed | why |`
 **References:** active `cast/<name>/source*` · excluded `cast/<name>/_excluded/<file>` — <why it was parked> · <target age when a reference is from another age>
 **Identity:** <Passion/True Calling | Profession | Character>
@@ -126,7 +127,8 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 > <one line>
 
 **Appearance (ref canon):** <the author's written look, or what the images show> · reference set: `cast/<name>/` <or: images still to come — needed before VISUAL LOCK>
-**Hard traits:** <anything that must never drift; at least one that survives a costume change>
+**Hard traits:** <anything that must never drift, including apparent age; at least one that survives a costume change>
+**Named on the page as:** <a name, or a role like "Mom", and where it's first said>
 **Wardrobe:** <what they wear by default, named in panel lines>
 
 **Desires:** <1–2 bullets>

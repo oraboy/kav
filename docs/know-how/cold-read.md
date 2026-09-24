@@ -2,7 +2,7 @@
 
 `story-craft.md` Check 6 already says a chapter must be legible to someone opening it cold. Nothing enforced it, because every agent that writes a scene can see `story.md`, the chapter card and the brief. **A writer who can see the brief writes for a reader who can see the brief.** The reader can't. They get panels and balloons, in order, and nothing else.
 
-This is not a style failure and it does not look like one. *"Finish it."* and *"I won't send you out there"* read as confident, compressed comics dialogue. They are unparseable if the reader was never told what *it* is or where *out there* is. Compression only works over information the reader already holds — laconic writing over missing antecedents is just noise that sounds like craft.
+This is not a style failure and it does not look like one, and the author's own guess at where it bites is unreliable. On *Last Light* the author and a reviewer both pointed at *"Finish it."* as the opaque line; two cold readers read straight through it. What actually cost both readers was something nobody had flagged: **they couldn't tell who the family were.** The mother is named once, in chapter 5; the father's name never appears on the page at all. Both readers invented a sister who doesn't exist. Every agent that wrote those pages knew the cast from the brief, so none of them could see that the page never said it.
 
 Two mechanisms catch it: a **ledger** that tracks what the reader knows, and a **cold read** by something that hasn't seen the brief.
 
@@ -22,7 +22,10 @@ One row per fact the plot leans on, tracking where the reader can first *know* i
 | Ruth and David had a private light signal | ch01 s7p1 | — | OPEN | — |
 ```
 
-What gets a row: every named character (*who is this*), every pre-story event the plot depends on, every rule of the world the reader has to accept, every relationship a beat leans on, every object whose meaning is not its appearance.
+What gets a row: every named character (*who is this*), every pre-story event the plot depends on, every rule of the world the reader has to accept, every relationship a beat leans on, every object whose meaning is not its appearance. Two kinds are routinely missed and cost the most, so seed them first:
+
+- **Every principal's name *and* relationship to the protagonist, on the page.** Characters the brief calls by name ("Babz", "Imi") and the page calls nothing, or only "your father", are the single most expensive gap measured so far. A reader who can't place a principal doesn't wait; they make up a relation. Payment is a name or a role said in a balloon or caption ("Mom", "Imi", "Dad") in the principal's first scene or close after. A face alone never pays it, because faces drift.
+- **Every term the story coins or uses in a special sense** — "handover", "the passage", "the reserve". A term the story *spends* (the cost of the climax, the thing the family gives up) must be paid in plain words before the chapter that spends it. A system voice saying it in capitals is not payment: *"RESERVE DIVERSION VOIDS HANDOVER"* told two readers there was a price and neither of them what it was, and both stopped caring on that page.
 
 **An unpaid fact is not a bug.** Withholding is most of what makes a story worth continuing: a reader who is unsure and still thinking is a reader the book has. Spelling everything out is its own failure, and a worse one, because it is boring and boring is unfixable by a later pass.
 
@@ -49,12 +52,15 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
 
 **Context isolation is the entire mechanism.** A cold read done by something that has the story in its head is theatre.
 
-**Reads, in reading order, and nothing else:**
-- After images and lettering: the rendered panels, `chapters/chNN/panels/pNN-panelK.png`.
+**The reader gets exactly what a reader of the published book gets, and nothing else:**
+- **The book's title and each chapter's title, as text in the prompt.** They are on every reader's title screens, and the assembled page images don't include them. The story slug in the file paths is reader-facing too; say what it gave away, don't hide it.
+- After images and lettering: the **assembled pages**, `chapters/chNN/pages/pNN.png`, in order. That is what the comic reader shows, with reading order already laid out. Fall back to `panels/pNN-panelK.png` only for a chapter not yet assembled.
 - Before images exist: the scene list's per-scene description and its exact proposed text, and nothing from the writer's notes.
-- Any earlier chapter's rendered panels, when the read covers more than one chapter.
+- Every earlier chapter's pages, when the read covers more than one chapter.
 
-**Must not read:** `story.md`, `storyboard/`, `package/brief.md`, `reader-ledger.md`, `chapter-state.md`, the writer's notes in `plan.md`, or this conversation.
+**Must not read:** `story.md`, `storyboard/`, `package/brief.md`, the index-page logline or trailer copy, `reader-ledger.md`, `chapter-state.md`, the writer's notes in `plan.md`, or this conversation. The logline is excluded on purpose even though a reader arriving through the index sees it: the book has to stand without its blurb, and a read that includes it can't tell you whether it does.
+
+**Check that isolation held, with a canary.** Before reading the results, pick one fact that is in the brief and *not* on the page — a name the page never says, a relationship only the pitch states — and see whether the reader knows it. On *Last Light* both readers called the father "never named" and couldn't place the mother, while the brief names both: isolation held. A reader who knows the canary has seen something it shouldn't; discard the read and say so.
 
 **Run it in a fresh context.** Claude Code: the Agent tool with an explicit allow-list of paths. Codex and others: a sub-agent where the tool has one. Where none exists, say so plainly to the author in one line, then do the next best thing — read the panels in order and answer before consulting anything else. A self-administered cold read is weaker evidence. Never present it as equivalent.
 
@@ -81,7 +87,7 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
 
 Two limits, both measured (berko-and-olive, 2026-09-25): **confusion about the page often produces a skim, not a look back**, so *Where I stopped caring* is what catches it; and **an LLM reader never physically re-opens a page** — every look back is self-reported. Treat the answer as testimony, not telemetry.
 
-**Run two readers.** A single cold read has real reader-to-reader variance: in the same test, one reader flagged a thought balloon as unattributable and the other never noticed it. Every mandatory read uses **two independent readers with the identical prompt**, run in parallel, neither told the other exists. Only what surfaces in **both** is reported as a bug. Single-reader findings are reported as such, lower confidence, for the author to weigh. The cost is one extra agent, small next to a chapter's image budget.
+**Run two readers.** A single cold read has real reader-to-reader variance: in the same test, one reader flagged a thought balloon as unattributable and the other never noticed it. Every mandatory read uses **two independent readers with the identical prompt**, run in parallel, neither told the other exists. Only what surfaces in **both** is reported as a bug. Single-reader findings are reported as such, lower confidence, for the author to weigh. Measured cost: about 3 minutes and ~140k tokens per reader for a 48-page book, both running at once — small next to a chapter's image budget.
 
 Classification happens on your side, against §3. Never outsource it.
 
@@ -121,11 +127,15 @@ A good story leaves the reader asking for a long time. It does not leave them **
 
 **The diff against the card is an author question, never a defect.** Put the reconstruction beside `storyboard/chNN.md`. Where they disagree, the card says what was designed and the read says what shipped. That is real and worth knowing, and it is *not* evidence anything is wrong: a beat can go missing without a single reader noticing its absence. **A diff item that appears in no question and no disengagement is not a reader problem.** Report it, say plainly that no reader flagged it, and let the author keep it or spend on it. Proposing a repair for one of these as if it were a defect is the most likely way this tool damages a book.
 
+**Diff in order of weight, not in page order.** Check first the things the storyboard says it may not lose: **each chapter's turn on the fortune curve**, then the **key story events**, then the contested object and its price, and only then the individual beats. On *Last Light* the curve's low point — David's signal vanishing, the "loses it" of Boy Meets Girl — was absent from both reconstructions, and neither reader noticed, because nobody misses a turn they never saw. That's the one to put first in front of the author, however quiet it is.
+
+**Some questions trace to the pitch, not the page.** When both readers carry a question that `story.md` itself can't answer consistently, the bug is in the pitch. *Last Light*'s pitch says David "steps ashore at fourteen, carrying only one night" — both readers asked why he sounds younger yet looks the same age, and the pitch has no answer to give them. No lettering pass fixes that; it goes to `/kav-kickoff` PITCH (§6).
+
 ### Declared confusion
 
 A story may deliberately keep the reader in the dark about a named subject, including at rung 3. That is a legitimate and sometimes excellent choice, and it is **a `story.md` decision, not a per-chapter excuse.** Declared in CONCEPT beside the telling register and the POV rules:
 
-> **Declared unknowns:** the reader never learns why אורן and אפרת fell out (Part 1). Rung 1 by design — ברקו cannot know, so neither can the reader.
+> **Declared unknowns:** the reader never learns why the two owners stopped speaking (Part 1). Rung 1 by design — the dog narrating cannot know, so neither can the reader.
 
 Once declared, cold reads stop reporting it. Undeclared, a rung-3 question is raised every time, however confident anyone is that it was intentional. The difference between a withhold and an oversight is whether it was written down before the chapter was drawn.
 
@@ -144,7 +154,7 @@ Once declared, cold reads stop reporting it. Undeclared, a rung-3 question is ra
 | Goal | The assignment | Passes when |
 |---|---|---|
 | **antecedents** | Pay only the rows where the reader was **lost**, never every OPEN row. Add beats; don't add explanation to existing balloons. | the confusion is gone *and* no new row appeared under *Where I stopped caring* |
-| **show, don't tell** | No caption or balloon in this chapter states what anyone feels. Emotion reaches the reader through action, gesture, framing or what a character does instead. | no *Confusions* row about motive, and the removed captions aren't missed |
+| **show, don't tell** | No caption or balloon in this chapter states what anyone feels. Emotion reaches the reader through action, gesture, framing or what a character does instead. | no *looking-for* question about motive, and the removed captions aren't missed |
 | **causal chaining** | Every beat connects to the last with *therefore* or *but*, never *and then*. | the reconstruction retells it with therefores |
 | **stakes** | The want and the cost are visible in what characters do, in this chapter, without a caption carrying either. | a cold reader can say what she loses if she fails |
 | **pacing** | No two scenes run the same loop. Cut or merge the second. | the reconstruction doesn't repeat itself |
@@ -158,7 +168,7 @@ Once declared, cold reads stop reporting it. Undeclared, a rung-3 question is ra
 
 The thing that checks a fix must not be the thing that made it, and must not be told what was being fixed. A verifier that knows the assignment grades its own homework and always passes.
 
-Re-run the cold read, same isolation, same output shape. Compare the new *Confusions* against the old. The pass succeeded when the targeted rows are gone and no new ones appeared.
+Re-run the cold read, same isolation, same output shape, two readers again. Compare the new *Questions I'm carrying* and *Where I stopped caring* against the old. The pass succeeded when the targeted looking-for questions are gone, no new ones appeared, and the questions the book was pulling on are still there — a fix that closes a hook along with the hole has made the book worse.
 
 ---
 
@@ -184,8 +194,9 @@ Two are mandatory per chapter, placed where the cost of being wrong changes by a
 | When | Reads | Why here |
 |---|---|---|
 | **After the scene list, before any image is generated** | the scene descriptions + exact proposed text | catches it before a hundred images exist. The cheapest gate in the process. |
-| **After lettering, before the author's read-through** | the rendered lettered panels | catches what survived contact with images and picks |
-| After chapter 1 locks *(also mandatory)* | ch01's rendered panels alone | ch01 owes almost every antecedent in the book. If it's opaque, nothing downstream recovers. |
+| **After lettering, before the author's read-through** | the assembled lettered pages | catches what survived contact with images and picks |
+| After chapter 1 locks *(also mandatory)* | ch01's pages alone | ch01 owes almost every antecedent in the book — above all, who the principals are. If it's opaque, nothing downstream recovers. |
+| When the book is finished | every chapter, one continuous pass | the only read that sees the arc: curve turns, questions carried for five chapters, what the ending pays |
 | On request, `/kav-coldread` | whatever the author points at | |
 
 ---
@@ -198,3 +209,24 @@ Assume the author will say yes without reading. Design the gate so that a yes is
 - **Name what is a default.** Anything you chose because it was the obvious option gets marked. *"Ch3 opens on the radio room because ch2 closed there — no other reason."*
 - **A silent yes is recorded as a silent yes.** When the author approves with no comment, write it into `chapter-state.md` as passed-on-inertia, listing which parts were defaults. It stays approved; the note just means a later cold read knows where to look first.
 - **Lead with the diff.** One decision-free item at every gate: the cold read's reconstruction. If it doesn't match what the author meant, they'll know in ten seconds, and being diligent is not a prerequisite.
+
+---
+
+## 9 · What has been measured, and what hasn't
+
+Four reads so far, all on finished books: two single-reader reads of a five-chapter Hebrew book, and one two-reader read of a six-chapter English book. The raw reads stay in the authors' own story folders, which are not part of this repo. Update this section when a new run confirms or breaks something.
+
+**Measured:**
+- **A context-starved reader reconstructs the plot accurately.** 4 of 4 reads retold every chapter correctly, and the two *Last Light* readers agreed with each other almost line for line. Plot legibility is rarely where a book fails. Cast legibility and the price of the central choice are.
+- **Isolation holds** with the Agent tool and an explicit allow-list, verified both times by a canary fact (§2).
+- **Reader-to-reader variance is real.** One reader flagged a thought balloon as unattributable; the next, same pages, same prompt, never saw it. Hence two readers and convergence.
+- **Confusion about the page usually produces a skim, not a look back.** *Where I stopped caring* catches it; the think-back question often doesn't.
+- **Readers report callbacks as recognition when asked.** Setups paying off (a rule from chapter 1 broken in chapter 5, a line from chapter 2 answered in chapter 4) come back as *recognising*. Worth reporting to the author as what's landing.
+- **The author's intuition about which lines are opaque is unreliable in both directions.** Lines the author and a reviewer called confusing went unremarked; the most expensive gap was one nobody had named.
+- **The name of a hook matters less than whether it pays.** "David?" with nothing behind it, three chapters before the page explains him, was carried as a question and recognised on payoff by both readers. Tease-then-pay works exactly as intended.
+
+**Not yet measured:**
+- **A cold read on a scene list** (the pre-image gate). Every run so far was on finished pages. Whether a reader given text descriptions instead of pictures finds the same things is an open question.
+- **Whether a revision pass verified this way actually improves a book.** No pass has been run and re-read yet.
+- **The think-back question in its current form** (looking-for vs recognising) has one run behind it.
+- **The duration rule and the three-chapter threshold** are judgement, not data.

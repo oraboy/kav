@@ -21,6 +21,17 @@ From reading *Last Light* end to end as a reader rather than as its authors. The
 - `story.md` CONCEPT gains **Declared unknowns**: what the reader deliberately never learns, and whose understanding is missing. Declared, a cold read leaves it alone. Undeclared, it is raised every time, however obviously intentional it looks.
 - The diff against the chapter card is a third thing entirely, an author question rather than a defect: a beat can go missing without a single reader noticing.
 
+**What a two-reader cold read of *Last Light* taught the method.** Both readers retold all six chapters correctly: the plot reached them. What didn't was **who the family were** and **what the central choice cost**. The mother is named once in the whole book and the father never, and both readers took the mother for a sister who doesn't exist. The story's key price, "the handover", was only ever announced by a system voice in capitals, and both readers stopped caring on that page.
+- The ledger seeds **every principal's name and relationship on the page**, and **every term the story coins**, first. A principal's first appearance names them or their role in a balloon or caption; a coined term is paid in plain words before the chapter that spends it. Enforced at the outline gate and in Check 7.
+- **Apparent age is a hard trait**, written in years. Age drift doesn't only blur a character: it changes the relationship a reader infers.
+- The reader gets the book title and chapter titles as text, the assembled pages, and **not the blurb**. The book has to stand without it.
+- **A canary fact** — in the brief, not on the page — checks that isolation held.
+- The diff against the storyboard runs **heaviest first**: fortune-curve turns, then key events, then the price. *Last Light*'s curve low point was missing from both reconstructions and nobody complained, because nobody misses a turn they never saw.
+- Questions both readers carry that the pitch itself can't answer are routed to PITCH, not patched in lettering.
+- **Landing** joins the report: callbacks both readers recognised, so no revision pass breaks them.
+- `/kav-publish` offers a whole-book cold read when the last chapter is out.
+- `cold-read.md` §9 records what is measured and what is still judgement.
+
 **Scene state and faces** — a line without an expression returns the model's default pleasant smile, on a character hanging off a railing in a storm. Every panel line now carries the scene's state clause (hour, sky, light, wardrobe, condition) and that panel's expression. Cast files gain a Wardrobe line and must hold one identity trait that survives a costume change.
 
 **Picked-candidate checks** — invented lettering on any text surface, hallucinated artist signatures in the corners, scene state against the scene, faces against the beat, supporting cast against their mug sets. Checked before lettering, not after publishing.

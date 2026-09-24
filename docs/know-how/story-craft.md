@@ -44,6 +44,10 @@ For every name, place, task, object and pronoun in the unit's text, ask where a 
 
 Check it against `stories/<slug>/reader-ledger.md` and update the ledger as you write: a fact teased here with no payment yet is an OPEN row, and an OPEN row this chapter was meant to pay is a beat you still owe.
 
+Two things are checked every time regardless, because they are where books measurably fail:
+- **Is every principal named, or their role said, on the page?** Not in the cast file, on the page. A mother the reader can't identify as a mother gets read as a sister, and the reader builds on the wrong family from then on.
+- **Is every coined term paid before it's spent?** A word the story invents or uses in a special sense ("the handover", "the passage") needs plain words attached before it carries a stake. A system voice announcing it in capitals tells the reader there's a price and not what it is.
+
 **Then leave most of them open.** An unresolved noun is a hook, and hooks are why anyone turns the page. This check exists to make you *know* what the reader is carrying, not to make you hand it over: the ledger is a composition tool, and a book with nothing open in it is boring in a way no later pass repairs. A gap is only a bug when it costs the reader the page, which you cannot judge from inside the brief — `docs/know-how/cold-read.md` §3 is what tells the two apart.
 
 **This check and Check 6 are the two that a writer holding the brief cannot run on themselves.** Both are enforced by a cold read: `docs/know-how/cold-read.md`. Therefore/but will happily pass a chapter whose causality is perfect and whose nouns mean nothing — run Check 7 alongside it, never instead.

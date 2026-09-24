@@ -84,7 +84,8 @@ Five things drift, in rough order of how badly they break a reader:
 | **Time and weather** | a midnight storm rendered as a blue afternoon at the climax | the hour, the sky, the sea state, the light source, every panel |
 | **Wardrobe** | a zipped jacket becomes a summer top mid-scene | the character's clothes for *this chapter*, from their cast file |
 | **Condition** | soaked and bleeding in one panel, dry and neat in the next | wet, torn, bruised, carrying-something |
-| **Identity of the second and third character** | the mother and the sister become interchangeable | one distinguishing feature per supporting character, named every time |
+| **Identity of the second and third character** | two supporting characters become interchangeable | one distinguishing feature per supporting character, named every time |
+| **Apparent age** | a mother drawn as a teenager in some panels and an adult in others | the age, in years, in every line that names them. Measured: two independent readers of one book both took the mother for the protagonist's *sister*. Age drift doesn't just blur a character — it changes the relationship the reader infers, and they build the rest of the book on it |
 
 A **scene-state line** written once at the top of a scene and pasted into every panel of it costs nothing and fixes most of this. Put it in `panels/plan.md` at the scene header so the author can see it and change it.
 

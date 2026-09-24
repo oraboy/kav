@@ -45,7 +45,11 @@ Concrete scenes a reader would see — never arc philosophising, curve talk or c
 
 **Chain it before you present.** Retell the list to yourself with *therefore* and *but* between every scene (Check 5). Any join that is only *and then* gets fixed now — at this altitude it costs a sentence; at the scene list it costs a rewrite; after images it costs money. Two scenes running the same loop (plan, near-miss, plan again) collapse into one.
 
-**Name what this chapter owes the reader.** Read the OPEN rows in `reader-ledger.md`. Any fact the plot of *this* chapter leans on needs a scene that pays it, and that scene goes in the list like any other. Say it in the room's plain words under the list: *"nobody has told the reader who David is yet — scene 2 is where that happens."*
+**Name what this chapter owes the reader.** Read the OPEN rows in `reader-ledger.md`. Any fact the plot of *this* chapter leans on needs a scene that pays it, and that scene goes in the list like any other. Say it in the room's plain words under the list: *"nobody has told the reader who David is yet — scene 2 is where that happens."* A fact the chapter deliberately teases and leaves for later is fine; say that too.
+
+Two debts are never optional, because they were the costliest gaps measured on a real book (`cold-read.md` §1):
+- **A principal's first appearance names them, or their role, on the page** — in a balloon or caption, in that scene or the next. "Mom", "Imi", "Dad". The brief knowing their name is not the reader knowing it, and a face does not carry it, because faces drift.
+- **A term the story coins is paid in plain words before the chapter that spends it.** If the climax costs "the handover", some earlier panel has already said what the handover is and what losing it would mean for these people.
 
 **Close with the choices, not a request to approve** (`cold-read.md` §8): the two or three places this could genuinely have gone another way, one line of trade-off each, plus anything you picked only because it was the obvious option. Then stop.
 

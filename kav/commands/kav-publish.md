@@ -96,6 +96,8 @@ Ask the author, once per story: which surfaces; for a site, where it's hosted an
 
 When the last chapter is published, say so plainly — the book is finished, here is the whole thing in one link — and update `kickoff-state.md`'s Progress to **Done**.
 
+**Offer the whole-book cold read** (`/kav-coldread book`): two fresh readers, every chapter in one pass, nothing but the title, chapter titles and pages. It is the only read that sees the arc — whether the curve's turns reached the page, which questions the reader carried for five chapters, what the ending pays. It costs a few minutes and no images, and it tells the author how the finished book actually reads to someone who never saw the brief. Offer it once; it's theirs to take.
+
 **Report what it cost**, from the story's own ledger:
 
 ```
@@ -115,7 +117,7 @@ On a yes, **interview them** — one or two questions at a time, in the room's l
 5. What didn't work?
 6. What's your next project?
 
-Write their answers to `stories/<slug>/feedback/<slug>-<date>.md`: Kav version (from `tools/check_setup.py`), provider and models used, chapter and panel counts, the link to the published book, then the questions with their answers **verbatim**. Your own commentary goes in a clearly marked section at the end, or nowhere.
+Write their answers to `stories/<slug>/feedback/<slug>-<date>.md`: Kav version (from `tools/check_setup.py`), provider and models used, chapter and panel counts, the link to the published book, then the questions with their answers **verbatim**. If a whole-book cold read was run, link it — the author's view of their book beside two strangers' views is the most useful thing in the file. Your own commentary goes in a clearly marked section at the end, or nowhere.
 
 Then offer every delivery route and let them choose:
 
