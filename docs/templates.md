@@ -174,18 +174,19 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 1. **Pitch line** — one sentence
 2. **Synopsis** — a paragraph or two
 3. **Format** — chapters × pages · panel format · story language · telling register · POV rules
-4. **World & era** — where/when · the clock
+4. **Declared unknowns** — what the reader is deliberately never told, and why. Each one says whose understanding is missing: shared with the protagonist (free), or withheld about the protagonist (expensive, and only ever on purpose). Undeclared, a cold read raises it every time.
+5. **World & era** — where/when · the clock
 
 ## Pitch  <!-- the locked reading -->
-5. **Shapes** — the main character's fortune curve, plus per-strand curves where earned, staggered
-6. **Story I/O** — Intent | Obstacle for the main character and every load-bearing strand, pressed
-7. **Theme** — the one question every chapter gets checked against
-8. **Feel line** — what happens · what we feel · what we learn
-9. **Topology** — which structure and why; braid mechanisms and cast roles for ensembles
-10. **Key story events** — the few load-bearing events; each a set where intents collide
-11. **O/I grid** — Intent | Obstacle | Curve | Relationship line per character
-12. **Core drama** — the collisions, which levers fire
-13. **Open forks** — decisions deferred to the writing
+6. **Shapes** — the main character's fortune curve, plus per-strand curves where earned, staggered
+7. **Story I/O** — Intent | Obstacle for the main character and every load-bearing strand, pressed
+8. **Theme** — the one question every chapter gets checked against
+9. **Feel line** — what happens · what we feel · what we learn
+10. **Topology** — which structure and why; braid mechanisms and cast roles for ensembles
+11. **Key story events** — the few load-bearing events; each a set where intents collide
+12. **O/I grid** — Intent | Obstacle | Curve | Relationship line per character
+13. **Core drama** — the collisions, which levers fire
+14. **Open forks** — decisions deferred to the writing
 ```
 
 ---
@@ -209,8 +210,20 @@ updated: <date>
 | <a rule of the world> | | | | |
 | <a relationship a beat leans on> | | | | |
 
+## Open questions register
+*What the reader is ASKING, as opposed to what they have been told. Carried chapter to chapter — the age of a question is half of what it means. Rungs and the duration rule: `docs/know-how/cold-read.md` §3.*
+
+| The question, in a reader's words | Opened | Rung | Turned back? | Age | Status |
+|---|---|---|---|---|---|
+| <"why did he say that?"> | chNN pNN | 1 with protagonist · 2 world · 3 protagonist · 4 page | yes / no | <n> ch | open · closed chNN · declared |
+
+- **Rung 4** — fix, no discussion.
+- **Rung 3** — raise every time it is still open, and every chapter it stays open.
+- **Rungs 1–2** — leave alone. Raise once at three chapters open, as a composition question, not a bug.
+- A **yes** in *Turned back?* promotes the question to rung 4 behaviour whatever it is about.
+
 ## Deliberate withholds
-*Gaps the author has decided to keep, plus gaps a cold reader read straight past. Not bugs; cold reads stop reporting them.*
+*Gaps the author has decided to keep, plus gaps a cold reader carried forward without turning back. Not bugs; cold reads stop reporting them. A rung-3 withhold must also be in `story.md` **Declared unknowns** — otherwise it gets raised every read, however obviously intentional it seems.*
 - <fact> — withheld until <chNN | Part 2 | never>, decided <date>
 ```
 

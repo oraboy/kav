@@ -249,8 +249,9 @@ Open the gate with the diff, not the documents:
 
 > **Read cold, chapter 3 lands as:** <the reconstruction, 3–5 lines>
 > **A reader can't tell:** <the confusions>
-> **Where they were lost:** <need-to-know confusions — the bug list>
-> **Where they were hooked:** <what they didn't know and kept reading through — named so you can protect it, not fix it>
+> **Broken:** <rung 4, about the page — who spoke, where we are. Fix, no discussion.>
+> **Costly:** <rung 3, about the protagonist — and how long it has been open>
+> **Pulling:** <rungs 1–2, what they're still asking and carried forward. Protect, don't fix.>
 
 Then the chapter. Save to `cold-reads/<date>-pages.md`; update the ledger and `chapter-state.md`.
 

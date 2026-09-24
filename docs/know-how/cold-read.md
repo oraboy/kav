@@ -32,10 +32,12 @@ So the ledger does not grade gaps. **It records them so that the author can see,
 |---|---|
 | Paid in the same scene | plain exposition. Fine, and cheap. Nothing to decide. |
 | Paid later | a hook with a landing. Note which chapter lands it. |
-| Never paid, reader still leaning in | **the book working.** Move it to Deliberate withholds and stop reporting it. |
-| Never paid, reader disengaged | the only version that is a bug. See §3. |
+| Never paid, reader carried it forward | **the book working.** Declare it and stop reporting it. |
+| Never paid, reader turned back | the only version that is a bug. See §3. |
 
 The last two rows are the same ledger state and opposite verdicts, so the ledger alone cannot tell them apart. The cold read can.
+
+**The ledger's second table is the Open questions register** — what the reader is *asking*, as opposed to what they have been *told*. It carries forward chapter to chapter, because the age of a question is half of what it means (§3, axis 2).
 
 **Paid means on the page.** A panel, a line, a flashback the reader can read with no other document open. The blurb is not payment. The chapter card is not payment. "It's clear from context" is not payment — if it were, the cold read would have got it.
 
@@ -66,43 +68,68 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
 <every named entity, and what the reader can actually say about it —
  "David: a name Ruth says. No idea who he is." is a valid and useful row>
 
-## Confusions
-<panel id> — <what is unclear, quoting the line> — **want to know** | **need to know**
+## Questions I'm carrying
+<the question, in the reader's own words> — opened at <panel id> — <did you turn back? yes/no>
 
 ## Where I stopped caring
 <panel id> — <why>
 ```
 
-**Every confusion is marked want-to-know or need-to-know, and that mark is the whole point of the section.**
+**Ask what they are still asking, not what confused them.** "What confused you" is a complaint prompt: it biases toward fault and it hides the good questions, which look identical from inside the reader's head. "What are you still carrying at the end of this chapter" gets the same list, plus the ones the book put there on purpose.
 
-- **Want to know** — I don't know this, and I'm still reading. It's a question the book put in me. *"I don't know what happened between her and Oren."*
-- **Need to know** — I don't know this, and I can't follow the page without it. *"I can't tell which of these people said that."*
+**Do not ask the reader to judge the questions.** Readers are poor at introspecting on their own engagement, and a reader asked whether they *needed* to know something will do the editor's job badly. Ask instead for one observable fact: **did you turn back?** Curiosity carries a reader forward; confusion sends them backwards up the page looking for the bit they must have missed. That backtrack is behaviour, not opinion, and it is the single most reliable thing a cold reader can report.
 
-A reader cannot always be trusted on the boundary, so ask for the mark rather than inferring it, and let the disengagement section arbitrate: a want-to-know that shows up again under *Where I stopped caring* was really a need-to-know.
+Classification happens on your side, against §3. Never outsource it.
 
 **No fixes.** The cold read never proposes a rewrite, never edits a line, never explains what was probably meant. One call does not both diagnose and repair: generation drowns critique every time, and you get a polished chapter with the same hole in it.
 
 ---
 
-## 3 · Three signals, and only one of them is a bug list
+## 3 · Sorting the questions: what it's about, and how long it's been open
 
-A cold read produces three different things. Keeping them apart is the difference between a tool that sharpens a book and a tool that sands it flat.
+Every question the reader is carrying gets two marks. Neither alone decides anything.
 
-**Signal 1 · Confusion plus disengagement → a bug.** The reader didn't know something and stopped caring. The intersection is the test, not either column alone. Fix it, at the altitude it lives at.
+### Axis 1 — what the question is about
 
-**Signal 2 · Confusion without disengagement → the book working.** The reader didn't know something and kept reading. This is a hook, and hooks are the product. Move the row to Deliberate withholds and stop reporting it. **Never fix one of these.** Over-explaining is the failure mode of this very document: an agent that closes every open question returns a chapter where a character announces the premise in the first balloon, which is duller than any gap and cannot be repaired by a later pass.
+A ladder, from free to never acceptable. **The rung is set by whose understanding is missing, not by how big the question is.**
 
-**Signal 3 · The diff against the card → an author question, never a bug.** Put the reconstruction beside `storyboard/chNN.md`. Where they disagree, the card says what was designed and the read says what shipped. That gap is real and worth knowing, and it is **not** evidence that anything is wrong, because a beat can go missing without any reader ever noticing its absence. Often the author will look at the diff and keep the page.
+| Rung | The reader is asking | Cost |
+|---|---|---|
+| **1 · With the protagonist** | something the protagonist doesn't understand either | **Free, and usually the point.** In a limited-POV book this *is* the reading experience. *ברקו doesn't follow what the adults are saying, so neither do I.* |
+| **2 · About the world** | what that place is, who that person is, what happens next | **The engine.** This is suspense. A book with none of these has nothing pulling the reader through. |
+| **3 · About the protagonist** | why he said that, what she just did, what he wants | **Expensive.** The reader is locked out of the one thing they came for. Tolerable in small doses and only on purpose. |
+| **4 · About the page** | who spoke, where we are, what physically just happened | **Always a bug.** Craft, not story. Nobody ever enjoyed not knowing who was talking. |
 
-The crucial asymmetry: signals 1 and 2 are about the reader's experience, signal 3 is about authorial intent. **A diff item that appears in no confusion and no disengagement is not a reader problem at all.** Report it plainly, say which it is, and let the author decide. Proposing a repair for a signal-3 item as if it were a defect is the most likely way this tool gets it wrong.
+Rung 4 is fixed, always, without asking. Rung 1 is left alone, always. Rungs 2 and 3 are where the author's judgement actually lives, and rung 3 is the one to raise out loud, because a reader locked out of the protagonist usually stops reading before they can tell you why.
 
-When you do classify a bug, it is one of:
+**The backtrack overrides the rung.** A question the reader turned back to re-read for is behaving like rung 4 whatever it is nominally about. A question they carried forward is behaving like rung 2.
 
-- **Missing antecedent** — the reader can't resolve a name, a place, a task, a pronoun, *and* it cost them the page. Find where it should land and write the beat.
+### Axis 2 — how long it has been open
+
+Carry every open question forward from chapter to chapter in the **Open questions** register (`reader-ledger.md`). Age is a signal on its own, and it cuts in opposite directions per rung:
+
+- **Rungs 1 and 2:** duration is composition. A question open since chapter 1 may be the spine of the book. Surface it once it has been open for three chapters — *"the reader has been asking this since ch01, still deliberate?"* — and otherwise leave it.
+- **Rungs 3 and 4:** duration is rot. These compound. A reader who has not understood the protagonist for two chapters is not intrigued, they are gone, and every later beat lands on a foundation they don't have.
+
+A good story leaves the reader asking for a long time. It does not leave them **confused** for a long time, and the register is what makes the difference visible instead of arguable.
+
+### Axis 3, which is not about the reader at all
+
+**The diff against the card is an author question, never a defect.** Put the reconstruction beside `storyboard/chNN.md`. Where they disagree, the card says what was designed and the read says what shipped. That is real and worth knowing, and it is *not* evidence anything is wrong: a beat can go missing without a single reader noticing its absence. **A diff item that appears in no question and no disengagement is not a reader problem.** Report it, say plainly that no reader flagged it, and let the author keep it or spend on it. Proposing a repair for one of these as if it were a defect is the most likely way this tool damages a book.
+
+### Declared confusion
+
+A story may deliberately keep the reader in the dark about a named subject, including at rung 3. That is a legitimate and sometimes excellent choice, and it is **a `story.md` decision, not a per-chapter excuse.** Declared in CONCEPT beside the telling register and the POV rules:
+
+> **Declared unknowns:** the reader never learns why אורן and אפרת fell out (Part 1). Rung 1 by design — ברקו cannot know, so neither can the reader.
+
+Once declared, cold reads stop reporting it. Undeclared, a rung-3 question is raised every time, however confident anyone is that it was intentional. The difference between a withhold and an oversight is whether it was written down before the chapter was drawn.
+
+### When it is a bug, it is one of
+
+- **Missing antecedent** — the reader can't resolve a name, a place, a task, a pronoun, *and* it cost them the page.
 - **Missing stake** — the reader follows the events and doesn't know why they matter. Fix at the beat, not the caption.
 - **Missing causality** — the reader can retell it as "and then, and then". Escalate to the outline.
-
-Show the author the three signals separately, not the two documents. It's short and it needs no craft vocabulary.
 
 ---
 

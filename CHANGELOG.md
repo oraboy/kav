@@ -13,7 +13,13 @@ From reading *Last Light* end to end as a reader rather than as its authors. The
 
 **The reader ledger** — `stories/<slug>/reader-ledger.md`: every name, pre-story event, world rule and relationship the plot leans on, with where it was teased and where it was paid. Seeded at STORYBOARD, closed chapter by chapter. The brief is not payment. **OPEN is a neutral state:** a book with no open rows has no questions in it.
 
-**A gap is a hook until the reader disengages.** Every confusion comes back marked *want to know* or *need to know*, and the cold read reports three separable signals: confusion plus disengagement is a bug, confusion without it is the book working and must not be touched, and the diff against the chapter card is an author question rather than a defect. Over-explaining is this tool's own failure mode, and it produces a duller book than the one it was pointed at. Written down in `cold-read.md` §3 because the instinct it corrects is strong and wrong.
+**A gap is a hook until the reader turns back.** Over-explaining is this tool's own failure mode and it produces a duller book than the one it was pointed at, so `cold-read.md` §3 is built to resist it.
+
+- The reader is asked **what questions they are still carrying**, not what confused them. A confusion prompt is a complaint prompt and it hides the questions the book planted on purpose. They are never asked to judge a question's worth, only for one observable fact: **did you turn back up the page?** Curiosity carries a reader forward, confusion sends them backwards.
+- Questions are sorted on a ladder by **whose understanding is missing**: with the protagonist (free, and usually the point), about the world (the engine), about the protagonist (expensive), about the page (always a bug). Same amount of not-knowing, opposite cost.
+- The **Open questions register** in the ledger carries every question chapter to chapter, because age is half of what a question means. On the bottom two rungs duration is composition; on the top two it is rot.
+- `story.md` CONCEPT gains **Declared unknowns**: what the reader deliberately never learns, and whose understanding is missing. Declared, a cold read leaves it alone. Undeclared, it is raised every time, however obviously intentional it looks.
+- The diff against the chapter card is a third thing entirely, an author question rather than a defect: a beat can go missing without a single reader noticing.
 
 **Scene state and faces** — a line without an expression returns the model's default pleasant smile, on a character hanging off a railing in a storm. Every panel line now carries the scene's state clause (hour, sky, light, wardrobe, condition) and that panel's expression. Cast files gain a Wardrobe line and must hold one identity trait that survives a costume change.
 

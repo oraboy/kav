@@ -76,6 +76,8 @@ Default order: **CONCEPT · CAST · LOCATIONS · STYLE · VISUAL LOCK · PITCH �
 
 The Step-1 answers, written down and sharpened: pitch line, synopsis, format, world & era, telling register, the clock. Cheap to revise until PITCH locks; after that, changes here mark PITCH stale.
 
+**Declared unknowns.** Ask once, here, beside the POV rules: *what does the reader deliberately never find out?* Withholding is most of what makes a book worth continuing, and this is where it stops being an accident. For each one, say **whose** understanding is missing — something the protagonist doesn't grasp either (free, and usually the point), or something about the protagonist the reader is locked out of (expensive, and only ever on purpose). Write them into CONCEPT. A declared unknown is left alone by every later cold read; an undeclared one is raised every single time, however obviously intentional it looks. It is normal for this to be empty at kickoff and to fill as the book finds its shape, so revisit it when a cold read surfaces a question the author likes.
+
 ### CAST → `cast/<name>.md` + `cast/images/`
 
 **One character at a time — never a batch.** List the cast the author has named, propose an order (main character first, then whoever the main character's obstacle runs through), let them re-order. For each character:

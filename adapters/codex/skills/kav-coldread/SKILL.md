@@ -31,18 +31,20 @@ Where the tool genuinely has no sub-context, say so to the author in one line �
 
 The prompt to the cold reader, in substance:
 
-> You are reading a comic for the first time. You know nothing about it. Read these files in this order and answer in this exact shape. Do not fix anything, do not guess at what was intended, do not be generous. If you cannot tell who someone is, say you cannot tell. Mark every confusion **want to know** or **need to know**: want-to-know means you don't know and you're still reading; need-to-know means you can't follow the page without it. Not knowing something is not automatically a complaint.
+> You are reading a comic for the first time. You know nothing about it. Read these files in this order and answer in this exact shape. Do not fix anything, do not guess at what was intended, do not be generous. If you cannot tell who someone is, say you cannot tell.
+>
+> For the questions section: list every question you are still carrying at the end, in your own words, including the ones you *enjoyed* having. Not knowing something is not a complaint, and a book is supposed to leave you asking things. For each one say which panel opened it, and one factual thing: **did you turn back up the page to look for an answer, yes or no?** Report the backtrack honestly even when the question felt pleasant.
 
 Output shape, verbatim (`cold-read.md` §2):
 
 ```
 ## Reconstruction
 ## Who's who
-## Confusions          ← each marked want-to-know | need-to-know
+## Questions I'm carrying     ← question · opened at · did you turn back?
 ## Where I stopped caring
 ```
 
-The want/need mark is what separates a hook from a hole, and the reader is the only one who can supply it. Ask for it; never infer it afterwards.
+Two things about that third section. **Ask what they are still asking, not what confused them** — a confusion prompt is a complaint prompt, and it hides the questions the book planted on purpose, which look identical from inside the reader's head. And **do not ask the reader to judge the question's worth**; ask only whether they turned back. Curiosity carries a reader forward, confusion sends them backwards up the page. That is behaviour, not opinion, and it is the most reliable single thing a cold reader can give you. You do the classifying, in step 3.
 
 **Language.** Tell the cold reader which language to answer in. It is the one thing about the project it may be told, because it is a fact about the room and not about the story. The reconstruction and the confusions are meta commentary, so they come back in the language the author is talking to you in; every quotation from the book stays **verbatim in the story's language**, never translated — a translated line is a line nobody can check. The four section headers stay English; they are schema labels the rest of Kav reads.
 
@@ -54,18 +56,21 @@ Record how isolation was achieved at the top of the file, and what the reader co
 
 Now, with the card open, do two things:
 
-1. **Sort the confusions into the three signals** (`cold-read.md` §3). Need-to-know, or want-to-know that reappears under *Where I stopped caring* → a bug. Want-to-know that doesn't → the book working; move it to the ledger's Deliberate withholds and stop reporting it. Never propose a fix for one of these.
-2. **Diff** the reconstruction against `storyboard/chNN.md`. This is signal 3 and it is an author question, not a defect. A beat can be missing from the page without a single reader noticing its absence — say which diff items no reader flagged, because those are choices, not repairs.
-3. **Update `stories/<slug>/reader-ledger.md`.** Every *Who's who* row the reader couldn't fill is an unpaid fact: mark it OPEN with the panel that teased it. Every row the reader filled correctly gets its Paid panel recorded. A ledger row nobody teased and nobody paid is a fact the plot is silently assuming. OPEN is a neutral state; a book with no OPEN rows has no questions in it.
+1. **Put every question on the ladder** (`cold-read.md` §3, axis 1): rung 1 with the protagonist, rung 2 about the world, rung 3 about the protagonist, rung 4 about the page. The rung is set by *whose* understanding is missing. A backtracked question behaves like rung 4 whatever it is nominally about; a question carried forward behaves like rung 2. Anything already listed under **Declared unknowns** in `story.md` drops out here and is not reported.
+2. **Carry the register forward** (axis 2). Add new questions to the **Open questions** table in `reader-ledger.md` with the chapter that opened them; close the ones this chapter answered; age the rest. Rungs 1 and 2 open three chapters or more get raised once as a composition question. Rungs 3 and 4 open past the chapter that raised them are compounding and get raised every time.
+3. **Diff** the reconstruction against `storyboard/chNN.md`. Axis 3: an author question, not a defect. Say explicitly which diff items appear in no question and no disengagement, because those are choices, not repairs.
+4. **Update the facts table in `reader-ledger.md`.** Every *Who's who* row the reader couldn't fill is an unpaid fact: mark it OPEN with the panel that teased it. Every row the reader filled correctly gets its Paid panel recorded. A ledger row nobody teased and nobody paid is a fact the plot is silently assuming. OPEN is a neutral state; a book with no OPEN rows has no questions in it.
 
 ## Step 4 — Report (GATE)
 
 Open with the progress header. Then, short:
 
 > **A reader got:** <the reconstruction, 3–5 lines, verbatim enough to sting>
-> **Where they were lost:** <need-to-know confusions, and anything that cost them the page — this is the bug list>
-> **Where they were hooked:** <want-to-know confusions they kept reading through — named so the author can see them and protect them, not fix them>
-> **Against the card:** <the diff — and flag which items no reader noticed, because those are yours to keep or spend>
+>
+> **Broken (rung 4 · about the page):** <who spoke, where we are, what just happened — fix these, no discussion needed>
+> **Costly (rung 3 · about the protagonist):** <locked out of the one thing they came for, and how long it has been open>
+> **Pulling (rungs 1–2 · with the protagonist, about the world):** <what they're still asking and carried forward — named so you can protect it, not fix it. Flag any open three chapters or more.>
+> **Against the card:** <the diff — say which items no reader noticed, because those are yours to keep or spend>
 >
 > **I'd run one pass: `<goal>`** — <the assignment in one line> · <what it costs>
 > Or: <the one other pass worth considering, and why I didn't pick it>
@@ -73,7 +78,7 @@ Open with the progress header. Then, short:
 
 Name defaults and choices (`cold-read.md` §8). **Then stop.**
 
-The author decides. A chapter that withholds on purpose is a good chapter, an unanswered question is usually the reason someone turns the page, and an agent's instinct to close every gap is the main way this command can damage a book. When the read comes back with nothing but want-to-know confusions and a clean reconstruction, the correct report is *"a reader follows this and is still asking three questions"*, and the correct recommendation is none.
+The author decides. A good story leaves the reader asking for a long time; it just doesn't leave them confused for a long time, and the two look identical until you know which rung the question sits on. When the read comes back with a clean reconstruction and nothing above rung 2, the correct report is *"a reader follows this and is still carrying three questions"*, and the correct recommendation is none.
 
 ## Step 5 — One pass, then verify
 
@@ -92,7 +97,8 @@ If the pass didn't land, say so plainly and propose either a second attempt at t
 - **One call never both diagnoses and rewrites.** Step 2 produces no edits; step 5 reads no diagnosis it wrote in the same breath.
 - **The cold reader is context-starved or it is not a cold read.** If isolation failed, say so instead of reporting the result as clean.
 - The verifier is never told the assignment.
-- **A gap is a hook until the reader disengages.** Report gaps; never quietly close one, and never recommend closing one the reader read straight past. Over-explaining is this command's own failure mode and it produces a duller book than the one it was pointed at.
+- **A gap is a hook until the reader turns back.** Report questions; never quietly close one, and never recommend closing one the reader carried forward. Over-explaining is this command's own failure mode and it produces a duller book than the one it was pointed at.
+- **The rung is set by whose understanding is missing.** Confusion the reader shares with the protagonist is the book working. Confusion *about* the protagonist is the expensive kind, and it has to be declared in `story.md` to stop being reported.
 - **The diff against the card is an author question, not a defect.** Items no reader noticed get reported, never repaired on your initiative.
 - No craft vocabulary in the report. "A reader can't tell who David is" — not "the antecedent is unresolved".
 - Persist every read under `chapters/chNN/cold-reads/`; update the ledger and `chapter-state.md` immediately.
