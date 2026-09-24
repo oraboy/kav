@@ -6,6 +6,8 @@ This is not a style failure and it does not look like one. *"Finish it."* and *"
 
 Two mechanisms catch it: a **ledger** that tracks what the reader knows, and a **cold read** by something that hasn't seen the brief.
 
+**Read the rest of this document against its opposite failure.** Withholding is most of what makes a story worth continuing. A reader who is unsure and still thinking is a reader the book has, and half of what looks like a gap is the hook doing its job. The instinct these two mechanisms create — close the gap, name the thing, make it clear — is wrong more often than it is right, and applied bluntly it returns a chapter that opens with a character announcing the premise out loud. That is duller than any confusion and no later pass repairs it. The question is never *does the reader know this*. It is **does not knowing it pull them forward or push them out.**
+
 ---
 
 ## 1 · The reader ledger → `stories/<slug>/reader-ledger.md`
@@ -22,16 +24,18 @@ One row per fact the plot leans on, tracking where the reader can first *know* i
 
 What gets a row: every named character (*who is this*), every pre-story event the plot depends on, every rule of the world the reader has to accept, every relationship a beat leans on, every object whose meaning is not its appearance.
 
-**Teased before paid is legal and often good.** A name in a thought balloon with no explanation is a hook, and ending a chapter on one is a real move. It becomes a bug only when nothing pays it.
+**An unpaid fact is not a bug.** Withholding is most of what makes a story worth continuing: a reader who is unsure and still thinking is a reader the book has. Spelling everything out is its own failure, and a worse one, because it is boring and boring is unfixable by a later pass.
 
-**The gap is what you watch.**
+So the ledger does not grade gaps. **It records them so that the author can see, in one table, what the reader is carrying unresolved.** That is a composition tool, not a defect list. A book with no OPEN rows has no questions in it.
 
-| Gap | Verdict |
+| Gap | What it means |
 |---|---|
-| Paid in the same scene | free, no decision needed |
-| Paid later in the same chapter | fine — log it and move on |
-| Paid in a later chapter | an author decision. Say it out loud at the gate: *"the reader won't know who David is until chapter 2 — deliberate?"* |
-| Never paid | an error. Fix it or take it to the author before the chapter locks |
+| Paid in the same scene | plain exposition. Fine, and cheap. Nothing to decide. |
+| Paid later | a hook with a landing. Note which chapter lands it. |
+| Never paid, reader still leaning in | **the book working.** Move it to Deliberate withholds and stop reporting it. |
+| Never paid, reader disengaged | the only version that is a bug. See §3. |
+
+The last two rows are the same ledger state and opposite verdicts, so the ledger alone cannot tell them apart. The cold read can.
 
 **Paid means on the page.** A panel, a line, a flashback the reader can read with no other document open. The blurb is not payment. The chapter card is not payment. "It's clear from context" is not payment — if it were, the cold read would have got it.
 
@@ -63,25 +67,42 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
  "David: a name Ruth says. No idea who he is." is a valid and useful row>
 
 ## Confusions
-<panel id> — <what is unclear, quoting the line>
+<panel id> — <what is unclear, quoting the line> — **want to know** | **need to know**
 
 ## Where I stopped caring
 <panel id> — <why>
 ```
 
+**Every confusion is marked want-to-know or need-to-know, and that mark is the whole point of the section.**
+
+- **Want to know** — I don't know this, and I'm still reading. It's a question the book put in me. *"I don't know what happened between her and Oren."*
+- **Need to know** — I don't know this, and I can't follow the page without it. *"I can't tell which of these people said that."*
+
+A reader cannot always be trusted on the boundary, so ask for the mark rather than inferring it, and let the disengagement section arbitrate: a want-to-know that shows up again under *Where I stopped caring* was really a need-to-know.
+
 **No fixes.** The cold read never proposes a rewrite, never edits a line, never explains what was probably meant. One call does not both diagnose and repair: generation drowns critique every time, and you get a polished chapter with the same hole in it.
 
 ---
 
-## 3 · The diff is the bug list
+## 3 · Three signals, and only one of them is a bug list
 
-Put the reconstruction beside the chapter card. Where they disagree, the card is right about intent and the cold read is right about what shipped. Every disagreement is a bug, in one of three kinds:
+A cold read produces three different things. Keeping them apart is the difference between a tool that sharpens a book and a tool that sands it flat.
 
-- **Missing antecedent** — the reader can't resolve a name, a place, a task, a pronoun. Fix in the ledger: find where it should be paid, and write the beat that pays it.
+**Signal 1 · Confusion plus disengagement → a bug.** The reader didn't know something and stopped caring. The intersection is the test, not either column alone. Fix it, at the altitude it lives at.
+
+**Signal 2 · Confusion without disengagement → the book working.** The reader didn't know something and kept reading. This is a hook, and hooks are the product. Move the row to Deliberate withholds and stop reporting it. **Never fix one of these.** Over-explaining is the failure mode of this very document: an agent that closes every open question returns a chapter where a character announces the premise in the first balloon, which is duller than any gap and cannot be repaired by a later pass.
+
+**Signal 3 · The diff against the card → an author question, never a bug.** Put the reconstruction beside `storyboard/chNN.md`. Where they disagree, the card says what was designed and the read says what shipped. That gap is real and worth knowing, and it is **not** evidence that anything is wrong, because a beat can go missing without any reader ever noticing its absence. Often the author will look at the diff and keep the page.
+
+The crucial asymmetry: signals 1 and 2 are about the reader's experience, signal 3 is about authorial intent. **A diff item that appears in no confusion and no disengagement is not a reader problem at all.** Report it plainly, say which it is, and let the author decide. Proposing a repair for a signal-3 item as if it were a defect is the most likely way this tool gets it wrong.
+
+When you do classify a bug, it is one of:
+
+- **Missing antecedent** — the reader can't resolve a name, a place, a task, a pronoun, *and* it cost them the page. Find where it should land and write the beat.
 - **Missing stake** — the reader follows the events and doesn't know why they matter. Fix at the beat, not the caption.
 - **Missing causality** — the reader can retell it as "and then, and then". Escalate to the outline.
 
-Show the author the diff, not the two documents. It's short and it needs no craft vocabulary.
+Show the author the three signals separately, not the two documents. It's short and it needs no craft vocabulary.
 
 ---
 
@@ -91,7 +112,7 @@ Show the author the diff, not the two documents. It's short and it needs no craf
 
 | Goal | The assignment | Passes when |
 |---|---|---|
-| **antecedents** | Pay every OPEN ledger row that this chapter is supposed to pay. Add beats; don't add explanation to existing balloons. | a cold read's *Who's who* can describe each entity |
+| **antecedents** | Pay only the rows where the reader was **lost**, never every OPEN row. Add beats; don't add explanation to existing balloons. | the confusion is gone *and* no new row appeared under *Where I stopped caring* |
 | **show, don't tell** | No caption or balloon in this chapter states what anyone feels. Emotion reaches the reader through action, gesture, framing or what a character does instead. | no *Confusions* row about motive, and the removed captions aren't missed |
 | **causal chaining** | Every beat connects to the last with *therefore* or *but*, never *and then*. | the reconstruction retells it with therefores |
 | **stakes** | The want and the cost are visible in what characters do, in this chapter, without a caption carrying either. | a cold reader can say what she loses if she fails |

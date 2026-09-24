@@ -38,7 +38,7 @@ POV decides what the reader is *allowed* to know. This decides what they have *b
 
 Before a line ships, resolve every noun in it against the panels alone. *"Finish it."* is a fine line if the reader saw what was started. *"I won't send you out there"* is a fine line if the reader knows where out there is and why anyone would go. Neither is a fine line otherwise, and neither *sounds* wrong: compressed dialogue over missing antecedents has the exact surface texture of good comics writing. That's what makes it hard to catch from the inside.
 
-**The tease is the hook; the payment is the contract.** Ending a chapter on a name nobody has explained is a strong move. It obliges the next few panels — a flashback, someone saying the name out loud with a fact attached, a photograph — to pay it. Track both ends in `stories/<slug>/reader-ledger.md`; the rule and the gap tolerances are in `docs/know-how/cold-read.md`.
+**The tease is the hook, and the hook is the product.** Ending a chapter on a name nobody has explained is a strong move, and it stays strong for as long as the reader keeps turning pages on it. Some of those names should never be explained at all. Track both ends in `stories/<slug>/reader-ledger.md` so you know what the reader is carrying; `docs/know-how/cold-read.md` §3 is what tells a hook from a hole, and the test is not whether the reader knows, it is whether not knowing pulls them forward or pushes them out.
 
 A comic's bandwidth is narrow, so exposition delivered plainly is not the sin it is in prose. A clumsy line that lands a fact beats an elegant one that assumes it. Fix the clumsiness on a later pass; a reader who is lost has already closed the chapter.
 

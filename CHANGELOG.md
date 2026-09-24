@@ -11,7 +11,9 @@ From reading *Last Light* end to end as a reader rather than as its authors. The
 - One call never both diagnoses and rewrites. A revision pass takes exactly one named goal from a taxonomy; a second cold read that wasn't told the goal verifies it.
 - Errors escalate upstream. A beat that only joins with *and then* is an outline problem.
 
-**The reader ledger** — `stories/<slug>/reader-ledger.md`: every name, pre-story event, world rule and relationship the plot leans on, with where it was teased and where it was paid. Seeded at STORYBOARD, closed chapter by chapter. Teasing ahead of payment is a hook; never paying is a bug; paying a chapter late is the author's call to make out loud. The brief is not payment.
+**The reader ledger** — `stories/<slug>/reader-ledger.md`: every name, pre-story event, world rule and relationship the plot leans on, with where it was teased and where it was paid. Seeded at STORYBOARD, closed chapter by chapter. The brief is not payment. **OPEN is a neutral state:** a book with no open rows has no questions in it.
+
+**A gap is a hook until the reader disengages.** Every confusion comes back marked *want to know* or *need to know*, and the cold read reports three separable signals: confusion plus disengagement is a bug, confusion without it is the book working and must not be touched, and the diff against the chapter card is an author question rather than a defect. Over-explaining is this tool's own failure mode, and it produces a duller book than the one it was pointed at. Written down in `cold-read.md` §3 because the instinct it corrects is strong and wrong.
 
 **Scene state and faces** — a line without an expression returns the model's default pleasant smile, on a character hanging off a railing in a storm. Every panel line now carries the scene's state clause (hour, sky, light, wardrobe, condition) and that panel's expression. Cast files gain a Wardrobe line and must hold one identity trait that survives a costume change.
 

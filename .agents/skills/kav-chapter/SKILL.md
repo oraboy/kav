@@ -81,7 +81,7 @@ Then:
 
 1. **Update `reader-ledger.md`** from its *Who's who*: every entity it couldn't describe is an unpaid fact, with the scene that teased it.
 2. **Fix what is yours to fix** before presenting — a missing antecedent is usually a beat you owe, so add the beat. One goal per pass (`cold-read.md` §4); escalate anything that lives at the outline's altitude rather than patching it here (§6).
-3. **Put the rest in front of the author**, in a few plain lines: *"read cold, this lands as X. A reader can't tell who David is or why anyone goes outside. I'd add a beat in S2 for the first; the second is a real choice — deliberate, or shall I plant it?"* An unpaid fact is only a bug if the author didn't mean it.
+3. **Put the rest in front of the author**, in a few plain lines, separating where the reader was *lost* from where they were *hooked*: *"read cold, this lands as X. A reader can't tell who's speaking in S3, which cost them the scene. They also don't know who David is and kept going anyway — that one I'd leave."* An unpaid fact the reader read straight past is the book working; the instinct to close it is the one to distrust (`cold-read.md` §3).
 
 Save the read to `cold-reads/<date>-scenes.md` and record it in `chapter-state.md`.
 
@@ -249,7 +249,8 @@ Open the gate with the diff, not the documents:
 
 > **Read cold, chapter 3 lands as:** <the reconstruction, 3–5 lines>
 > **A reader can't tell:** <the confusions>
-> **Still unpaid:** <OPEN ledger rows> — <deliberate, or shall I plant them?>
+> **Where they were lost:** <need-to-know confusions — the bug list>
+> **Where they were hooked:** <what they didn't know and kept reading through — named so you can protect it, not fix it>
 
 Then the chapter. Save to `cold-reads/<date>-pages.md`; update the ledger and `chapter-state.md`.
 

@@ -192,11 +192,14 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 
 ## reader-ledger.md
 
-What the reader has actually been told, and where. Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the arc leans on, all rows OPEN), filled chapter by chapter, checked by every cold read. Rules and gap tolerances: `docs/know-how/cold-read.md`.
+What the reader has actually been told, and where. Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the arc leans on, all rows OPEN), filled chapter by chapter, checked by every cold read. Rules: `docs/know-how/cold-read.md`.
+
+**OPEN is a neutral state, not a defect.** The ledger is a composition tool: one table showing what the reader is carrying unresolved. A book with no OPEN rows has no questions in it. Only a cold read can say whether a given gap is pulling the reader forward or pushing them out.
 
 ```markdown
 # <Story name> — Reader Ledger
 *What a reader knows from the panels alone. The brief is not payment; the blurb is not payment.*
+*OPEN means the reader is carrying this unresolved. That is often the point.*
 updated: <date>
 
 | Fact | Teased | Paid | Gap | How it's paid |
@@ -207,8 +210,8 @@ updated: <date>
 | <a relationship a beat leans on> | | | | |
 
 ## Deliberate withholds
-*Gaps the author has decided to keep. Not bugs; cold reads stop reporting them.*
-- <fact> — withheld until <chNN>, decided <date>
+*Gaps the author has decided to keep, plus gaps a cold reader read straight past. Not bugs; cold reads stop reporting them.*
+- <fact> — withheld until <chNN | Part 2 | never>, decided <date>
 ```
 
 ---
