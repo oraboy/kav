@@ -213,14 +213,15 @@ updated: <date>
 ## Open questions register
 *What the reader is ASKING, as opposed to what they have been told. Carried chapter to chapter — the age of a question is half of what it means. Rungs and the duration rule: `docs/know-how/cold-read.md` §3.*
 
-| The question, in a reader's words | Opened | Rung | Turned back? | Age | Status |
-|---|---|---|---|---|---|
-| <"why did he say that?"> | chNN pNN | 1 with protagonist · 2 world · 3 protagonist · 4 page | yes / no | <n> ch | open · closed chNN · declared |
+| The question, in a reader's words | Opened | Rung | Readers | Thought back? | Age | Status |
+|---|---|---|---|---|---|---|
+| <"why did he say that?"> | chNN pNN | 1 with protagonist · 2 world · 3 protagonist · 4 page | both / one | no · looking for · recognising | <n> ch | open · closed chNN · declared |
 
 - **Rung 4** — fix, no discussion.
 - **Rung 3** — raise every time it is still open, and every chapter it stays open.
 - **Rungs 1–2** — leave alone. Raise once at three chapters open, as a composition question, not a bug.
-- A **yes** in *Turned back?* promotes the question to rung 4 behaviour whatever it is about.
+- **Looking for** in *Thought back?* promotes the question to rung 4 behaviour whatever it is about. **Recognising** is a payoff landing — leave it.
+- Only **both**-reader rows are bugs. One-reader rows are for the author to weigh.
 
 ## Deliberate withholds
 *Gaps the author has decided to keep, plus gaps a cold reader carried forward without turning back. Not bugs; cold reads stop reporting them. A rung-3 withhold must also be in `story.md` **Declared unknowns** — otherwise it gets raised every read, however obviously intentional it seems.*

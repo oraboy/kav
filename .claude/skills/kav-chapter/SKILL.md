@@ -76,7 +76,7 @@ When the author asks for a panel that crosses it, say it plainly and early, in t
 
 ### Cold read the scene list before you present it — mandatory
 
-This is the cheapest gate in the whole process and the one the book actually turns on. Run `docs/know-how/cold-read.md` §2 on the scene list: a **fresh context** reads each scene's description and its exact proposed text, in order, with no access to `story.md`, the card, the brief, the ledger or this conversation, and reports what it could reconstruct, who's who, what confused it and where it disengaged. No fixes.
+This is the cheapest gate in the whole process and the one the book actually turns on. Run `docs/know-how/cold-read.md` §2 on the scene list: **two fresh contexts**, in parallel, each reads each scene's description and its exact proposed text, in order, with no access to `story.md`, the card, the brief, the ledger or this conversation, and reports what it could reconstruct, who's who, what questions it's carrying and where it disengaged. No fixes. Only what both surface counts as a finding.
 
 Then:
 
@@ -242,7 +242,7 @@ python3 tools/build_readers.py --story <slug> --chapters chNN --title "<chapter 
 
 ### Cold read the finished chapter before the author reads it — mandatory
 
-Lettering's verify pass checks that the text is legible. This checks that the *chapter* is. Run `cold-read.md` §2 again, on the rendered panels this time, in a fresh context with the same isolation, and diff it against `storyboard/chNN.md` (§3).
+Lettering's verify pass checks that the text is legible. This checks that the *chapter* is. Run `cold-read.md` §2 again, on the rendered panels this time, with two fresh readers and the same isolation, and diff the intersection against `storyboard/chNN.md` (§3).
 
 Chapter 1 gets a second read of its own once it locks, alone, by a reader that has seen nothing else. Chapter 1 owes almost every antecedent in the book; if it is opaque, no later chapter recovers.
 
@@ -270,7 +270,7 @@ Adding a beat at this stage costs images. Say what it costs before the author ag
 - The kickoff package is the contract. Bend it, never contradict it without a logged decision — contradictions go back to `/kav-kickoff`.
 - Outline in content first; scene list gate before any image is generated.
 - Every scene passes the one-sentence test before the author sees it. DNA ≠ I/O.
-- **Two cold reads per chapter, both before the author sees the thing they judge** — the scene list, and the lettered pages. Run them in a fresh context or say plainly that you couldn't.
+- **Two cold reads per chapter, both before the author sees the thing they judge** — the scene list, and the lettered pages. Each is two independent readers in fresh contexts; only what both surface is a finding. Say plainly if isolation wasn't possible.
 - **One call never both diagnoses and rewrites.** A cold read proposes nothing; a revision pass takes exactly one named goal. Generation drowns critique.
 - **Errors go upstream.** A beat that only connects with *and then* is an outline problem, not something the scene list papers over.
 - **Every panel line names the scene state and the expression.** No exceptions, including panels that seem obvious.

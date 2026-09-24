@@ -32,18 +32,20 @@ The prompt to the cold reader, in substance:
 
 > You are reading a comic for the first time. You know nothing about it. Read these files in this order and answer in this exact shape. Do not fix anything, do not guess at what was intended, do not be generous. If you cannot tell who someone is, say you cannot tell.
 >
-> For the questions section: list every question you are still carrying at the end, in your own words, including the ones you *enjoyed* having. Not knowing something is not a complaint, and a book is supposed to leave you asking things. For each one say which panel opened it, and one factual thing: **did you turn back up the page to look for an answer, yes or no?** Report the backtrack honestly even when the question felt pleasant.
+> For the questions section: list every question you are still carrying at the end, in your own words, including the ones you *enjoyed* having. Not knowing something is not a complaint, and a book is supposed to leave you asking things. For each one say which page opened it, and **whether you thought back to an earlier page over it** — and if so, whether you were *looking for something you thought you'd missed* or *recognising something you'd seen before*.
 
 Output shape, verbatim (`cold-read.md` §2):
 
 ```
 ## Reconstruction
 ## Who's who
-## Questions I'm carrying     ← question · opened at · did you turn back?
+## Questions I'm carrying     ← question · opened at · thought back? (no | looking for | recognising)
 ## Where I stopped caring
 ```
 
-Two things about that third section. **Ask what they are still asking, not what confused them** — a confusion prompt is a complaint prompt, and it hides the questions the book planted on purpose, which look identical from inside the reader's head. And **do not ask the reader to judge the question's worth**; ask only whether they turned back. Curiosity carries a reader forward, confusion sends them backwards up the page. That is behaviour, not opinion, and it is the most reliable single thing a cold reader can give you. You do the classifying, in step 3.
+Two things about that third section. **Ask what they are still asking, not what confused them** — a confusion prompt is a complaint prompt, and it hides the questions the book planted on purpose. And **do not ask the reader to judge the question's worth**; ask only whether they went back and why. Looking-for is confusion; recognising is a setup paying off. You do the classifying, in step 3.
+
+**Two readers, always.** Spawn two fresh contexts with the identical prompt, in parallel, neither told the other exists. Reader-to-reader variance is real (`cold-read.md` §2); only findings both surface are reported as bugs. Where the tool has no sub-context at all, one self-administered read is the ceiling — say so.
 
 **Language.** Tell the cold reader which language to answer in. It is the one thing about the project it may be told, because it is a fact about the room and not about the story. The reconstruction and the confusions are meta commentary, so they come back in the language the author is talking to you in; every quotation from the book stays **verbatim in the story's language**, never translated — a translated line is a line nobody can check. The four section headers stay English; they are schema labels the rest of Kav reads.
 
@@ -55,7 +57,8 @@ Record how isolation was achieved at the top of the file, and what the reader co
 
 Now, with the card open, do two things:
 
-1. **Put every question on the ladder** (`cold-read.md` §3, axis 1): rung 1 with the protagonist, rung 2 about the world, rung 3 about the protagonist, rung 4 about the page. The rung is set by *whose* understanding is missing. A backtracked question behaves like rung 4 whatever it is nominally about; a question carried forward behaves like rung 2. Anything already listed under **Declared unknowns** in `story.md` drops out here and is not reported.
+0. **Intersect the two reads.** Match questions and disengagement points across both readers. Both → a finding. One → reported as single-reader, lower confidence, never recommended for a fix on its own.
+1. **Put every question on the ladder** (`cold-read.md` §3, axis 1): rung 1 with the protagonist, rung 2 about the world, rung 3 about the protagonist, rung 4 about the page. The rung is set by *whose* understanding is missing. A question the reader went back *looking for* an answer to behaves like rung 4 whatever it is nominally about; one carried forward, or thought back to only in *recognition*, behaves like rung 2. Anything already listed under **Declared unknowns** in `story.md` drops out here and is not reported.
 2. **Carry the register forward** (axis 2). Add new questions to the **Open questions** table in `reader-ledger.md` with the chapter that opened them; close the ones this chapter answered; age the rest. Rungs 1 and 2 open three chapters or more get raised once as a composition question. Rungs 3 and 4 open past the chapter that raised them are compounding and get raised every time.
 3. **Diff** the reconstruction against `storyboard/chNN.md`. Axis 3: an author question, not a defect. Say explicitly which diff items appear in no question and no disengagement, because those are choices, not repairs.
 4. **Update the facts table in `reader-ledger.md`.** Every *Who's who* row the reader couldn't fill is an unpaid fact: mark it OPEN with the panel that teased it. Every row the reader filled correctly gets its Paid panel recorded. A ledger row nobody teased and nobody paid is a fact the plot is silently assuming. OPEN is a neutral state; a book with no OPEN rows has no questions in it.

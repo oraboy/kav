@@ -33,7 +33,7 @@ So the ledger does not grade gaps. **It records them so that the author can see,
 | Paid in the same scene | plain exposition. Fine, and cheap. Nothing to decide. |
 | Paid later | a hook with a landing. Note which chapter lands it. |
 | Never paid, reader carried it forward | **the book working.** Declare it and stop reporting it. |
-| Never paid, reader turned back | the only version that is a bug. See §3. |
+| Never paid, reader went looking for it, or stopped caring | the only version that is a bug. See §3. |
 
 The last two rows are the same ledger state and opposite verdicts, so the ledger alone cannot tell them apart. The cold read can.
 
@@ -69,7 +69,7 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
  "David: a name Ruth says. No idea who he is." is a valid and useful row>
 
 ## Questions I'm carrying
-<the question, in the reader's own words> — opened at <panel id> — <did you turn back? yes/no>
+<the question, in the reader's own words> — opened at <panel id> — <thought back? no | looking for something missed | recognising something seen>
 
 ## Where I stopped caring
 <panel id> — <why>
@@ -77,7 +77,11 @@ Seeded at STORYBOARD from the locked pitch (every name and pre-story fact the ar
 
 **Ask what they are still asking, not what confused them.** "What confused you" is a complaint prompt: it biases toward fault and it hides the good questions, which look identical from inside the reader's head. "What are you still carrying at the end of this chapter" gets the same list, plus the ones the book put there on purpose.
 
-**Do not ask the reader to judge the questions.** Readers are poor at introspecting on their own engagement, and a reader asked whether they *needed* to know something will do the editor's job badly. Ask instead for one observable fact: **did you turn back?** Curiosity carries a reader forward; confusion sends them backwards up the page looking for the bit they must have missed. That backtrack is behaviour, not opinion, and it is the single most reliable thing a cold reader can report.
+**Do not ask the reader to judge the questions.** Readers are poor at introspecting on their own engagement, and a reader asked whether they *needed* to know something will do the editor's job badly. Ask instead whether they **thought back to an earlier page** over it, and if so, whether they were **looking for something they'd missed** or **recognising something they'd seen**. Looking-for is confusion. Recognising is a setup paying off, which is the book working — a bare "did you turn back?" scores the two the same, and would have the tool suggest fixing a payoff.
+
+Two limits, both measured (berko-and-olive, 2026-09-25): **confusion about the page often produces a skim, not a look back**, so *Where I stopped caring* is what catches it; and **an LLM reader never physically re-opens a page** — every look back is self-reported. Treat the answer as testimony, not telemetry.
+
+**Run two readers.** A single cold read has real reader-to-reader variance: in the same test, one reader flagged a thought balloon as unattributable and the other never noticed it. Every mandatory read uses **two independent readers with the identical prompt**, run in parallel, neither told the other exists. Only what surfaces in **both** is reported as a bug. Single-reader findings are reported as such, lower confidence, for the author to weigh. The cost is one extra agent, small next to a chapter's image budget.
 
 Classification happens on your side, against §3. Never outsource it.
 
@@ -102,7 +106,7 @@ A ladder, from free to never acceptable. **The rung is set by whose understandin
 
 Rung 4 is fixed, always, without asking. Rung 1 is left alone, always. Rungs 2 and 3 are where the author's judgement actually lives, and rung 3 is the one to raise out loud, because a reader locked out of the protagonist usually stops reading before they can tell you why.
 
-**The backtrack overrides the rung.** A question the reader turned back to re-read for is behaving like rung 4 whatever it is nominally about. A question they carried forward is behaving like rung 2.
+**Looking-for overrides the rung.** A question the reader went back looking for an answer to is behaving like rung 4 whatever it is nominally about. A question they carried forward, or went back only to *recognise* an earlier moment, is behaving like rung 2 or better.
 
 ### Axis 2 — how long it has been open
 
