@@ -124,6 +124,7 @@ Suggest the default for the host you are running in, take their answer, and don'
 | `/kav-visual-style-lock <pack>` | test the style cheaply, then bake production references |
 | `/kav-plot-note <idea>` | park a story idea without arguing it; "show the notes" renders the board |
 | `/kav-chapter <NN>` | write and draw one chapter |
+| `/kav-location <name>` | bring a place into the story from its photos |
 | `/kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |
 | `/kav-panel` | one scene plus its text into one lettered panel |
 | `/kav-review <batch.json>` | open the local image review page and apply the author's picks |

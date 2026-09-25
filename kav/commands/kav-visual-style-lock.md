@@ -85,6 +85,8 @@ Build one self-contained HTML page (`stories/<slug>/style/style-sheet.html`, ima
 
 Open it for the author. Share or host it only if the author asks.
 
+Rebuild the story board after each stage (`docs/know-how/story-board.md`): the style's square turns green when the look is locked and every principal has portraits in it.
+
 ## Hard rules
 
 - Cheap lane before expensive lane, always; nothing generates on the expensive lane before the cheap gate passes.

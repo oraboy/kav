@@ -44,8 +44,10 @@ Next gate: <the decision the author owes>
 | 01 | empty | — | |
 
 ## Links
+- Story board: <URL — opened at the first piece, same link for the life of the story>
+- Book brief: <URL>
 - Trailer deck: <path or URL>
-- Readers: <per chapter, when published>
+- Readers: <per chapter, when published — also in each chapter-state.md as `classic <url>` / `carousel <url>`>
 
 ## Consent
 - <date> · personal photos supplied for <characters>, for this story, generated through <provider>. Re-ask only on a scope change: publishing outside the story, a new provider, reuse in another story.
@@ -143,6 +145,8 @@ For principals the author wants to breeze through: a one-liner, a look, 2–3 an
 ---
 
 ## locations/<name>.md
+
+Same `<name>` as the photo folder `locations/<name>/` and the `briefs.json` entry — one place, one name.
 
 ```markdown
 # <Location name>

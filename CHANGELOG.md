@@ -4,6 +4,13 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
+**The story board.** One page that opens beside the chat the moment a story's first piece lands, and stays current after every change (`docs/know-how/story-board.md`, `tools/build_map.py`).
+- **Map:** cast, locations, objects, styles (every available pack), the story (concept, storyboard) and chapters. Each square is its image with two counts — reference images the author gave and images Kav made. Green check when ready; grey otherwise, and hovering says why in one of three plain reasons: reference images missing, description missing, Kav processing pending. Click for what's needed, every image labelled (REF01, GEN01, P01) so the author can say "remove GEN02 from Oren", and links to published chapters and the brief. Each row says how to add to it.
+- **Ideas:** the notes from `pitch-inbox.md`, and a box to pin a thought any time. In Claude the drop goes straight onto the board; Kav files it at the next gate and brings it up when it touches what's being worked on. Used notes show where they went.
+- After each piece, Kav offers the fork: another, or move on.
+
+**`/kav-location <name>`** — a place gets the same intake a character does: photos under one name for sheet, folder and registry, a written line, trigger words, and a test scene to prove it binds.
+
 From reading *Last Light* end to end as a reader rather than as its authors. The story's dialogue was compressed and confident and, in several chapters, unparseable: nobody is told who David is, that he vanished, or why anyone has to go outside, because every agent that wrote a scene could see the brief and the reader never can. The visuals drifted the same way, in the things a reference set doesn't hold.
 
 **Cold reads** — a diagnostic stage that runs on a context-starved reader, `docs/know-how/cold-read.md` and `/kav-coldread`.

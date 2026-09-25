@@ -26,7 +26,7 @@ New chapter: scaffold `chapters/chNN/` with `panels/{candidates,reviews,letterin
 
 **Costs are recorded as they happen.** Every generation appends a row to `stories/<slug>/ledger.jsonl` — model, stage, price, outcome — including rerolls and takes nobody picks. When a chapter closes, `python3 tools/ledger.py --story <slug>` gives the running total; quote it as a documented minimum, never as the provider's bill.
 
-**Say where the author is, at every gate.** A chapter runs **outline → picks → lettering → review → publish**, and every message that asks for a decision opens with the one-line progress header (`docs/know-how/progress.md`): story, chapter, step, and how much of the book is done. Update the Progress block in `kickoff-state.md` as each step closes. A chapter is finished when it is **published** and the author can read it on a phone — not when the panels are lettered.
+**Say where the author is, at every gate.** A chapter runs **outline → picks → lettering → review → publish**, and every message that asks for a decision opens with the one-line progress header (`docs/know-how/progress.md`): story, chapter, step, and how much of the book is done. Update the Progress block in `kickoff-state.md` as each step closes, and rebuild the story board (`docs/know-how/story-board.md`) so the chapter's square moves with it. At every gate, read ideas pinned on the board and raise any that touch this chapter. A chapter is finished when it is **published** and the author can read it on a phone — not when the panels are lettered.
 
 ## Stage A — Outline, in content (GATE)
 

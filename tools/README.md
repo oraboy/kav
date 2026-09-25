@@ -216,6 +216,19 @@ python3 tools/build_cover.py --story <slug> --portrait-char <name> --scene-image
 - **Scene image:** a path relative to the cwd, the repo or `S`.
 - **Output:** `S/package/cover.png` at 1200x630.
 
+## build_map.py
+
+Builds the story board: one page with a **Map** tab (a square per cast member, location, object, style, the story and each chapter; green check when ready, grey with the reason when not) and an **Ideas** tab (the notes in `pitch-inbox.md`, plus a drop box).
+
+```
+python3 tools/build_map.py --story <slug | path/to/stories/slug> [--out <html>]
+```
+
+- **Output:** `S/package/story-map.html` and `story-map.json`, which maps every image label (`REF01`, `GEN01`, `P01`) to its file, per piece.
+- **Publishing:** as a Claude artifact with `capabilities: {"db": {}}` so the author can pin ideas; pinned ideas sit in the artifact's `drops` collection until filed. Elsewhere the Ideas tab is read-only. See `docs/know-how/story-board.md`.
+- **Any story folder:** `--story` also takes a path, so a story in another clone can be mapped without touching it (pair it with `--out`).
+- `build_ideas.py` renders the Ideas tab on its own, for a standalone board.
+
 ## Support modules (not run directly)
 
 - `kav_env.py`: repo root, story paths, `.env` key loading with friendly missing-key messages, Pillow JPEG helpers.

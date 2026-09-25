@@ -41,6 +41,8 @@ python3 tools/generate.py --story <slug> "<a character from the story> in <a loc
 
 Vary the scene: one interior, one bright daylight exterior, one portrait. **Styles drift toward ordinary colour illustration on bright outdoor scenes** — the location photo's own light fights the pack — so test a daylight exterior before adopting. The full, gated test is `/kav-visual-style-lock <pack>`.
 
+A registered pack shows on the story board's Styles row alongside every other available pack; the one in use is the one with a status. Rebuild the board after registering or choosing (`docs/know-how/story-board.md`).
+
 ## Cautions worth raising once
 
 - A pack lifted from a recognisable property (a film, a show, a living illustrator's body of work) produces work that reads as that property. Style steering is normal practice, but a book that reads as someone else's show is a weaker signature. Say it plainly once, then respect the decision.

@@ -35,6 +35,7 @@ Every step writes a file, so you can stop anywhere and pick up later. Nothing is
 | `/kav-visual-style-lock <pack>` | `/prompts:kav-visual-style-lock <pack>` | test the style on cheap samples, then bake production references |
 | `/kav-plot-note <idea>` | `/prompts:kav-plot-note <idea>` | park a story idea for later; show the notes board |
 | `/kav-chapter <NN>` | `/prompts:kav-chapter <NN>` | write and draw one chapter |
+| `/kav-location <name>` | `/prompts:kav-location <name>` | bring a place into the story from its photos |
 | `/kav-coldread [NN]` | `/prompts:kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |
 | `/kav-panel` | `/prompts:kav-panel` | one scene plus its text into a lettered panel |
 | `/kav-review <batch.json>` | `/prompts:kav-review <batch.json>` | open the image review page and apply your picks |

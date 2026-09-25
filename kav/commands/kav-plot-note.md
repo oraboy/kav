@@ -26,15 +26,16 @@ Kickoff's rule made toolable: **concept, cast and locations are collection, not 
 
 `/kav-plot-note remove N00N` (or "drop note 2"): delete that bullet, confirm in one line. **Never renumber** — ids are permanent. Rewording: find by id, edit in place, keep the id and tag.
 
-## The notes board
+## The Ideas tab
 
-On "show me the notes" / "notes board": render a fresh, self-contained HTML page from the current `pitch-inbox.md` every time — `stories/<slug>/package/notes-board.html` — and open it.
-- One sticky note per bullet, colour-keyed by type with a fixed palette (chapter-concept = coral, gimmick = mint, concept = butter yellow, twist = violet, beat = sky, other = sand), a light corkboard ground, the id as a small corner tag.
-- Match the story's lettering fonts from `style/style.md` where they exist. Give note text `dir="auto"` so any language lays out right.
-- No editing on the page — editing happens through this command. Empty inbox: show a friendly empty board.
+The notes live on the **Ideas** tab of the story board (`docs/know-how/story-board.md`), rendered from `pitch-inbox.md` by `tools/build_map.py` every time the board rebuilds. After taking, rewording or removing a note, rebuild the board. On "show me the notes": rebuild and point the author at the Ideas tab.
+
+In Claude, the author can also pin ideas straight onto the board. Those land in the board's `drops` collection until you file them: read it at session start and at every gate, file each unfiled drop here as the next `N00N` (same rules as taking a note), mark it `{filed: true, note_id}`, rebuild.
+
+When a note gets used — it became a scene, a character beat, a chapter — tag it `` `[adopted: ch03]` `` (or `` `[adopted: cast/imi]` ``) in place of `[not-yet-agreed]`, so the board shows where it went. `` `[dropped]` `` for one the author let go.
 
 ## Hard rules
 
 - Never develop, press or resolve a note when it's taken.
 - A note never promotes itself into a locked artifact. It enters `story.md` only at PITCH, explicitly, with the author.
-- `pitch-inbox.md` is the only source of truth; the board is a rendering of it.
+- `pitch-inbox.md` is the only source of truth; the board is a rendering of it. A pinned drop is not a note until it's filed here.

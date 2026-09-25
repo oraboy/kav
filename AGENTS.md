@@ -31,6 +31,7 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-start` · "get started", "how does this work" | `kav/commands/kav-start.md` |
 | `/kav-kickoff <slug>` · "new story", "kickoff", resume a kickoff | `kav/commands/kav-kickoff.md` |
 | `/kav-character <name>` · add or fix a character's look | `kav/commands/kav-character.md` |
+| `/kav-location <name>` · "add a location", photos of a place | `kav/commands/kav-location.md` |
 | `/kav-style <pack>` · "add these images as a style" | `kav/commands/kav-style.md` |
 | `/kav-visual-style-lock <pack>` · "lock the style", "styled mug shots" | `kav/commands/kav-visual-style-lock.md` |
 | `/kav-plot-note <idea>` · "note this down", "show the notes" | `kav/commands/kav-plot-note.md` |
@@ -44,6 +45,8 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 Writing or revising any story material, with or without a command: apply `docs/know-how/story-craft.md`. Writing any image prompt: apply `docs/know-how/image-prompting.md`. Judging whether any of it reaches a reader: `docs/know-how/cold-read.md` — you can see the brief and they can't, so you cannot run that check on yourself.
 
 **At every gate**, open with the one-line progress header — where the author is in the book — and show the work on their review surface: `docs/know-how/progress.md`, `docs/know-how/review-surfaces.md`.
+
+**The story board** opens beside the chat as soon as a story's first piece lands, and stays current after every change: a Map of every piece (ready or not, and why) and an Ideas tab where the author drops thoughts any time. Read their pinned ideas at every gate. `docs/know-how/story-board.md`.
 
 ## Tools
 
@@ -61,6 +64,7 @@ python3 tools/assemble.py <layout.json>
 python3 tools/build_readers.py --story <slug> --chapters chNN --title "..." --out <dir> [--next "..."] [--next-story-url U] [--next-pages-url U] [--home-url U]
 python3 tools/build_trailer.py --story <slug> [--statics]
 python3 tools/build_cover.py --story <slug> --portrait-char <name> --scene-image <path>
+python3 tools/build_map.py --story <slug>          # the story board: Map + Ideas
 python3 tools/chrome.py
 ```
 

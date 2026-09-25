@@ -45,6 +45,10 @@ python3 tools/touch_up.py --story <slug> --char <name> --shot front --instructio
 
 One instruction per call; look at the result.
 
+6. **Update the board** (`docs/know-how/story-board.md`) — or open it, if this is the story's first piece — then offer the fork in one line: another character, or move on.
+
+"Remove GEN02 from Oren": resolve the label through the board's `story-map.json`, park the file in `cast/<name>/_excluded/` with a one-line why in the cast file, and rebuild the board.
+
 ## No reference at all
 
 The author gives only a description. Generate a candidate source with `python3 tools/generate.py --story <slug> "<a plain photographic portrait of …>" --ar 4:5`, show 2–4 takes, and let the author pick or redirect — **casting a face is the author's call.** Copy the pick to `cast/<name>/source.png`, then run intake.

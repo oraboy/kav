@@ -129,6 +129,8 @@ Then offer every delivery route and let them choose:
 
 Nothing is sent anywhere by Kav. The file is theirs; they send it.
 
+Record every published link (each chapter's readers, the brief) in the chapter's `chapter-state.md` or `kickoff-state.md` as `classic <url>` / `carousel <url>` / `Book brief: <url>`, then rebuild the story board (`docs/know-how/story-board.md`) — its chapter and concept squares link straight to them.
+
 ## Hard rules
 
 - **Never publish, upload, push or post without the author's explicit yes** for that specific action.
