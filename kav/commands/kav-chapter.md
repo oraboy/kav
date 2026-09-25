@@ -150,6 +150,7 @@ When the author says the picks are in, read `panels/reviews/<batch-stem>.json` a
 - **rerolls** → rewrite the line **for the named reason** and regenerate only those panels. Reroll on a reason with a changed line, never the same line again: "wrong direction" → move the camera; a character lost in a crowd → "in the foreground centre, close to the camera, face clear" plus the identity words repeated; a real place → bind its photo and keep the place name out of the line (it becomes signage); "neon" → "tube light, no signs, no lettering".
 - **text edits** → the author's lines replace your proposals **verbatim** (fix obvious typos and flag them). Proposals are scaffolding.
 - **notes** → act on them or ask.
+- **a note that adds a character** → check it against the book's faces-per-panel number *before* regenerating. "Put David in this one too" is easy to say and expensive to discover: past the lane's number the faces start swapping and the place goes with them, and on a capped lane the panel can come back with no style at all. Say the number, offer the ways out — split the panel with a figure shared across both, put the newcomer in as a back or a shoulder at the frame edge, or take someone else out of frame — and let the author choose. Never spend on a panel you already know will come back wrong.
 
 Repeat review rounds until every panel in the chapter is picked.
 

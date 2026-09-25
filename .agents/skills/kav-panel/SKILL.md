@@ -27,6 +27,14 @@ text:
 
 ## Stage 1 — Draw
 
+0. **Count the faces first.** Compare the cast in the scene block against the book's faces-per-panel number in `style/style.md`. If the panel is over it, **say so before generating** — the result will not be worth showing, and on a capped lane it may come back unstyled.
+
+   This matters most *during iteration*, when a panel is already working and the author asks to change it. The answer is not a silent bad generation and not a refusal; it is the number, then the ways out:
+
+   > "Four is what this lane holds, so adding David makes five — the faces start swapping and the place goes with them. Three ways: split it into two panels with Noa in both, put David in as a back or a shoulder at the edge, or take someone else out of frame. Which?"
+
+   Staging moves and the arithmetic behind the number: `docs/know-how/image-prompting.md`.
+
 1. Generate 2–4 takes:
    `python3 tools/generate.py --story <slug> "<scene line>, <pack>" --lane seedream --ar <ar>` (a different `--seed` per take), or a one-panel batch through `tools/panel_batch.py` + `/kav-review`.
    Lane per `docs/know-how/image-prompting.md`: Seedream to explore; Nano Banana Pro for text-in-frame, recognisable real places, precise gestures.
@@ -55,3 +63,4 @@ text:
 - Story text is never generated into the image.
 - The verify pass is not optional.
 - Regenerate on drift — the same character must match their reference set.
+- **Never generate a panel that is over the lane's face count without saying so first.** Spending the author's money on a panel you already know will come back wrong is worse than the thirty seconds it takes to offer the alternatives.
