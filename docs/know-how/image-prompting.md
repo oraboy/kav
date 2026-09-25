@@ -81,13 +81,23 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 | **Location photos** | As few as agree. | Only those showing what **this** panel shows. An interior scene gets interiors; the shopfront stays out of it. |
 | **Mug shots** | 2–3 per character. | The views the shot needs — full-body for a standing wide, the smile shot for a laughing close-up, front always as the anchor. Taking the first two in a fixed order wastes both: a head-to-foot panel given `front` + `three-quarter` came back cropped at mid-thigh, and came back near full length given `full-body` + `front`. |
 
-**The ceiling is about four faces, and it is a staging fact rather than a bug to fight.** Six characters at two mug shots each is twelve references before a single location photo or plate, past where panels hold together — and `char_budget` already records that dropping to one shot each *broke identity* at four. So design panels to the limit instead of discovering it at generation time:
+### How many faces a panel can carry
+
+**Two is the working default. Three is fine. Four is the ceiling, and it costs.** Not a wall — a reliability drop. A four-face panel at twelve references (8 mug shots, 1 location photo, 3 plates) came back with one of two dark-haired women collapsed into the other; the same prompt and references on the next seed got all four right. So four faces works, and it **needs three or four takes rather than one or two** — three to four times the cost of a two-face panel that lands first try. Budget that when planning a chapter, and spend it only on panels that earn it.
+
+**At four faces the location is what pays.** Eight face references against one location photo, and a pizzeria at a city square became a seafront promenade in both takes. You can hold the people or the place, not both. The answer is craft, not budget: **establish the place in a one- or two-character panel where the location has slots, then let the group panel run loose on its background.** The reader has already been told where they are and does not need the set re-proved while four people talk.
+
+**Four faces is not portable.** On a provider with a five-image cap — Magnific, and any future one like it — `plan_refs` trims each character to one shot and the location to one, then gives the style pack what is left. Four characters plus a location is already five, so **the style pack gets zero slots**, and a pack with no images means `medium.txt` never enters the prompt either: the panel generates completely unstyled, which is a different-looking page in the middle of the book rather than a slightly worse one. Bind one object as well and it is over cap before style is even considered. A book with four-face panels is a book locked to an uncapped provider. Six characters is not a large number in a story; it is the point where this decision gets made for you.
+
+**So design panels to the limit instead of discovering it at generation time:**
 
 - A wide establishing panel where nobody is individually legible, then the conversation in two-shots.
 - **Split a crowded table across panels with an overlapping anchor** — four faces in one, four in the next, one or two people appearing in both. The shared figures stitch the halves into a single table in the reader's head, and no panel ever carries more than four.
 - Backs, shoulders, a hand reaching in, a figure cut by the frame edge. A comic never needed every face legible in every frame.
 
-Write chapter cards with this in mind: planning a two-panel table is cheaper than fighting a six-face panel.
+Write chapter cards with this in mind: planning a two-panel table is cheaper than fighting a six-face panel, and it keeps the book portable.
+
+**Where this goes eventually:** a crowded panel is a compositing problem, not a prompting one — a background pass, figure passes at one or two faces each, merged. That removes the ceiling entirely and is the right long-term shape. Nothing in Kav does it today; the staging rules above are what works now.
 
 ## Continuity by reference
 
