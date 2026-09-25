@@ -83,19 +83,31 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 
 ### How many faces a panel can carry
 
-**Two is the working default. Three is fine. Four is the ceiling, and it costs.** Not a wall — a reliability drop. A four-face panel at twelve references (8 mug shots, 1 location photo, 3 plates) came back with one of two dark-haired women collapsed into the other; the same prompt and references on the next seed got all four right. So four faces works, and it **needs three or four takes rather than one or two** — three to four times the cost of a two-face panel that lands first try. Budget that when planning a chapter, and spend it only on panels that earn it.
+**The lane sets the book's face budget, once.** The lane is locked for the whole book — switching it mid-book means re-rendering every panel, because two models never agree on a face — so a provider's image cap is not a caveat about crowded panels. It is a property of the book, fixed the moment the lane is chosen, and it decides which scenes the story can stage at all.
 
-**At four faces the location is what pays.** Eight face references against one location photo, and a pizzeria at a city square became a seafront promenade in both takes. You can hold the people or the place, not both. The answer is craft, not budget: **establish the place in a one- or two-character panel where the location has slots, then let the group panel run loose on its background.** The reader has already been told where they are and does not need the set re-proved while four people talk.
+**The arithmetic.** Per panel, the reference stack is *faces + location + style + objects*, and `plan_refs` sacrifices in that order when a cap bites: characters drop to one shot each, the location to one photo, and the style pack takes whatever is left. So the budget is:
 
-**Four faces is not portable.** On a provider with a five-image cap — Magnific, and any future one like it — `plan_refs` trims each character to one shot and the location to one, then gives the style pack what is left. Four characters plus a location is already five, so **the style pack gets zero slots**, and a pack with no images means `medium.txt` never enters the prompt either: the panel generates completely unstyled, which is a different-looking page in the middle of the book rather than a slightly worse one. Bind one object as well and it is over cap before style is even considered. A book with four-face panels is a book locked to an uncapped provider. Six characters is not a large number in a story; it is the point where this decision gets made for you.
+> **faces ≤ cap − location slots − style slots − object slots**
 
-**So design panels to the limit instead of discovering it at generation time:**
+with a style pack that needs at least two or three slots to hold a look, and at least one location photo in any scene that has a place. Worked through:
+
+| Lane cap | Faces a panel can carry | What happens past it |
+|---|---|---|
+| **Uncapped** (fal) | ~4, limited by quality rather than arithmetic | Reliability drops: a four-face panel at twelve references collapsed one of two dark-haired women into the other on one seed and got all four right on the next. It works at **three or four takes instead of one or two** — three to four times the cost of a two-face panel. |
+| **8** | 3, at one or two shots each | Style or location starts losing slots. |
+| **5** (Magnific) | **2** | At four characters plus a location, the style pack gets **zero** slots — and a style block with no images means `medium.txt` never enters the prompt either, so the panel returns **completely unstyled**. A different-looking page mid-book, not a slightly worse one. Bind an object and it is over cap before style is considered. |
+
+**Tell the author the number, twice.** Once when the lane is chosen or installed — *"on this lane a panel holds N faces; scenes with more have to be staged across panels"* — because it constrains the storyboard, not just the drawing. And again the moment a planned panel exceeds it, at scene-list time, while the fix is still a sentence rather than a re-render.
+
+**At the top of the budget the location is what pays.** Eight face references against one location photo, and a pizzeria at a city square became a seafront promenade in both takes. You can hold the people or the place, not both. The answer is craft, not budget: **establish the place in a one- or two-character panel where the location has slots, then let the group panel run loose on its background.** The reader has already been told where they are and does not need the set re-proved while four people talk.
+
+**So design panels to the lane's number instead of discovering it at generation time:**
 
 - A wide establishing panel where nobody is individually legible, then the conversation in two-shots.
-- **Split a crowded table across panels with an overlapping anchor** — four faces in one, four in the next, one or two people appearing in both. The shared figures stitch the halves into a single table in the reader's head, and no panel ever carries more than four.
+- **Split a crowded table across panels with an overlapping anchor** — half the faces in one, half in the next, one or two people appearing in both. The shared figures stitch the halves into a single table in the reader's head, and no panel ever exceeds the lane's number.
 - Backs, shoulders, a hand reaching in, a figure cut by the frame edge. A comic never needed every face legible in every frame.
 
-Write chapter cards with this in mind: planning a two-panel table is cheaper than fighting a six-face panel, and it keeps the book portable.
+Write chapter cards to the lane's number: planning a two-panel table is cheaper than fighting one crowded panel, and it is the difference between a story that can be told on this lane and one that cannot.
 
 **Where this goes eventually:** a crowded panel is a compositing problem, not a prompting one — a background pass, figure passes at one or two faces each, merged. That removes the ceiling entirely and is the right long-term shape. Nothing in Kav does it today; the staging rules above are what works now.
 

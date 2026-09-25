@@ -59,6 +59,8 @@ The author redirects, cuts, adds or reorders. Iterate until they agree. Record t
 
 Expand the agreed plot into a scene list. One scene = one strip. Per scene:
 
+**Check every panel against the lane's faces-per-panel number** (recorded in `style/style.md` when the lane locked). A panel that wants more faces than the lane can hold has to be staged across panels *here*, while it is still a sentence — split it with an overlapping anchor figure, or push the extra people to backs and shoulders. Raise it with the author at this gate rather than discovering it at generation: the fix costs nothing now and a re-render later. `docs/know-how/image-prompting.md` has the arithmetic and the staging moves.
+
 ```
 ## S<k> · <short title>
 **Set:** <location>, <time>. **Present:** <who>.
