@@ -46,7 +46,8 @@ Nano Banana at "2K" costs the same as "1K" — never run below it.
 ## Style packs
 
 - **2–5 images, three is the default** (matches documented vendor caps and practitioner experience; convention, not proof).
-- **No faces in the pack** — they compete with the cast for identity.
+- **No faces that resemble the cast** — a look-alike competes with the character's own references for identity. But **include one unrelated face**: a pack of empty rooms and objects teaches the model nothing about how this style renders a face, which is most of what a book is made of. A faceless pack is a common cause of a session of face drift. (`/kav-style` says the same; the short form "no faces in the pack" used to appear here and read as the opposite.)
+- **Plates carry content, not only rendering.** A plate that is an interior with a counter and stools will donate counters and stools to scenes that already have their own, and a shopfront plate will push a shopfront into a scene set indoors. Choose subjects that carry light, colour relationships, line and texture with as little furniture as possible.
 - **Internally coherent** — same artist, same day. Disagreeing images average into mush.
 - **No text in references** — it bleeds into output.
 - **Test on bright daylight exteriors.** Both models hold stylised looks in dim interiors and drift toward ordinary colour illustration outdoors, where the location photo's light fights the pack.
@@ -67,6 +68,26 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 - Two mug shots of one character can produce two of that character in one frame. **One mug shot per character in multi-character scenes.**
 - An object reference can produce a second copy of the object. Word objects as belonging to the scene ("the car they are riding in").
 - A style line that names a noun (clouds, foliage) paints that noun into every frame.
+
+## The reference budget — how many, and which
+
+**References must agree with each other.** What looks like a fixed budget running out is usually two references arguing about what the panel is. A scene at a pizzeria's interior counter came back as a generic rooftop and was blamed on reference count — but the set included a photograph of the *outside of the building*. Remove that one contradiction and the same scene rendered correctly on **seven** references, beating the eight-reference version it replaced. Fewer references that agree beat more that don't. And never pass two photos of the same angle: a duplicate spends a slot and says nothing the first one didn't.
+
+**The three kinds behave differently, and this is the part that gets missed.**
+
+| Kind | How many | Which ones |
+|---|---|---|
+| **Style plates** | **Constant across the book.** Pick the number once — three is a good default — and never vary it panel to panel. | May vary by **shot type**, never by panel: a crowd scene, a close-up and a wide interior may each take a different trio, as long as the mapping is fixed, so every close-up in the book takes the same trio as every other close-up. An ad-hoc per-panel choice optimises one panel and costs the book its consistency, which is the one thing a pack exists to protect. |
+| **Location photos** | As few as agree. | Only those showing what **this** panel shows. An interior scene gets interiors; the shopfront stays out of it. |
+| **Mug shots** | 2–3 per character. | The views the shot needs — full-body for a standing wide, the smile shot for a laughing close-up, front always as the anchor. Taking the first two in a fixed order wastes both: a head-to-foot panel given `front` + `three-quarter` came back cropped at mid-thigh, and came back near full length given `full-body` + `front`. |
+
+**The ceiling is about four faces, and it is a staging fact rather than a bug to fight.** Six characters at two mug shots each is twelve references before a single location photo or plate, past where panels hold together — and `char_budget` already records that dropping to one shot each *broke identity* at four. So design panels to the limit instead of discovering it at generation time:
+
+- A wide establishing panel where nobody is individually legible, then the conversation in two-shots.
+- **Split a crowded table across panels with an overlapping anchor** — four faces in one, four in the next, one or two people appearing in both. The shared figures stitch the halves into a single table in the reader's head, and no panel ever carries more than four.
+- Backs, shoulders, a hand reaching in, a figure cut by the frame edge. A comic never needed every face legible in every frame.
+
+Write chapter cards with this in mind: planning a two-panel table is cheaper than fighting a six-face panel.
 
 ## Continuity by reference
 
