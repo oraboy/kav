@@ -49,7 +49,15 @@ One instruction per call; look at the result.
 
 6. **Update the board** (`docs/know-how/story-board.md`) — or open it, if this is the story's first piece — then offer the fork in one line: another character, or move on.
 
-"Remove GEN02 from Oren": resolve the label through the board's `story-map.json`, park the file in `cast/<name>/_excluded/` with a one-line why in the cast file, and rebuild the board.
+"Remove the second portrait of Oren": resolve it through the board's `story-map.json` (the piece's images, in the order the board shows them), confirm which one, park the file in `cast/<name>/_excluded/` with a one-line why in the cast file, and rebuild the board.
+
+## Arguments the board hands out
+
+The board's to-do lines give the author these ready to copy. `<name>` is the display name on the board; match it against each sheet's heading and file name, and ask if two match.
+
+- `/kav-character <name> <one line>` — write the line into the sheet's **Who they are**, verbatim. Nothing else changes.
+- `/kav-character <name> complete as is` — the author's decision that this character is deep enough. Write `*Complete as is — the author's call, <date>.*` under the heading; the board stops asking for more. Never argue it.
+- `/kav-character <name> build a dna` — run the full DNA interview (kickoff CAST, full DNA) one section at a time, keeping every line the author already gave. It helps Kav come up with better story and dialogue ideas for them.
 
 ## No reference at all
 

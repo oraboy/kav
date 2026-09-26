@@ -2,7 +2,7 @@
 
 One page per story, two tabs:
 
-- **Map** — a square for every cast member, location, object, style, the story and every chapter. Green check when ready, grey when not; hover says why; click for the images, what's needed, and links to published chapters and the brief.
+- **Overview** — a named square for every cast member, location, object, style, the story and every chapter. Green check when ready, grey when not; hover says why; click for a short description, what to do next as commands the author can copy, the images, links to published chapters and the brief, and the source file.
 - **Ideas** — every note from `pitch-inbox.md`, plus a box to drop a new thought any time.
 
 It is how the author sees what exists, what's missing, and where to put an idea. The files are the truth; the board is a picture of them, rebuilt from scratch every time.
@@ -43,9 +43,22 @@ Tell the author in one line what you filed ("Filed your note about the rooftop a
 
 When a note is used, tag it in the inbox — `` `[adopted: ch03]` `` or `` `[adopted: cast/imi]` `` — so the board shows it as used and where it went.
 
-## Image labels
+## Pointing at an image
 
-Every image on the board has a label: **REF01** for a reference the author gave, **GEN01** for one Kav made, **P01** for a chapter page. The author will use them: *"remove GEN02 from Oren"*. Resolve the label through `story-map.json` (piece → label → file), never by guessing. Removing means parking: move the file to that piece's `_excluded/` folder, take it out of the registry if it's listed there, and rebuild.
+A piece's detail shows its images in groups — **Reference images** (what the author gave), **Made by Kav**, **Pages** — in the order `story-map.json` lists them. The author says *"remove the second reference photo of דליה"*: resolve it through `story-map.json` (piece → group → position → file), never by guessing a filename, and confirm which image before acting. Removing means parking: move the file to that piece's `_excluded/` folder, take it out of the registry if it's listed there, and rebuild.
+
+## The commands on the board
+
+Every "to do" in a detail comes with the command that does it, ready to copy. The ones the author will see most:
+
+| Command | What Kav does |
+|---|---|
+| `/kav-character <name> <one line>` | writes the line into the sheet as who they are, verbatim |
+| `/kav-character <name> complete as is` | marks the sheet complete at its current depth; the board stops asking |
+| `/kav-character <name> build a dna` | runs the full DNA interview, one section at a time |
+| `/kav-location <name> <one line>` · `complete as is` | the same, for a place |
+
+Names on the board are the author's display names. Resolve them against both the sheet's heading and its file name; if two match, ask.
 
 ## What never goes on the board
 

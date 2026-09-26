@@ -46,7 +46,7 @@ Writing or revising any story material, with or without a command: apply `docs/k
 
 **At every gate**, open with the one-line progress header — where the author is in the book — and show the work on their review surface: `docs/know-how/progress.md`, `docs/know-how/review-surfaces.md`.
 
-**The story board** opens beside the chat as soon as a story's first piece lands, and stays current after every change: a Map of every piece (ready or not, and why) and an Ideas tab where the author drops thoughts any time. Read their pinned ideas at every gate. `docs/know-how/story-board.md`.
+**The story board** opens beside the chat as soon as a story's first piece lands, and stays current after every change: an Overview of every piece (ready or not, and what to do next) and an Ideas tab where the author drops thoughts any time. Read their pinned ideas at every gate. `docs/know-how/story-board.md`.
 
 ## Tools
 

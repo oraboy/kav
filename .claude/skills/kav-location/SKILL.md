@@ -37,7 +37,12 @@ Adjectives don't fix drift; references do. Copy an **approved panel** of the pla
 
 ## Removing an image
 
-"Remove REF02 from the café": resolve the label through the board's `story-map.json`, move the file to `locations/<name>/_excluded/` (park, don't delete), take it out of `photos`, and update the board.
+"Remove the second photo of the café": resolve it through the board's `story-map.json` (the piece's images, in the order the board shows them), confirm which one, move the file to `locations/<name>/_excluded/` (park, don't delete), take it out of `photos`, and update the board.
+
+## Arguments the board hands out
+
+- `/kav-location <name> <one line>` — write the line into the sheet as what it is, verbatim.
+- `/kav-location <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*` under its heading; the board stops asking for more.
 
 ## Hard rules
 
