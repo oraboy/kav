@@ -46,7 +46,8 @@ Nano Banana at "2K" costs the same as "1K" — never run below it.
 ## Style packs
 
 - **2–5 images, three is the default** (matches documented vendor caps and practitioner experience; convention, not proof).
-- **No faces in the pack** — they compete with the cast for identity.
+- **No faces that resemble the cast** — a look-alike competes with the character's own references for identity. But **include one unrelated face**: a pack of empty rooms and objects teaches the model nothing about how this style renders a face, which is most of what a book is made of. A faceless pack is a common cause of a session of face drift. (`/kav-style` says the same; the short form "no faces in the pack" used to appear here and read as the opposite.)
+- **Plates carry content, not only rendering.** A plate that is an interior with a counter and stools will donate counters and stools to scenes that already have their own, and a shopfront plate will push a shopfront into a scene set indoors. Choose subjects that carry light, colour relationships, line and texture with as little furniture as possible.
 - **Internally coherent** — same artist, same day. Disagreeing images average into mush.
 - **No text in references** — it bleeds into output.
 - **Test on bright daylight exteriors.** Both models hold stylised looks in dim interiors and drift toward ordinary colour illustration outdoors, where the location photo's light fights the pack.
@@ -67,6 +68,48 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 - Two mug shots of one character can produce two of that character in one frame. **One mug shot per character in multi-character scenes.**
 - An object reference can produce a second copy of the object. Word objects as belonging to the scene ("the car they are riding in").
 - A style line that names a noun (clouds, foliage) paints that noun into every frame.
+
+## The reference budget — how many, and which
+
+**References must agree with each other.** What looks like a fixed budget running out is usually two references arguing about what the panel is. A scene at a pizzeria's interior counter came back as a generic rooftop and was blamed on reference count — but the set included a photograph of the *outside of the building*. Remove that one contradiction and the same scene rendered correctly on **seven** references, beating the eight-reference version it replaced. Fewer references that agree beat more that don't. And never pass two photos of the same angle: a duplicate spends a slot and says nothing the first one didn't.
+
+**The three kinds behave differently, and this is the part that gets missed.**
+
+| Kind | How many | Which ones |
+|---|---|---|
+| **Style plates** | **Constant across the book.** Pick the number once — three is a good default — and never vary it panel to panel. | May vary by **shot type**, never by panel: a crowd scene, a close-up and a wide interior may each take a different trio, as long as the mapping is fixed, so every close-up in the book takes the same trio as every other close-up. An ad-hoc per-panel choice optimises one panel and costs the book its consistency, which is the one thing a pack exists to protect. |
+| **Location photos** | As few as agree. | Only those showing what **this** panel shows. An interior scene gets interiors; the shopfront stays out of it. |
+| **Mug shots** | 2–3 per character. | The views the shot needs — full-body for a standing wide, the smile shot for a laughing close-up, front always as the anchor. Taking the first two in a fixed order wastes both: a head-to-foot panel given `front` + `three-quarter` came back cropped at mid-thigh, and came back near full length given `full-body` + `front`. |
+
+### How many faces a panel can carry
+
+**The lane sets the book's face budget, once.** The lane is locked for the whole book — switching it mid-book means re-rendering every panel, because two models never agree on a face — so a provider's image cap is not a caveat about crowded panels. It is a property of the book, fixed the moment the lane is chosen, and it decides which scenes the story can stage at all.
+
+**The arithmetic.** Per panel, the reference stack is *faces + location + style + objects*, and `plan_refs` sacrifices in that order when a cap bites: characters drop to one shot each, the location to one photo, and the style pack takes whatever is left. So the budget is:
+
+> **faces ≤ cap − location slots − style slots − object slots**
+
+with a style pack that needs at least two or three slots to hold a look, and at least one location photo in any scene that has a place. Worked through:
+
+| Lane cap | Faces a panel can carry | What happens past it |
+|---|---|---|
+| **Uncapped** (fal) | ~4, limited by quality rather than arithmetic | Reliability drops: a four-face panel at twelve references collapsed one of two dark-haired women into the other on one seed and got all four right on the next. It works at **three or four takes instead of one or two** — three to four times the cost of a two-face panel. |
+| **8** | 3, at one or two shots each | Style or location starts losing slots. |
+| **5** (Magnific) | **2** | At four characters plus a location, the style pack gets **zero** slots — and a style block with no images means `medium.txt` never enters the prompt either, so the panel returns **completely unstyled**. A different-looking page mid-book, not a slightly worse one. Bind an object and it is over cap before style is considered. |
+
+**Tell the author the number, twice.** Once when the lane is chosen or installed — *"on this lane a panel holds N faces; scenes with more have to be staged across panels"* — because it constrains the storyboard, not just the drawing. And again the moment a planned panel exceeds it, at scene-list time, while the fix is still a sentence rather than a re-render.
+
+**At the top of the budget the location is what pays.** Eight face references against one location photo, and a pizzeria at a city square became a seafront promenade in both takes. You can hold the people or the place, not both. The answer is craft, not budget: **establish the place in a one- or two-character panel where the location has slots, then let the group panel run loose on its background.** The reader has already been told where they are and does not need the set re-proved while four people talk.
+
+**So design panels to the lane's number instead of discovering it at generation time:**
+
+- A wide establishing panel where nobody is individually legible, then the conversation in two-shots.
+- **Split a crowded table across panels with an overlapping anchor** — half the faces in one, half in the next, one or two people appearing in both. The shared figures stitch the halves into a single table in the reader's head, and no panel ever exceeds the lane's number.
+- Backs, shoulders, a hand reaching in, a figure cut by the frame edge. A comic never needed every face legible in every frame.
+
+Write chapter cards to the lane's number: planning a two-panel table is cheaper than fighting one crowded panel, and it is the difference between a story that can be told on this lane and one that cannot.
+
+**Where this goes eventually:** a crowded panel is a compositing problem, not a prompting one — a background pass, figure passes at one or two faces each, merged. That removes the ceiling entirely and is the right long-term shape. Nothing in Kav does it today; the staging rules above are what works now.
 
 ## Continuity by reference
 
@@ -93,9 +136,18 @@ Two notes on where this bites hardest. Supporting characters drift far more than
 
 ## Debugging a wrong image
 
+**Print the whole prompt before theorising.** `--dry-run` shows every reference in order and the assembled prompt; read it once, because most "the model is drifting" turns out to be something sitting in plain sight. Two real examples from one book, each invisible for a whole session:
+
+- A `medium.txt` that itself began *"Render the entire final image as…"*, while `build_prompt` wraps it in *"Render the entire final image as a {medium}"* — so every prompt carried the stem twice. Write `medium.txt` as a noun phrase (*"A clear-line comic drawing: …"*), never as its own instruction.
+- An object registered with triggers as broad as "pizza" and "slice", which bound a *Roman rectangular* pizza — and its shouted "NEVER round, NEVER a wedge" — into a Neapolitan pizzeria that serves round pizza. An object's triggers must be as specific as the object.
+
+Then, in order:
+
 1. Read the candidate's `.json` sidecar: which cast, location, objects and style actually bound?
 2. Location triggers are first-match. A generic word ("apartment", "room", "street") in one location's triggers steals scenes meant for another. Put specific places first; drop generic words.
-3. Only then rewrite the line — for a named reason.
+3. **Generate three takes before diagnosing anything.** One bad image is not evidence: identity at two mug shots per character lands most of the time and misses sometimes, so a single miss looks exactly like a broken pipeline. Diagnosing off one generation produced three wrong diagnoses in a row on one book — a systemic identity failure, then the style pack, then the seed — when the truth was one wrong word in each of two character descriptions, plus ordinary variance. **Wrong in one take of three is variance; wrong in all three is a cause.**
+4. When it is wrong in all three, suspect **a word in the character description before anything else.** Descriptions have overwhelmed mug shots repeatedly: *"tousled"* gave a cropped-haired man wavy hair; *"wavy and a little unruly"* gave a boy ringlets; and *"soft full cheeks · slender undeveloped jaw · a delicate jaw · full lips · narrow shoulders"* stacked onto a blunt fringe rendered an eighteen-year-old boy as a girl in every take. Read the description aloud and ask what it would conjure with no photograph attached — that is most of what the model is doing with it.
+5. Only then rewrite the scene line — for a named reason.
 
 ## Known failure modes
 

@@ -65,8 +65,11 @@ The author gives only a description. Generate a candidate source with `python3 t
 
 More images is not better. References compete, and conflicting ones average into a weaker likeness: a photo from a different decade, a different haircut, a three-quarter squint against a straight-on smile, a childhood picture beside an adult one. Keep the active set deliberately narrow — the shots that agree about this person.
 
+- **One person per source image.** Crop a group photo down to the one character before copying it in. Two characters seeded from the same two-person selfie both render as the more prominent person in it, and nothing catches it: each mug set is internally consistent, which is all the tooling checks. It surfaces weeks later as "why does she look like her friend?"
+- **`source.jpeg` dominates — pick the plainest one.** The first source outweighs the rest, and the front shot leans on it hardest. A reference in a strong-coloured jacket against a strong-coloured wall returns a mug shot wearing that jacket on that ground, whatever `mugshot_direction` asks for. Lead with the photo that has the plainest clothing and the plainest background; order the rest behind it.
 - **Park, don't delete.** Move a reference out of `cast/<name>/source*` into `cast/<name>/_excluded/` and note in `cast/<name>.md` which one and **why** ("2019 beard, reads as a different man"). A deleted photo comes back as an argument six weeks later.
-- **Aging a reference:** when the only photo is from another age, say the target age out loud ("she is 34 in this story, the photo is 9"), put it in the description, and **check the result at that age** before approving. An identity lock copies apparent age from the photo unless the set is rebuilt against it.
+- **Aging a reference: ask for a photograph, don't write harder.** Apparent age follows the photographs, not the description — in both directions. A character written as 35 whose every photo is of a 50-year-old comes back 50; one written as 50 from a sunny 35-year-old photo comes back 35. Two rounds of correction, first in `mugshot_direction` and then in the character description, both failed on the same character; three photographs at the intended age fixed it on the first build. So say the target age out loud and check the result at it — but when the result is wrong, **the next move is asking the author for a photo at that age**, not another sentence. When no such photo exists, say so plainly and let the author choose: accept the age the photos give, or accept re-rolling for luck.
+- **Check mug shots for inherited wardrobe and ground, not only for the face.** A mug set is meant to be neutral so panels can dress and light a character freely.
 
 ## Hard visual traits
 
@@ -78,7 +81,9 @@ When one changes or turns out wrong, **fix the whole approved set**, not one sho
 
 - **Ground them in what the photo shows.** Read the source image and describe it; don't guess from the name.
 - **Thin descriptions cause drift.** "a young woman" gives the model nothing to hold. Name hair, eyes, skin, build, age, and one distinctive feature.
+- **Describe a trait by what it is, never by what it is not.** The prompt rule that negations underperform applies to `briefs.json` descriptions exactly as it does to `medium.txt`, and it is not obvious there. A character written *"muted hazel-green eyes — soft, greenish-brown, never a vivid or emerald green"* rendered vivid emerald in every scene for a whole session: the sentence says *green* three times, and that is what the model drew. Rewriting it without the negation and without the colour name — *"warm hazel eyes, the colour of olive oil — brown flecked through with a little moss, darker at the rim"* — fixed it on the first try. Reach for a substance rather than a colour word when a colour keeps going wrong.
 - **Direct the smile** with `mugshot_direction.<name>` when the default warm smile is wrong for the character ("a slow knowing half-smile, not a grin").
+- **`mugshot_direction` never reaches a panel prompt.** It steers `build_mugshots.py` only. Anything a panel must honour — an age correction, a colour, a feature — belongs in the character description. And an *expression* instruction there fights the shot names: writing "give her the wide open smile" makes the `front` shot fight its own convention. Describe the face; let the shot name drive the expression ("wherever the shot calls for a smile, it is a wide open one that…").
 
 ## Revising
 
