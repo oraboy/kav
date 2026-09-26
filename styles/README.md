@@ -16,7 +16,9 @@ Run `/kav-style <pack>` (Codex: `/prompts:kav-style <pack>`) and point it at you
 
 Good packs:
 - look like the same artist on the same day — different subjects, one rendering
-- contain no faces (they compete with your characters) and no text (it bleeds into panels)
+- contain **one unrelated face**, and no look-alike of your cast — a face teaches the pack how this style renders a face, while a look-alike competes with the character's own references. A pack of only empty rooms and objects teaches faces nothing, and faces are most of a book
+- carry as little furniture as they can: a plate that is an interior with a counter and stools donates counters and stools to scenes that already have their own
+- contain no text (it bleeds into panels)
 - have a `medium.txt` that names light, colour relationships, line and texture — never objects, sky, weather or props, which get painted into every frame
 
 Full rules: `kav/commands/kav-style.md` and `docs/know-how/image-prompting.md`.

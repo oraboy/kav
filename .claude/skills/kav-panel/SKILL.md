@@ -28,11 +28,20 @@ text:
 
 ## Stage 1 — Draw
 
+0. **Count the faces first.** Compare the cast in the scene block against the book's faces-per-panel number in `style/style.md`. If the panel is over it, **say so before generating** — the result will not be worth showing, and on a capped lane it may come back unstyled.
+
+   This matters most *during iteration*, when a panel is already working and the author asks to change it. The answer is not a silent bad generation and not a refusal; it is the number, then the ways out:
+
+   > "Four is what this lane holds, so adding David makes five — the faces start swapping and the place goes with them. Three ways: split it into two panels with Noa in both, put David in as a back or a shoulder at the edge, or take someone else out of frame. Which?"
+
+   Staging moves and the arithmetic behind the number: `docs/know-how/image-prompting.md`.
+
 1. Generate 2–4 takes:
    `python3 tools/generate.py --story <slug> "<scene line>, <pack>" --lane seedream --ar <ar>` (a different `--seed` per take), or a one-panel batch through `tools/panel_batch.py` + `/kav-review`.
    Lane per `docs/know-how/image-prompting.md`: Seedream to explore; Nano Banana Pro for text-in-frame, recognisable real places, precise gestures.
 2. **Plan for the text** while writing the line: leave negative space (wall, sky, floor) where text will sit, and say so ("empty wall above him"). Keep the subject inside the centre safe zone on wide panels. Never put dialogue in the prompt.
-3. Show the takes. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
+3. **Check the takes against the reference sets yourself, and fix what is broken, before showing anything.** Compare each face to its mug shot — not to your memory of the character, and not to whether the panel *feels* right. A correct place, a good mood and correct signage say nothing about whether the faces are the right people; that combination has been reported as a success while both characters were wrong. Wrong in one take of three is variance and the author picks around it. **Wrong in all three is a cause: find it and fix it** (see "Debugging a wrong image"), then re-run. Never hand the author a broken take with a theory attached — debugging the pipeline is not their job, and a question like "shall I try a different style pack?" is one you answer by trying it.
+4. Show the takes, **with the mug shots beside them**, so identity can be judged rather than taken on trust. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
 
 ## Stage 2 — Letter
 
@@ -56,3 +65,4 @@ text:
 - Story text is never generated into the image.
 - The verify pass is not optional.
 - Regenerate on drift — the same character must match their reference set.
+- **Never generate a panel that is over the lane's face count without saying so first.** Spending the author's money on a panel you already know will come back wrong is worse than the thirty seconds it takes to offer the alternatives.
