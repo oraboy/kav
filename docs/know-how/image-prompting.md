@@ -101,6 +101,24 @@ with a style pack that needs at least two or three slots to hold a look, and at 
 
 **At the top of the budget the location is what pays.** Eight face references against one location photo, and a pizzeria at a city square became a seafront promenade in both takes. You can hold the people or the place, not both. The answer is craft, not budget: **establish the place in a one- or two-character panel where the location has slots, then let the group panel run loose on its background.** The reader has already been told where they are and does not need the set re-proved while four people talk.
 
+## What working comics people actually do
+
+Kav's design — character mugs, location photographs and style plates in one undifferentiated reference stack, each panel generated independently — is **not** what the practitioners with finished work do. Worth knowing where we stand on a path and where we are doing original work.
+
+**Chain each panel from the last, rather than re-deriving it from references.** The strongest technique found, from the most credible source: [K.M. Carroll](https://kmcarroll.substack.com/p/i-made-a-comic-with-ai-tools), a comics artist with a published hand-drawn graphic novel, on her own AI comic — *"I could feed the AI the last image I had generated and tell it 'draw the next moment, where the character is doing X'. This would keep the character **and background** consistent."* Identity and place travel through the chain instead of through a stack. Every working method in that survey introduces a dependency between panels; Kav's independent per-panel stacks do not. Kav already documents "continuity by reference" for fixing drift — this is the same move used *by default* rather than as a repair.
+
+**Keep identity and style apart.** Nobody credible puts both into one flat stack. They run identity and style as two sequential passes, or generate characters and backgrounds in separate calls and composite ([Rootport's *Cyberpunk: Peach John*](https://www.cnn.com/style/article/japan-first-ai-generated-manga-art-intl-hnk/index.html), 100+ pages), or at minimum fence the style refs in words — *"use the attached images strictly as stylistic references only."* The cheap version of this costs one sentence.
+
+**References should be boring.** The best-documented character-consistency write-up ([Pratibimbh](https://medium.com/@jjmayank98/my-attempts-at-making-consistent-images-for-a-comic-book-with-ai-471a2a1402e1)) found that a reference's *background and atmosphere are read as part of the identity signal* — dramatic dark references forced every scene dark regardless of the prompt. The fix was regenerating every reference on pure white with flat even lighting: *"the white ones looked like passport photos"*, and contamination "disappeared completely." The principle: **references are data, not art.** This sits in real tension with `/kav-visual-style-lock` producing deliberately *styled* mugs, and is worth an A/B before anyone trusts either.
+
+**Nobody passes photographs of locations.** Not one practitioner in the survey. The documented approaches are chaining, or generating a background once and reusing it. Kav's location-photo binding is genuinely unexplored — which is a differentiator if it works, but means its failures have no prior art to consult.
+
+**The ceiling is about two identity-locked characters**, confirmed independently: past that, practitioners stop trying to lock identity and carry it on silhouette and clothing instead. Which is why a **signature feature** — one thing extreme enough that the model cannot quietly drop it — is the standard remedy, and why it reads at panel size when a face does not.
+
+**Manual correction is structural, not a fallback.** Every finished work in the survey involved hand-drawn panels, composited figures, or per-page retouching. Carroll hand-drew one character on every page because the model could never learn him. Budget for it.
+
+**Two things Kav already gets right**, per the same sources: panel-at-a-time rather than whole-page generation (*"NEVER an entire page. AI commits laughably horrible crimes"*), and lettering as a post-process — generated lettering is the instant giveaway of an amateur AI comic.
+
 **So design panels to the lane's number instead of discovering it at generation time:**
 
 - A wide establishing panel where nobody is individually legible, then the conversation in two-shots.
