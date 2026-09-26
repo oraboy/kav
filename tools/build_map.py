@@ -375,12 +375,13 @@ h2{font-family:var(--display);font-size:30px;line-height:1;margin:0;color:var(--
 .hint{margin:2px 0 10px;font-size:12.5px;color:var(--soft)}
 .none{font-size:13px;color:var(--soft);margin:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
-.tile{all:unset;box-sizing:border-box;cursor:pointer;position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;
-background:var(--surface);box-shadow:0 0 0 3px var(--wait);transition:transform .15s ease}
-.tile.ready{box-shadow:0 0 0 3px var(--ready)}
-.tile.available{box-shadow:0 0 0 1px var(--line)}
+.tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
+.tile .sq{position:relative;aspect-ratio:1/1;border-radius:10px;overflow:hidden;background:var(--surface);box-shadow:0 0 0 3px var(--wait)}
+.tile.ready .sq{box-shadow:0 0 0 3px var(--ready)}
+.tile.available .sq{box-shadow:0 0 0 1px var(--line)}
+.tile .name{font-size:13px;line-height:1.3;text-align:center;unicode-bidi:plaintext;overflow-wrap:anywhere;color:var(--ink)}
 .tile:hover{transform:translateY(-2px)}
-.tile:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.tile:focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:10px}
 .tile img{width:100%;height:100%;object-fit:cover;display:block}
 .tile:not(.ready):not(.available) img{filter:grayscale(1) opacity(.7)}
 .tile .ph{width:100%;height:100%;display:grid;place-items:center;font-family:var(--display);font-size:44px;color:var(--wait);unicode-bidi:plaintext}
@@ -447,10 +448,11 @@ def tile(p):
     counts = (f'<span class="r" title="reference images">{p["n_ref"]}</span>' if p["n_ref"] else "") + \
              (f'<span class="g" title="made by Kav">✦ {p["n_gen"]}</span>' if p["n_gen"] else "")
     tip = f'{p["name"]} · {why} · {p["n_ref"]} reference, {p["n_gen"]} made by Kav'
-    return (f'<button class="tile {cls}" data-id="{esc(p["id"])}" title="{esc(tip)}" aria-label="{esc(tip)}">{inner}'
+    name = f'<span class="name" dir="auto">{esc(p["name"])}</span>' if p["row"] in ("cast", "location") else ""
+    return (f'<button class="tile {cls}" data-id="{esc(p["id"])}" title="{esc(tip)}" aria-label="{esc(tip)}"><span class="sq">{inner}'
             + (f'<span class="counts">{counts}</span>' if counts else "")
             + (f'<span class="lbl">{esc(face[0])}</span>' if face and src else "")
-            + (f'<span class="ok">{CHECK}</span>' if cls == "ready" else "") + "</button>")
+            + (f'<span class="ok">{CHECK}</span>' if cls == "ready" else "") + f"</span>{name}</button>")
 
 
 def detail(p):
