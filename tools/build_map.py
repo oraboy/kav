@@ -560,6 +560,15 @@ gap:12px;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(
 #lb .t pre{white-space:pre-wrap;font:12px/1.5 ui-monospace,Menlo,monospace;color:#cfd4dc;margin:6px 0 0}
 #lb .x{all:unset;cursor:pointer;position:absolute;top:calc(12px + env(safe-area-inset-top,0px));inset-inline-end:16px;font-size:30px;color:#fff;padding:4px 10px}
 #lb .x:focus-visible{outline:2px solid #7fb0ff}
+#lb{touch-action:pan-y;user-select:none}
+#lb .nav{all:unset;cursor:pointer;position:absolute;top:40%;transform:translateY(-50%);width:44px;height:64px;display:grid;place-items:center;
+font-size:40px;line-height:1;color:#fff;border-radius:8px;background:rgba(255,255,255,.08)}
+#lb .nav:hover{background:rgba(255,255,255,.18)}
+#lb .nav:focus-visible{outline:2px solid #7fb0ff}
+#lb .prev{left:10px}
+#lb .next{right:10px}
+#lb .count{color:#aab1bd;font-size:12.5px;font-variant-numeric:tabular-nums;min-height:1em}
+@media (max-width:560px){#lb .nav{width:34px;height:52px;font-size:32px;background:rgba(0,0,0,.35)}}
 #panel .more{all:unset;cursor:pointer;font-size:13px;color:var(--focus);margin:4px 0 14px;display:inline-block}
 #panel .todo{background:var(--bg);border-radius:10px;padding:12px 14px;margin:0 0 16px}
 #panel .todo h4{margin-top:0}
@@ -590,19 +599,30 @@ last=b;body.innerHTML=s.innerHTML;panel.hidden=false;panel.scrollTop=0;
 const a=body.querySelector('.about'),m=body.querySelector('.more');if(a&&m)m.hidden=a.scrollHeight<=a.clientHeight+2;
 panel.querySelector('.close').focus()}));
 function closePanel(){panel.hidden=true;if(last)last.focus()}
-const lb=document.getElementById('lb');
-function openLb(im){lb.querySelector('img').src=im.src;const t=lb.querySelector('.t'),l=im.dataset.line||'',pr=im.dataset.prompt||'';
+const lb=document.getElementById('lb');let lbSet=[],lbAt=0;
+function showLb(i){lbAt=(i+lbSet.length)%lbSet.length;const im=lbSet[lbAt];lb.querySelector('img').src=im.src;
+const t=lb.querySelector('.t'),l=im.dataset.line||'',pr=im.dataset.prompt||'';
 t.innerHTML='';if(l){const p=document.createElement('p');p.dir='auto';p.textContent=l;t.append(p)}
 if(pr){const d=document.createElement('details'),s=document.createElement('summary'),q=document.createElement('pre');s.textContent='Full prompt';q.textContent=pr;d.append(s,q);t.append(d)}
-t.hidden=!(l||pr);lb.hidden=false;lb.querySelector('.x').focus()}
+t.hidden=!(l||pr);const many=lbSet.length>1;lb.querySelectorAll('.nav').forEach(b=>b.hidden=!many);
+lb.querySelector('.count').textContent=many?(lbAt+1)+' / '+lbSet.length:''}
+function openLb(im){lbSet=[...body.querySelectorAll('.imgs img,.card img')];showLb(Math.max(0,lbSet.indexOf(im)));lb.hidden=false;lb.querySelector('.x').focus()}
 function closeLb(){lb.hidden=true}
-lb.addEventListener('click',e=>{if(e.target===lb||e.target.closest('.x'))closeLb()});
+let swiped=false;
+lb.addEventListener('click',e=>{if(swiped){swiped=false;return}if(e.target.closest('.prev')){showLb(lbAt-1);return}if(e.target.closest('.next')){showLb(lbAt+1);return}
+if(e.target===lb||e.target.closest('.x'))closeLb()});
+let sx=null,sy=null;
+lb.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY});
+lb.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;
+if(lbSet.length>1&&Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5){swiped=true;setTimeout(()=>swiped=false,400);showLb(lbAt+(dx<0?1:-1))}});
 panel.addEventListener('click',e=>{
   const im=e.target.closest('.imgs img,.card img');if(im){openLb(im);return}
   if(e.target.closest('.close')){closePanel();return}
   const more=e.target.closest('.more');if(more){const a=body.querySelector('.about');const open=a.classList.toggle('open');more.textContent=open?'Show less':'Read more'}
 });
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!lb.hidden){closeLb();return}if(!panel.hidden)closePanel()});
+document.addEventListener('keydown',e=>{
+  if(!lb.hidden){if(e.key==='ArrowRight'){showLb(lbAt+1);return}if(e.key==='ArrowLeft'){showLb(lbAt-1);return}}
+  if(e.key!=='Escape')return;if(!lb.hidden){closeLb();return}if(!panel.hidden)closePanel()});
 const tabs=document.querySelectorAll('.tabs button');
 function show(id){tabs.forEach(t=>{const on=t.dataset.tab===id;t.setAttribute('aria-selected',on);document.getElementById('tab-'+t.dataset.tab).hidden=!on});
 if(id!=='overview')panel.hidden=true;try{localStorage.setItem('kav-tab',id)}catch(e){}}
@@ -773,7 +793,9 @@ def render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas):
 <div id="tab-overview" role="tabpanel">{sections}</div>
 <div id="tab-ideas" role="tabpanel" hidden>{ideas_html}</div></div>
 <aside id="panel" hidden><div id="panel-body"></div></aside>
-<div id="lb" hidden role="dialog" aria-label="Image"><button class="x" aria-label="Close">×</button><img alt=""><div class="t"></div></div>
+<div id="lb" hidden role="dialog" aria-label="Image"><button class="x" aria-label="Close">×</button>
+<button class="nav prev" aria-label="Previous image">‹</button><img alt="" draggable="false"><button class="nav next" aria-label="Next image">›</button>
+<span class="count" aria-live="polite"></span><div class="t"></div></div>
 {details}
 <script>{JS}</script>
 <script>{ideas_js}</script>
