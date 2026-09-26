@@ -106,7 +106,7 @@ Suggest the default for the host you are running in, take their answer, and don'
 ## Step 4 — The process
 
 1. **Kickoff** — a slug and a one-line pitch. `/kav-kickoff <slug>`
-2. **Collect** — characters (a quick sketch or a full DNA, your pick), locations and the key events. Ideas that come up early get parked with `/kav-plot-note`.
+2. **Collect** — characters (a quick sketch or a full DNA, your pick), locations and the key events. Ideas that come up any time get jotted down with `/kav-note`, or pinned on the board's Ideas tab.
 3. **Visual style** — pick or build a style pack, then lock the look on cheap samples before spending on production references. `/kav-style`, `/kav-visual-style-lock`
 4. **Storyboard & brief** — the story's shape, what each character wants and what stands in the way, then a card per chapter and a one-page brief.
 5. **Chapter by chapter** — outline, scene list, a cold read before any image money is spent, panel images reviewed on a local page, lettering, a second cold read, assembled pages. `/kav-chapter <NN>`
@@ -121,7 +121,8 @@ Suggest the default for the host you are running in, take their answer, and don'
 | `/kav-character <name>` | build a character's reference mug shots |
 | `/kav-style <pack>` | register reference images as a named visual style |
 | `/kav-visual-style-lock <pack>` | test the style cheaply, then bake production references |
-| `/kav-plot-note <idea>` | park a story idea without arguing it; "show the notes" renders the board |
+| `/kav-note <note>` | jot down any idea — a scene, a visual, an object — for Kav to pick up when it fits |
+| `/kav-view [ideas]` | pull up the story board, fresh |
 | `/kav-chapter <NN>` | write and draw one chapter |
 | `/kav-location <name>` | bring a place into the story from its photos |
 | `/kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |

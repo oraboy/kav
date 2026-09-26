@@ -17,11 +17,11 @@ The agent explains the meeting, proposes a flight plan (the block order), and as
 
 ## 2 · Collect — characters, locations, key events
 
-**Commands:** `/kav-kickoff` (CAST, LOCATIONS, OBJECTS blocks) · `/kav-character <name>` · `/kav-plot-note`
+**Commands:** `/kav-kickoff` (CAST, LOCATIONS, OBJECTS blocks) · `/kav-character <name>` · `/kav-location <name>` · `/kav-note`
 
 One character at a time: a one-liner and a look (the author's photos, a generated face the author picks, or a written description until images come), then the author picks the depth: a quick sketch (2–3 questions, the rest drafted and marked), the full DNA interview, or background (see `docs/craft/cast-dna.md`). Images and mug shots must be in place before the visual lock. Then the locations, each with photos that show every surface panels will need. Objects that must never change get registered like locations.
 
-This step is **collection, not story**. Ideas that come up get parked in `pitch-inbox.md` with `/kav-plot-note` and raised at the pitch.
+This step is **collection, not story**. Ideas that come up get jotted into `pitch-inbox.md` with `/kav-note` (or pinned on the board's Ideas tab), picked up when they fit, and all raised at the pitch.
 
 **Gates:** each character confirmed before the next · the location set confirmed
 **Produces:** `cast/<name>.md` + `cast/<name>/` mug shots · `locations/<name>.md` + photos · `objects/` · `briefs.json` entries · `pitch-inbox.md`

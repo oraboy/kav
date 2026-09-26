@@ -9,6 +9,12 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 - **Ideas:** the notes from `pitch-inbox.md`, and a box to pin a thought any time. In Claude the drop goes straight onto the board; Kav files it at the next gate and brings it up when it touches what's being worked on. Used notes show where they went.
 - After each piece, Kav offers the fork: another, or move on.
 
+**`/kav-note`** replaces `/kav-plot-note`: notes are about anything — a scene, a visual, an object, a line — not only plot. A note that asks for something concrete gets an offer to do it. The Ideas tab opens with an invitation, a copyable `/kav-note <jot your note>`, and one example note Kav wrote from what it knows of the story.
+
+**`/kav-view [ideas]`** pulls the board up by hand: files any pinned ideas, rebuilds, republishes to the same link. In Claude an open board also updates itself whenever Kav republishes it.
+
+**Sites:** `build_map.py --standalone` writes a complete page; `/kav-publish` deploys it as `board.html` in the story's ChatGPT Site.
+
 **`/kav-location <name>`** — a place gets the same intake a character does: photos under one name for sheet, folder and registry, a written line, trigger words, and a test scene to prove it binds.
 
 From reading *Last Light* end to end as a reader rather than as its authors. The story's dialogue was compressed and confident and, in several chapters, unparseable: nobody is told who David is, that he vanished, or why anyone has to go outside, because every agent that wrote a scene could see the brief and the reader never can. The visuals drifted the same way, in the things a reference set doesn't hold.

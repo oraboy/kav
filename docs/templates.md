@@ -327,7 +327,7 @@ Human-readable, co-author framing. The story in a page: theme, feel line, the ca
 
 ```markdown
 # <Story name> — Pitch Inbox
-Ideas parked during collection, not yet agreed. Raised together at PITCH. Remove one with `/kav-plot-note remove N00N`.
+Notes on anything — scenes, visuals, objects, what-ifs — not yet agreed. Shown on the board's Ideas tab, picked up when they fit, all raised at PITCH. Remove one with `/kav-note remove N00N`.
 
 - **<id> · <type>** (<date>): <note> `[not-yet-agreed]`
 ```

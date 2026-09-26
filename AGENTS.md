@@ -34,7 +34,8 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-location <name>` · "add a location", photos of a place | `kav/commands/kav-location.md` |
 | `/kav-style <pack>` · "add these images as a style" | `kav/commands/kav-style.md` |
 | `/kav-visual-style-lock <pack>` · "lock the style", "styled mug shots" | `kav/commands/kav-visual-style-lock.md` |
-| `/kav-plot-note <idea>` · "note this down", "show the notes" | `kav/commands/kav-plot-note.md` |
+| `/kav-note <note>` · "note this", "jot this down", a note pinned on the board | `kav/commands/kav-note.md` |
+| `/kav-view [ideas]` · "show me the board", "refresh the board", "check the board" | `kav/commands/kav-view.md` |
 | `/kav-chapter <NN>` · "write/draw chapter N", "next chapter" | `kav/commands/kav-chapter.md` |
 | `/kav-coldread [NN]` · "is this clear", "read it like a reader", "what's confusing" | `kav/commands/kav-coldread.md` |
 | `/kav-panel` · one scene plus its text into a lettered panel | `kav/commands/kav-panel.md` |

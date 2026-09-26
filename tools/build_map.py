@@ -471,12 +471,13 @@ CHECK = ('<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><pa
          'stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>')
 
 CSS = """
-:root{--bg:#f4f3f0;--surface:#ffffff;--ink:#1d2330;--soft:#6a7080;--line:#e2dfd8;--ready:#2e9d5b;--wait:#b6b9c1;--focus:#1f5fbf;--code:#f0eee9;
+:root{--page-ink:var(--ink);--bg:#f4f3f0;--surface:#ffffff;--ink:#1d2330;--soft:#6a7080;--line:#e2dfd8;--ready:#2e9d5b;--wait:#b6b9c1;--focus:#1f5fbf;--code:#f0eee9;
 --display:"Karantina","Arial Narrow",system-ui,sans-serif;--body:"Varela Round","Segoe UI",system-ui,sans-serif;color-scheme:light}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171c;--surface:#1c2027;--ink:#e8eaee;--soft:#9aa0ac;--line:#2c323c;--ready:#43b872;--wait:#555b66;--focus:#7fb0ff;--code:#252a33;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#14171c;--surface:#1c2027;--ink:#e8eaee;--soft:#9aa0ac;--line:#2c323c;--ready:#43b872;--wait:#555b66;--focus:#7fb0ff;--code:#252a33;color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);padding-inline:16px;padding-block:20px 48px}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padding-inline:16px;padding-block:20px 48px}
 .wrap{max-width:1100px;margin:0 auto}
 h1{font-family:var(--display);font-size:clamp(40px,7vw,64px);line-height:.95;margin:0 0 14px;text-wrap:balance}
 .tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:0 0 22px}
@@ -676,6 +677,9 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--story", required=True, help="slug under this repo's stories/, or a path to any story folder")
     ap.add_argument("--out")
+    ap.add_argument("--suggest", help="an example note for the Ideas tab; default: package/idea-suggestion.txt")
+    ap.add_argument("--standalone", action="store_true",
+                    help="write a complete HTML document (for a ChatGPT Site or any static host); artifacts don't need it")
     a = ap.parse_args()
     sd = Path(a.story).expanduser().resolve() if "/" in a.story else (REPO / "stories" / a.story).resolve()
     if not sd.is_dir():
@@ -705,12 +709,19 @@ def main():
         f'<section><h2>{label}</h2><p class="hint">{hint[k]}</p>'
         + (f'<div class="grid">{"".join(tile(p) for p in rows[k])}</div>' if rows[k] else '<p class="none">None yet</p>')
         + "</section>" for k, label in ROWS)
-    ideas_html, ideas_css, ideas_js, n_ideas = ideas_section(sd)
+    ideas_html, ideas_css, ideas_js, n_ideas = ideas_section(sd, a.suggest)
     global DETAIL_PX
     for DETAIL_PX in (760, 600, 460, 340):
         page = render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas)
         if len(page.encode("utf-8")) < PAGE_BUDGET:
             break
+    if a.standalone:
+        head, body = page.split("<!--body-->", 1)
+        page = (f'<!doctype html>\n<html lang="{esc(meta.get("lang", ""))}"><head>'
+                '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
+                f'{head}</head><body>{body}</body></html>\n')
+    else:
+        page = page.replace("<!--body-->", "", 1)
     out = Path(a.out) if a.out else sd / "package" / "story-map.html"
     finish(out, sd, rows, page)
 
@@ -721,7 +732,7 @@ def render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas):
 <title>{esc(title)} · World Map</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Varela+Round&display=swap">
 <style>{CSS}{ideas_css}</style>
-<div class="wrap"><h1 dir="auto">{esc(title)}</h1>
+<!--body--><div class="wrap"><h1 dir="auto">{esc(title)}</h1>
 <nav class="tabs" role="tablist"><button role="tab" data-tab="overview" aria-selected="true">Overview</button>
 <button role="tab" data-tab="ideas" aria-selected="false">Ideas<span class="n" id="ideas-count" data-n="{n_ideas}">{n_ideas}</span></button></nav>
 <div id="tab-overview" role="tabpanel">{sections}</div>

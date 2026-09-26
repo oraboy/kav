@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_env import REPO  # noqa: E402
 
-TYPES = {"chapter-concept": ("chapter concept", "--coral"), "gimmick": ("gimmick", "--mint"),
+TYPES = {"chapter-concept": ("scene", "--coral"), "visual": ("visual", "--rose"), "gimmick": ("gimmick", "--mint"),
          "concept": ("concept", "--butter"), "twist": ("twist", "--violet"),
          "beat": ("beat", "--sky"), "other": ("other", "--sand")}
 NOTE = re.compile(r"^- \*\*(N\d+)\s*·\s*([\w-]+)\*\*\s*(?:\(([^)]*)\))?:?\s*(.*?)\s*(?:`\[([^\]]+)\]`)?\s*$")
@@ -58,7 +58,15 @@ def parse(text):
 CSS = """
 .ideas{--cork:#b88a5c;--cork-dark:#8f6640;--cork-light:#d4a878;--frame:#5d3f24;--frame-hi:#7a5534;
 --ink:#2b221c;--ink-soft:#5c4a3c;--label:#f7f1e3;--paper:#fffaf0;--focus:#1f5fbf;
---coral:#f3a58f;--mint:#aee3c9;--butter:#f9e39b;--violet:#cfbdf0;--sky:#acd3f2;--sand:#e6d6b8;color:var(--ink)}
+--coral:#f3a58f;--rose:#f4bccb;--mint:#aee3c9;--butter:#f9e39b;--violet:#cfbdf0;--sky:#acd3f2;--sand:#e6d6b8;color:var(--ink)}
+.ideas .intro{margin:0 0 18px;display:flex;flex-direction:column;gap:10px;max-width:720px;color:var(--page-ink,#1d2330);--ink-code:var(--page-ink,#1d2330)}
+.ideas .intro p{margin:0;font-size:15px;line-height:1.5}
+.ideas .intro .lbl{font-size:12.5px;color:var(--soft,#6a7080);margin-bottom:-4px}
+.ideas .intro .cmd{display:flex;gap:6px}
+.ideas .intro .cmd code{flex:1;min-width:0;font:13.5px/1.4 ui-monospace,Menlo,monospace;background:var(--code,#f0eee9);border:1px solid var(--line,#e2dfd8);
+border-radius:6px;padding:8px 10px;overflow-wrap:anywhere;unicode-bidi:plaintext;color:var(--ink-code,#1d2330)}
+.ideas .intro .cmd button{font:inherit;font-size:12.5px;border:1px solid var(--line,#e2dfd8);background:var(--surface,#fff);color:var(--ink-code,#1d2330);border-radius:6px;padding:0 12px;cursor:pointer}
+.ideas .intro .cmd button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .ideas .board{border-radius:8px;padding:clamp(18px,3vw,32px);background-color:var(--cork);
 background-image:radial-gradient(circle at 20% 30%,var(--cork-dark) 0 1.2px,transparent 1.6px),radial-gradient(circle at 70% 60%,var(--cork-light) 0 1px,transparent 1.5px),
 radial-gradient(circle at 45% 85%,var(--cork-dark) 0 .9px,transparent 1.3px),radial-gradient(circle at 85% 15%,var(--cork-light) 0 1.3px,transparent 1.7px);
@@ -97,6 +105,11 @@ font:inherit;font-size:15px;line-height:1.5;padding:8px 10px;color:var(--ink)}
 """
 
 JS = r"""
+document.querySelectorAll('.ideas .intro .cmd button').forEach(b=>b.addEventListener('click',()=>{
+  const code=b.previousElementSibling,t=code.textContent;
+  const pick=()=>{const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r)};
+  try{navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1400)},pick)}catch(_){pick()}
+}));
 (function(){
 const FILED=new Set(%s);
 const box=document.getElementById('drop-box'),ta=document.getElementById('drop-text'),btn=document.getElementById('drop-pin'),
@@ -146,8 +159,14 @@ def render_note(n, i):
             f'<div class="foot"><span>{esc(n["date"])}</span><span class="tag">{esc(tag)}</span></div></article>')
 
 
-def ideas_section(sd):
-    """(html, css, js, n_notes) for the Ideas tab of a story's board."""
+def ideas_section(sd, suggestion=None):
+    """(html, css, js, n_notes) for the Ideas tab of a story's board.
+
+    suggestion: an example note written by Kav from what it knows of the story; defaults to
+    package/idea-suggestion.txt when that file exists."""
+    if suggestion is None:
+        sf = Path(sd) / "package" / "idea-suggestion.txt"
+        suggestion = sf.read_text(encoding="utf-8").strip() if sf.is_file() else ""
     inbox = Path(sd) / "pitch-inbox.md"
     notes = parse(inbox.read_text(encoding="utf-8")) if inbox.is_file() else []
     counts = {k: sum(1 for n in notes if n["type"] == k) for k in TYPES}
@@ -158,8 +177,16 @@ def ideas_section(sd):
             '<textarea id="drop-text" dir="auto" placeholder="A scene, a line, a what-if. Anything."></textarea>'
             '<div class="row"><button id="drop-pin" type="button">Pin it</button></div>'
             '<p class="msg" id="drop-msg" aria-live="polite"></p></div>'
-            '<p class="offline" hidden>Drop ideas in the chat with <code>/kav-plot-note</code>, and they land here.</p></article>')
-    body = (f'<div class="ideas"><div class="board">{f"<ul class=legend>{legend}</ul>" if legend else ""}'
+            '<p class="offline" hidden>Drop ideas in the chat with <code>/kav-note</code>, and they land here.</p></article>')
+
+    def cmd(text):
+        return f'<div class="cmd"><code dir="auto">{esc(text)}</code><button type="button">Copy</button></div>'
+
+    intro = ('<div class="intro"><p>Jot ideas about your story here. Scenes, situations, visuals. '
+             'Kav will read them and factor them into the work.</p>'
+             '<span class="lbl">Or paste this into the chat</span>' + cmd("/kav-note <jot your note>")
+             + (f'<span class="lbl">Something like</span>{cmd("/kav-note " + suggestion)}' if suggestion else "") + "</div>")
+    body = (f'<div class="ideas">{intro}<div class="board">{f"<ul class=legend>{legend}</ul>" if legend else ""}'
             f'<section class="notes">{drop}<div id="fresh" style="display:contents"></div>'
             + "".join(render_note(n, i) for i, n in enumerate(ordered)) + "</section></div></div>")
     return body, CSS, JS % json.dumps([n["id"] for n in notes]), len(notes)
@@ -169,16 +196,17 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--story", required=True, help="slug under this repo's stories/, or a path to any story folder")
     ap.add_argument("--out")
+    ap.add_argument("--suggest", help="an example note to show; default: package/idea-suggestion.txt")
     a = ap.parse_args()
     sd = Path(a.story).expanduser().resolve() if "/" in a.story else REPO / "stories" / a.story
     if not sd.is_dir():
         sys.exit(f"No such story: {sd}")
     meta = json.loads((sd / "story.json").read_text(encoding="utf-8")) if (sd / "story.json").is_file() else {}
-    body, css, js, n = ideas_section(sd)
+    body, css, js, n = ideas_section(sd, a.suggest)
     title = meta.get("title") or sd.name
     page = (f'<meta charset="utf-8"><title>{esc(title)} · Ideas</title>'
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Varela+Round&display=swap">'
-            f'<style>body{{background:#5d3f24;font-family:"Varela Round",system-ui,sans-serif;padding:20px 16px}}'
+            f'<style>body{{background:#f4f3f0;font-family:"Varela Round",system-ui,sans-serif;padding:20px 16px}}'
             f'.ideas{{--display:"Karantina",system-ui,sans-serif;max-width:1120px;margin:0 auto}}{css}</style>{body}<script>{js}</script>')
     out = Path(a.out) if a.out else sd / "package" / "idea-board.html"
     out.parent.mkdir(parents=True, exist_ok=True)

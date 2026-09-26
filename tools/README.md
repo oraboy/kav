@@ -226,6 +226,9 @@ python3 tools/build_map.py --story <slug | path/to/stories/slug> [--out <html>]
 
 - **Output:** `S/package/story-map.html` and `story-map.json`, which lists each piece's reference images, images made by Kav and pages in the order the detail shows them, plus its source file.
 - **Styles:** a pack tracked in the Kav repo is marked *built in*; anything else is *custom*.
+- `--standalone` writes a complete HTML document, for a ChatGPT Site (`board.html`) or any static host. Artifacts don't need it.
+- `--suggest "<text>"` sets the example note on the Ideas tab; by default it's read from `S/package/idea-suggestion.txt`.
+- Detail images step down in size until the page fits under 14 MB (artifacts cap at 16 MB).
 - **Publishing:** as a Claude artifact with `capabilities: {"db": {}}` so the author can pin ideas; pinned ideas sit in the artifact's `drops` collection until filed. Elsewhere the Ideas tab is read-only. See `docs/know-how/story-board.md`.
 - **Any story folder:** `--story` also takes a path, so a story in another clone can be mapped without touching it (pair it with `--out`).
 - `build_ideas.py` renders the Ideas tab on its own, for a standalone board.

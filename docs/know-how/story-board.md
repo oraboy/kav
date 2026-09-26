@@ -27,15 +27,21 @@ After anything that changes a piece: a character or location added or changed, p
 
 | Host | How | Ideas tab |
 |---|---|---|
-| Claude (Artifacts) | publish `story-map.html` as an artifact with `capabilities: {"db": {}}`; republish the same file to keep the link | the author types and pins ideas straight onto the board |
-| ChatGPT / Codex | publish it as a ChatGPT Site page (`docs/publishing.md`) | read-only; ideas come in through the chat |
-| Local only | the file, served by `tools/review.py`'s server or opened by the author | read-only |
+| Claude (Artifacts) | publish `story-map.html` as an artifact with `capabilities: {"db": {}}`; republish the same file to keep the link. An open board updates itself in place. | the author types and pins ideas straight onto the board |
+| ChatGPT / Codex | build with `--standalone` (a complete HTML page) and deploy it as `board.html` in the story's ChatGPT Site (`/kav-publish` §3). The author reloads after a redeploy. | read-only; ideas come in through the chat with `/kav-note` |
+| Local only | build with `--standalone` and serve it; say it only opens on this machine | read-only |
+
+`/kav-view` pulls the board up by hand at any time: it files pinned ideas, rebuilds, republishes to the same link, and shows it. `/kav-view ideas` opens it on the Ideas tab.
+
+## The Ideas tab
+
+It opens with one line of invitation, a copyable `/kav-note <jot your note>` for the chat, and **one example note written by you** — *"Something like: /kav-note …"* — read from `package/idea-suggestion.txt`. Keep that file current: one concrete idea from what you know of this story (a visual motif, a callback, a small scene), in the story's language, one or two sentences, never a plot decision. Replace it when it's used or stale. It shows the author what a note can be, and it's often the note they'd have written.
 
 ## Reading the Ideas tab — take notice
 
 In Claude, pinned ideas land in the board's `drops` collection. **Read it at the start of every session and at every gate** (ArtifactData `list`, collection `drops`). For each drop with `filed: false`:
 
-1. File it into `pitch-inbox.md` as the next `N00N`, exactly as `/kav-plot-note` does, verbatim, classified by its shape.
+1. File it into `pitch-inbox.md` as the next `N00N`, exactly as `/kav-note` does, verbatim, classified by its shape.
 2. Mark the drop `{filed: true, note_id: "N00N"}`.
 3. Rebuild the board.
 
