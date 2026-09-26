@@ -24,7 +24,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_env import REPO, jpeg_data_uri  # noqa: E402
-from build_ideas import ideas_section  # noqa: E402
+from build_ideas import COPY_ICON, cmdbox, ideas_section  # noqa: E402
 
 IMG = (".png", ".jpg", ".jpeg", ".webp")
 DNA = ["Desires", "Skills", "Tendencies", "Shadows", "Don't", "Relationships", "Voice"]
@@ -416,10 +416,20 @@ def story_row(sd, slug, ch_ids):
     return out
 
 
+def next_reader(d):
+    """The 'continue reading' link at the end of a chapter's swipe reader: the next chapter's reader."""
+    page = read(d / "pages" / "reader-story.html") if d else ""
+    for url, label in re.findall(r'href="(https://[^"]+)"[^>]*>\s*([^<]{1,80})', page):
+        if re.search(r"[←→]", label):
+            return url
+    return None
+
+
 def chapter_row(sd, n_hint):
     cards = {c.stem for c in (sd / "storyboard").glob("ch[0-9]*.md")}
     dirs = {d.name: d for d in (sd / "chapters").glob("ch[0-9]*") if d.is_dir()} if (sd / "chapters").is_dir() else {}
     ids = sorted(cards | set(dirs) | {f"ch{i:02d}" for i in range(1, n_hint + 1)})
+    linked_from_prev = {ids[i + 1]: next_reader(dirs.get(ids[i])) for i in range(len(ids) - 1)}
     out = []
     for ch in ids:
         card = read(sd / "storyboard" / f"{ch}.md")
@@ -444,6 +454,8 @@ def chapter_row(sd, n_hint):
         m = re.search(r"^#\s*Ch\s*\d+\s*[—–-]\s*(.+)$", card, re.M)
         links = links_in(read(d / "chapter-state.md")) if d else []
         links = [(lbl, u) for lbl, u in links if lbl in ("classic", "carousel", "story", "comic", "reader", "published", "site")]
+        if readers and not any(lbl in ("story", "carousel") for lbl, _ in links) and linked_from_prev.get(ch):
+            links.insert(0, ("story", linked_from_prev[ch]))
         face = chapter_face(sd, ch)
         out.append(piece("chapter", ch, ch[2:], needs=needs, pages=pages, face=face,
                          gens=[face] if face and face not in pages else [], text=card,
@@ -456,12 +468,12 @@ def chapter_row(sd, n_hint):
 # --- page ----------------------------------------------------------------------
 
 def hints(slug):
-    return {"cast": "To add someone, use /kav-character &lt;name&gt;",
-            "location": "To add a place, use /kav-location &lt;name&gt;",
-            "object": "To add an object, drop a photo in the chat and say “new object”",
-            "style": "To add a look, use /kav-style &lt;name&gt; with 2–5 images",
-            "story": f"To change the story, use /kav-kickoff {esc(slug)}",
-            "chapter": "To write the next chapter, use /kav-chapter &lt;NN&gt;"}
+    return {"cast": ("To add someone", "/kav-character <name>"),
+            "location": ("To add a place", "/kav-location <name>"),
+            "object": ("To add an object, send a photo with", "/kav-note add <name> as an object"),
+            "style": ("To add a look, with 2–5 images", "/kav-style <name>"),
+            "story": ("To change the story", f"/kav-kickoff {slug}"),
+            "chapter": ("To write the next chapter", "/kav-chapter <NN>")}
 
 
 ROWS = [("cast", "Cast"), ("location", "Locations"), ("object", "Objects"), ("style", "Styles"),
@@ -487,7 +499,21 @@ h1{font-family:var(--display);font-size:clamp(40px,7vw,64px);line-height:.95;mar
 .tabs .n{font-family:var(--body);font-size:12px;vertical-align:4px;margin-inline-start:6px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--ink)}
 section{margin-bottom:26px}
 h2{font-family:var(--display);font-size:30px;line-height:1;margin:0;color:var(--soft)}
-.hint{margin:2px 0 10px;font-size:12.5px;color:var(--soft)}
+.hint{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;margin:4px 0 12px;font-size:12.5px;color:var(--soft)}
+.hint .cmd{display:inline-block}
+.hint .cmd code{padding-block:3px;font-size:12px}
+.cell{position:relative}
+.cell .lk{all:unset;cursor:pointer;position:absolute;top:6px;inset-inline-start:6px;width:24px;height:24px;display:grid;place-items:center;
+border-radius:6px;background:rgba(255,255,255,.92);color:#1d2330;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.cell .lk:hover{background:#fff}
+.cell .lk:focus-visible{outline:2px solid var(--focus)}
+.cell .lk svg{width:14px;height:14px}
+#panel .readers{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+#panel .readers span{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+#panel .readers a{font-size:13.5px;color:var(--focus);text-decoration:none;padding:4px 10px 4px 12px}
+#panel .readers .cp{all:unset;cursor:pointer;display:grid;place-items:center;width:28px;align-self:stretch;border-inline-start:1px solid var(--line);color:var(--soft)}
+#panel .readers .cp:hover{color:var(--ink);background:var(--bg)}
+#panel .readers .cp svg{width:13px;height:13px}
 .none{font-size:13px;color:var(--soft);margin:0}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:14px 10px}
 .tile{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:transform .15s ease}
@@ -522,7 +548,7 @@ box-shadow:-12px 0 30px -18px rgba(0,0,0,.5);overflow-y:auto;overflow-x:hidden;p
 #panel .note{font-size:13px;color:var(--soft);margin:2px 0 6px}
 #panel .note+.cmd{margin-bottom:16px}
 #panel .imgs img,#panel .card img{cursor:zoom-in}
-.tile.wide{grid-column:1/-1}
+.tile.wide,.cell.wide{grid-column:1/-1}
 .tile.wide .sq{aspect-ratio:auto;min-height:120px}
 .tile.wide .txt{position:static;padding:16px 18px;font-size:16px;line-height:1.5;-webkit-line-clamp:5}
 #lb{position:fixed;inset:0;z-index:10;background:rgba(10,12,16,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -540,9 +566,6 @@ gap:12px;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(
 #panel .todo p{font-size:14px;line-height:1.45;margin:10px 0 6px}
 #panel .todo p:first-of-type{margin-top:0}
 #panel .todo p.alt{color:var(--soft);font-size:13px}
-#panel .cmd{display:flex;align-items:stretch;gap:6px}
-#panel .cmd code{flex:1;min-width:0;font:13px/1.4 ui-monospace,Menlo,monospace;background:var(--code);border:1px solid var(--line);border-radius:6px;padding:7px 9px;overflow-wrap:anywhere;unicode-bidi:plaintext}
-#panel .cmd button{font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:0 10px;cursor:pointer}
 #panel .links{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
 #panel .links a{font-size:13.5px;color:var(--focus);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:4px 12px}
 #panel .links a:hover{border-color:var(--focus)}
@@ -577,11 +600,7 @@ lb.addEventListener('click',e=>{if(e.target===lb||e.target.closest('.x'))closeLb
 panel.addEventListener('click',e=>{
   const im=e.target.closest('.imgs img,.card img');if(im){openLb(im);return}
   if(e.target.closest('.close')){closePanel();return}
-  const more=e.target.closest('.more');if(more){const a=body.querySelector('.about');const open=a.classList.toggle('open');more.textContent=open?'Show less':'Read more';return}
-  const b=e.target.closest('.cmd button');if(!b)return;const code=b.previousElementSibling,t=code.textContent;
-  const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1400)};
-  const pick=()=>{const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r)};
-  try{navigator.clipboard.writeText(t).then(done,pick)}catch(_){pick()}
+  const more=e.target.closest('.more');if(more){const a=body.querySelector('.about');const open=a.classList.toggle('open');more.textContent=open?'Show less':'Read more'}
 });
 document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!lb.hidden){closeLb();return}if(!panel.hidden)closePanel()});
 const tabs=document.querySelectorAll('.tabs button');
@@ -614,14 +633,28 @@ def tile(p):
              (f'<span class="g">{n_gen}</span>' if n_gen else "")
     tip = f'{p["name"]} · {why}' + (f' · {len(p["refs"])} reference, {n_gen} made by Kav' if p["refs"] or n_gen else "")
     kind = f'<span class="kind">{esc(p["tile_text"])}</span>' if p["row"] == "style" and p["tile_text"] else ""
-    return (f'<button class="tile {cls}" data-id="{esc(p["id"])}" title="{esc(tip)}" aria-label="{esc(tip)}"><span class="sq">{inner}'
-            + (f'<span class="counts">{counts}</span>' if counts and p["id"] != "concept" else "")
-            + (f'<span class="ok">{CHECK}</span>' if p["state"] == "ready" else "")
-            + f'</span><span class="name" dir="auto">{esc(p["name"])}{kind}</span></button>')
+    button = (f'<button class="tile {cls}" data-id="{esc(p["id"])}" title="{esc(tip)}" aria-label="{esc(tip)}"><span class="sq">{inner}'
+              + (f'<span class="counts">{counts}</span>' if counts and p["id"] != "concept" else "")
+              + (f'<span class="ok">{CHECK}</span>' if p["state"] == "ready" else "")
+              + f'</span><span class="name" dir="auto">{esc(p["name"])}{kind}</span></button>')
+    main = main_link(p)
+    if not main:
+        return button
+    return (f'<div class="cell{" wide" if "wide" in cls else ""}">{button}<button class="cp lk" type="button" data-copy="{esc(main)}" '
+            f'title="Copy the link to read it" aria-label="Copy the link to {esc(p["name"])}">{LINK_ICON}</button></div>')
 
 
-def cmdbox(cmd):
-    return f'<div class="cmd"><code dir="ltr">{esc(cmd)}</code><button type="button">Copy</button></div>'
+LINK_ICON = ('<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1-1a2.5 2.5 0 0 1 3.5 3.5l-1 1M9 11.5l-1 1a2.5 2.5 0 0 1-3.5-3.5l1-1" '
+             'fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>')
+READ_ORDER = ("story", "carousel", "reader", "site", "classic", "comic", "published", "brief")
+READ_LABELS = {"story": "Read on a phone", "carousel": "Read on a phone", "classic": "Read as pages", "comic": "Read as pages",
+               "brief": "The brief", "reader": "Read it", "site": "Read it", "published": "Read it"}
+
+
+def main_link(p):
+    """The one link worth copying from a square: the phone reader first."""
+    links = dict(p["links"])
+    return next((links[k] for k in READ_ORDER if k in links), None)
 
 
 _SD = Path(".")
@@ -642,6 +675,11 @@ def image_grid(items, title):
 
 def detail(p):
     parts = [f'<button class="close" aria-label="Close">×</button><h3 dir="auto">{esc(p["name"])}</h3>']
+    if p["links"]:
+        parts.append('<div class="readers">' + "".join(
+            f'<span><a href="{esc(u)}" target="_blank" rel="noopener">{esc(READ_LABELS.get(lbl, lbl.capitalize()))} ↗</a>'
+            f'<button class="cp" type="button" data-copy="{esc(u)}" title="Copy link" aria-label="Copy link">{COPY_ICON}</button></span>'
+            for lbl, u in p["links"]) + "</div>")
     if p["state"] == "ready":
         parts.append('<p class="ok-line">✓ Ready</p>')
     elif p["state"] == "available":
@@ -661,9 +699,6 @@ def detail(p):
         for text, cmd in p["extras"]:
             todo.append(f'<p class="alt">{esc(text)}</p>' + cmdbox(cmd))
         parts.append(f'<div class="todo"><h4>{"To do" if p["needs"] else "Optional"}</h4>{"".join(todo)}</div>')
-    if p["links"]:
-        parts.append('<div class="links">' + "".join(
-            f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(lbl.capitalize())} ↗</a>' for lbl, u in p["links"]) + "</div>")
     grids = "".join(image_grid(items, title) for items, title in
                     ((p["refs"], "Reference images"), (p["gens"], "Made by Kav"), (p["pages"], "Pages")))
     parts += [p["extra"], grids] if p["extra"] else [grids]
@@ -706,7 +741,7 @@ def main():
 
     hint = hints(slug)
     sections = "".join(
-        f'<section><h2>{label}</h2><p class="hint">{hint[k]}</p>'
+        f'<section><h2>{label}</h2><div class="hint"><span>{esc(hint[k][0])}</span>{cmdbox(hint[k][1])}</div>'
         + (f'<div class="grid">{"".join(tile(p) for p in rows[k])}</div>' if rows[k] else '<p class="none">None yet</p>')
         + "</section>" for k, label in ROWS)
     ideas_html, ideas_css, ideas_js, n_ideas = ideas_section(sd, a.suggest)

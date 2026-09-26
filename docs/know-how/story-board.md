@@ -28,7 +28,7 @@ After anything that changes a piece: a character or location added or changed, p
 | Host | How | Ideas tab |
 |---|---|---|
 | Claude (Artifacts) | publish `story-map.html` as an artifact with `capabilities: {"db": {}}`; republish the same file to keep the link. An open board updates itself in place. | the author types and pins ideas straight onto the board |
-| ChatGPT / Codex | build with `--standalone` (a complete HTML page) and deploy it as `board.html` in the story's ChatGPT Site (`/kav-publish` §3). The author reloads after a redeploy. | read-only; ideas come in through the chat with `/kav-note` |
+| ChatGPT / Codex | no artifacts here, so the board gets its own owner-only ChatGPT Site, separate from the book's (`/kav-view` has the steps). Built with `--standalone`, a complete HTML page. The author reloads after a redeploy. | read-only; ideas come in through the chat with `/kav-note` |
 | Local only | build with `--standalone` and serve it; say it only opens on this machine | read-only |
 
 `/kav-view` pulls the board up by hand at any time: it files pinned ideas, rebuilds, republishes to the same link, and shows it. `/kav-view ideas` opens it on the Ideas tab.

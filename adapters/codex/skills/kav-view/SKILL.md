@@ -14,7 +14,7 @@ The board opens by itself once a story's first piece lands and stays current on 
 3. **Rebuild.** `python3 tools/build_map.py --story <slug>` — add `--standalone` when it's going to a ChatGPT Site. Refresh `package/idea-suggestion.txt` if the old suggestion was used.
 4. **Put it in front of the author**, at the same link as always (`kickoff-state.md` → Links → Story board):
    - **Claude:** republish `story-map.html` over the existing artifact (`capabilities: {"db": {}}`) and show it. A board that's already open updates itself in place.
-   - **ChatGPT / Codex:** deploy it as `board.html` in the story's Site (`/kav-publish`, ChatGPT Sites) and give the link. After a redeploy the author reloads the page.
+   - **ChatGPT / Codex:** there are no artifacts, so the board lives on its own small ChatGPT Site — the board's, never the book's (`/kav-publish` owns that one). Build with `--standalone` into `stories/<slug>/board-site/dist/index.html`, register the Site once with the `sites-building` and `sites-hosting` skills, deploy **owner-only**, and keep its link in `kickoff-state.md`. Every refresh redeploys the same Site; the author reloads the page.
    - **Local only:** serve it and give the address, and say it only opens on this machine.
 5. With `ideas`, link straight to the Ideas tab: the board's link with `#ideas` on the end.
 

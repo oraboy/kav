@@ -9,11 +9,13 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 - **Ideas:** the notes from `pitch-inbox.md`, and a box to pin a thought any time. In Claude the drop goes straight onto the board; Kav files it at the next gate and brings it up when it touches what's being worked on. Used notes show where they went.
 - After each piece, Kav offers the fork: another, or move on.
 
-**`/kav-note`** replaces `/kav-plot-note`: notes are about anything — a scene, a visual, an object, a line — not only plot. A note that asks for something concrete gets an offer to do it. The Ideas tab opens with an invitation, a copyable `/kav-note <jot your note>`, and one example note Kav wrote from what it knows of the story.
+**`/kav-note`** replaces `/kav-plot-note`: notes are about anything — a scene, a visual, an object, a line — not only plot. A note that's an instruction ("add a Coke can as an object") gets done; Kav stops only for something it needs from the author, for work that would go stale, or for real generation spend. The Ideas tab opens with an invitation, a copyable `/kav-note <jot your note>`, and one example note Kav wrote from what it knows of the story.
 
 **`/kav-view [ideas]`** pulls the board up by hand: files any pinned ideas, rebuilds, republishes to the same link. In Claude an open board also updates itself whenever Kav republishes it.
 
-**Sites:** `build_map.py --standalone` writes a complete page; `/kav-publish` deploys it as `board.html` in the story's ChatGPT Site.
+**On ChatGPT / Codex** there are no artifacts, so the board lives on its own owner-only ChatGPT Site, built with `build_map.py --standalone`. `/kav-publish` stays for the book.
+
+**Everything copyable copies.** Every command on the board is a small panel with a copy button, section hints included, and a chapter with a published reader has a copy-link button on its square and its links at the top of its detail.
 
 **`/kav-location <name>`** — a place gets the same intake a character does: photos under one name for sheet, folder and registry, a written line, trigger words, and a test scene to prove it binds.
 

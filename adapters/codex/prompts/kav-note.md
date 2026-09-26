@@ -1,5 +1,5 @@
 ---
-description: "Jot down anything about the story — a scene, a situation, a visual, an object, a line, a what-if — without arguing it, in the story's pitch-inbox.md, where it shows on the board's Ideas tab and Kav picks it up when it fits. Also removes or rewords notes (/kav-note remove N003). Use when the author types /kav-note, says \"note this\", \"jot this down\", \"remember this for later\", or pins an idea on the board."
+description: "Jot down anything about the story — a scene, a situation, a visual, an object, a line, a what-if — in the story's pitch-inbox.md, where it shows on the board's Ideas tab. An instruction (\"add a Coke can as an object\") gets done; an idea gets picked up when it fits. Also removes or rewords notes (/kav-note remove N003). Use when the author types /kav-note, says \"note this\", \"jot this down\", \"remember this for later\", or pins an idea on the board."
 argument-hint: "<note> | remove N00N"
 ---
 

@@ -1,10 +1,10 @@
 ---
 name: kav-note
-description: Jot down anything about the story — a scene, a situation, a visual, an object, a line, a what-if — without arguing it, in the story's pitch-inbox.md, where it shows on the board's Ideas tab and Kav picks it up when it fits. Also removes or rewords notes (/kav-note remove N003). Use when the author types /kav-note, says "note this", "jot this down", "remember this for later", or pins an idea on the board.
+description: Jot down anything about the story — a scene, a situation, a visual, an object, a line, a what-if — in the story's pitch-inbox.md, where it shows on the board's Ideas tab. An instruction ("add a Coke can as an object") gets done; an idea gets picked up when it fits. Also removes or rewords notes (/kav-note remove N003). Use when the author types /kav-note, says "note this", "jot this down", "remember this for later", or pins an idea on the board.
 argument-hint: "<note> | remove N00N"
 ---
 
-# /kav-note — jot it down, pick it up when it fits
+# /kav-note — jot it down; do it, or pick it up when it fits
 
 Notes are for anything: a scene, a situation, a look, an object, a line of dialogue, a structural what-if. *"/kav-note add a can of Coke and a Sprite as objects and use them in different scenes in cafés"* is as much a note as a plot twist.
 
@@ -21,7 +21,11 @@ Notes are for anything: a scene, a situation, a look, an object, a line of dialo
    ```
    Create the file from the template in `docs/templates.md` if missing.
 5. Say back the id and type in one line, and rebuild the board.
-6. **If the note asks for something concrete** — add an object, change a look, cut a scene — say so in the same line and ask whether to do it now or when it fits: *"N007 · visual. Want me to register the Coke and Sprite cans as objects now?"* Do it only on a yes. Otherwise, never press a note or propose how it resolves when it's taken.
+6. **If the note is an instruction, do it.** *"/kav-note add a can of Coke and a Sprite as objects and use them in cafés"* means: register both objects now (as the OBJECTS block does), keep the café part as a standing note for the scenes, and tag the note `[adopted: objects/coke-can, objects/sprite-can]`. Go through the command that owns the piece (`/kav-character`, `/kav-location`, the kickoff block). Stop and ask only when:
+   - you need something only the author has — a photo, a name — then ask for exactly that;
+   - it would change work that's already approved or drawn, because that marks it stale — say what goes stale and confirm;
+   - it would spend real money on generation beyond a quick test.
+   A note that is an idea rather than an instruction ("maybe Imi was a dancer") is filed and raised when it fits, never pressed or resolved when it's taken.
 
 ## Picking notes up
 
@@ -44,6 +48,6 @@ The Ideas tab shows one example note — *"Something like: /kav-note …"* — f
 
 ## Hard rules
 
-- Take notes verbatim. Never develop, press or resolve one when it's taken.
-- A note never promotes itself into the story. It changes a locked artifact only with the author's yes.
+- Take notes verbatim. An instruction gets done; an idea gets filed, never pressed or resolved when it's taken.
+- Nothing already approved or drawn changes because of a note without the author's yes.
 - `pitch-inbox.md` is the only source of truth; the board is a rendering of it. A pinned drop is not a note until it's filed.

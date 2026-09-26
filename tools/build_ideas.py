@@ -59,14 +59,17 @@ CSS = """
 .ideas{--cork:#b88a5c;--cork-dark:#8f6640;--cork-light:#d4a878;--frame:#5d3f24;--frame-hi:#7a5534;
 --ink:#2b221c;--ink-soft:#5c4a3c;--label:#f7f1e3;--paper:#fffaf0;--focus:#1f5fbf;
 --coral:#f3a58f;--rose:#f4bccb;--mint:#aee3c9;--butter:#f9e39b;--violet:#cfbdf0;--sky:#acd3f2;--sand:#e6d6b8;color:var(--ink)}
-.ideas .intro{margin:0 0 18px;display:flex;flex-direction:column;gap:10px;max-width:720px;color:var(--page-ink,#1d2330);--ink-code:var(--page-ink,#1d2330)}
-.ideas .intro p{margin:0;font-size:15px;line-height:1.5}
-.ideas .intro .lbl{font-size:12.5px;color:var(--soft,#6a7080);margin-bottom:-4px}
-.ideas .intro .cmd{display:flex;gap:6px}
-.ideas .intro .cmd code{flex:1;min-width:0;font:13.5px/1.4 ui-monospace,Menlo,monospace;background:var(--code,#f0eee9);border:1px solid var(--line,#e2dfd8);
-border-radius:6px;padding:8px 10px;overflow-wrap:anywhere;unicode-bidi:plaintext;color:var(--ink-code,#1d2330)}
-.ideas .intro .cmd button{font:inherit;font-size:12.5px;border:1px solid var(--line,#e2dfd8);background:var(--surface,#fff);color:var(--ink-code,#1d2330);border-radius:6px;padding:0 12px;cursor:pointer}
-.ideas .intro .cmd button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.ideas .intro{margin:0 0 18px;display:flex;flex-direction:column;gap:8px;max-width:720px;color:var(--page-ink,#1d2330)}
+.ideas .intro p{margin:0 0 4px;font-size:15px;line-height:1.5}
+.ideas .intro .lbl{font-size:12px;color:var(--soft,#6a7080);margin-bottom:-4px}
+.cmd{position:relative;display:block;max-width:100%}
+.cmd code{display:block;font:12.5px/1.45 ui-monospace,Menlo,monospace;background:var(--code,#f0eee9);border:1px solid var(--line,#e2dfd8);
+border-radius:6px;padding:6px 34px 6px 9px;overflow-wrap:anywhere;unicode-bidi:plaintext;color:var(--page-ink,#1d2330)}
+.cmd .cp{all:unset;cursor:pointer;position:absolute;top:50%;inset-inline-end:5px;transform:translateY(-50%);width:22px;height:22px;display:grid;place-items:center;
+border-radius:5px;color:var(--soft,#6a7080);opacity:.6}
+.cmd .cp:hover{opacity:1;background:var(--line,#e2dfd8)}
+.cmd .cp:focus-visible{opacity:1;outline:2px solid var(--focus,#1f5fbf)}
+.cmd .cp svg{width:14px;height:14px}
 .ideas .board{border-radius:8px;padding:clamp(18px,3vw,32px);background-color:var(--cork);
 background-image:radial-gradient(circle at 20% 30%,var(--cork-dark) 0 1.2px,transparent 1.6px),radial-gradient(circle at 70% 60%,var(--cork-light) 0 1px,transparent 1.5px),
 radial-gradient(circle at 45% 85%,var(--cork-dark) 0 .9px,transparent 1.3px),radial-gradient(circle at 85% 15%,var(--cork-light) 0 1.3px,transparent 1.7px);
@@ -104,12 +107,28 @@ font:inherit;font-size:15px;line-height:1.5;padding:8px 10px;color:var(--ink)}
 @media (prefers-reduced-motion:reduce){.ideas .note{transition:none}}
 """
 
+COPY_ICON = ('<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" '
+             'stroke-width="1.5"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" '
+             'stroke="currentColor" stroke-width="1.5"/></svg>')
+DONE_ICON = ('<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2" '
+             'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+def cmdbox(text):
+    """A small command panel with a copy button, shared by the board and the Ideas tab."""
+    return (f'<div class="cmd"><code dir="auto">{esc(text)}</code>'
+            f'<button class="cp" type="button" aria-label="Copy" title="Copy">{COPY_ICON}</button></div>')
+
+
 JS = r"""
-document.querySelectorAll('.ideas .intro .cmd button').forEach(b=>b.addEventListener('click',()=>{
-  const code=b.previousElementSibling,t=code.textContent;
-  const pick=()=>{const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r)};
-  try{navigator.clipboard.writeText(t).then(()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1400)},pick)}catch(_){pick()}
-}));
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.cp');if(!b)return;
+  const t=b.dataset.copy||(b.previousElementSibling&&b.previousElementSibling.textContent)||'';
+  const icon=b.innerHTML;
+  const done=()=>{b.innerHTML=%s;setTimeout(()=>b.innerHTML=icon,1300)};
+  const pick=()=>{const c=b.previousElementSibling;if(!c)return;const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r)};
+  try{navigator.clipboard.writeText(t).then(done,pick)}catch(_){pick()}
+});
 (function(){
 const FILED=new Set(%s);
 const box=document.getElementById('drop-box'),ta=document.getElementById('drop-text'),btn=document.getElementById('drop-pin'),
@@ -179,17 +198,14 @@ def ideas_section(sd, suggestion=None):
             '<p class="msg" id="drop-msg" aria-live="polite"></p></div>'
             '<p class="offline" hidden>Drop ideas in the chat with <code>/kav-note</code>, and they land here.</p></article>')
 
-    def cmd(text):
-        return f'<div class="cmd"><code dir="auto">{esc(text)}</code><button type="button">Copy</button></div>'
-
     intro = ('<div class="intro"><p>Jot ideas about your story here. Scenes, situations, visuals. '
              'Kav will read them and factor them into the work.</p>'
-             '<span class="lbl">Or paste this into the chat</span>' + cmd("/kav-note <jot your note>")
-             + (f'<span class="lbl">Something like</span>{cmd("/kav-note " + suggestion)}' if suggestion else "") + "</div>")
+             '<span class="lbl">Or paste this into the chat</span>' + cmdbox("/kav-note <jot your note>")
+             + (f'<span class="lbl">Something like</span>{cmdbox("/kav-note " + suggestion)}' if suggestion else "") + "</div>")
     body = (f'<div class="ideas">{intro}<div class="board">{f"<ul class=legend>{legend}</ul>" if legend else ""}'
             f'<section class="notes">{drop}<div id="fresh" style="display:contents"></div>'
             + "".join(render_note(n, i) for i, n in enumerate(ordered)) + "</section></div></div>")
-    return body, CSS, JS % json.dumps([n["id"] for n in notes]), len(notes)
+    return body, CSS, JS % (json.dumps(DONE_ICON), json.dumps([n["id"] for n in notes])), len(notes)
 
 
 def main():

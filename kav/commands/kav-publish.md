@@ -50,8 +50,9 @@ stories/<slug>/site/
     chapter-art/chNN.jpg      one representative panel per chapter
     chNN/reader-story.html    swipe reader
     chNN/reader-comic.html    page reader
-    board.html                the story board (tools/build_map.py --standalone); for the author, not linked from the contents page
 ```
+
+The story board is not part of this Site: it's a working tool, not the book, and it has its own (`/kav-view`).
 
 Every path relative, every font, image, stylesheet and script inside the package. Nothing may point at a source tree or a localhost port.
 
