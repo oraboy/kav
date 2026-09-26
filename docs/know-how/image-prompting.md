@@ -136,9 +136,18 @@ Two notes on where this bites hardest. Supporting characters drift far more than
 
 ## Debugging a wrong image
 
+**Print the whole prompt before theorising.** `--dry-run` shows every reference in order and the assembled prompt; read it once, because most "the model is drifting" turns out to be something sitting in plain sight. Two real examples from one book, each invisible for a whole session:
+
+- A `medium.txt` that itself began *"Render the entire final image as…"*, while `build_prompt` wraps it in *"Render the entire final image as a {medium}"* — so every prompt carried the stem twice. Write `medium.txt` as a noun phrase (*"A clear-line comic drawing: …"*), never as its own instruction.
+- An object registered with triggers as broad as "pizza" and "slice", which bound a *Roman rectangular* pizza — and its shouted "NEVER round, NEVER a wedge" — into a Neapolitan pizzeria that serves round pizza. An object's triggers must be as specific as the object.
+
+Then, in order:
+
 1. Read the candidate's `.json` sidecar: which cast, location, objects and style actually bound?
 2. Location triggers are first-match. A generic word ("apartment", "room", "street") in one location's triggers steals scenes meant for another. Put specific places first; drop generic words.
-3. Only then rewrite the line — for a named reason.
+3. **Generate three takes before diagnosing anything.** One bad image is not evidence: identity at two mug shots per character lands most of the time and misses sometimes, so a single miss looks exactly like a broken pipeline. Diagnosing off one generation produced three wrong diagnoses in a row on one book — a systemic identity failure, then the style pack, then the seed — when the truth was one wrong word in each of two character descriptions, plus ordinary variance. **Wrong in one take of three is variance; wrong in all three is a cause.**
+4. When it is wrong in all three, suspect **a word in the character description before anything else.** Descriptions have overwhelmed mug shots repeatedly: *"tousled"* gave a cropped-haired man wavy hair; *"wavy and a little unruly"* gave a boy ringlets; and *"soft full cheeks · slender undeveloped jaw · a delicate jaw · full lips · narrow shoulders"* stacked onto a blunt fringe rendered an eighteen-year-old boy as a girl in every take. Read the description aloud and ask what it would conjure with no photograph attached — that is most of what the model is doing with it.
+5. Only then rewrite the scene line — for a named reason.
 
 ## Known failure modes
 

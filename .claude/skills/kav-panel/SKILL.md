@@ -40,7 +40,8 @@ text:
    `python3 tools/generate.py --story <slug> "<scene line>, <pack>" --lane seedream --ar <ar>` (a different `--seed` per take), or a one-panel batch through `tools/panel_batch.py` + `/kav-review`.
    Lane per `docs/know-how/image-prompting.md`: Seedream to explore; Nano Banana Pro for text-in-frame, recognisable real places, precise gestures.
 2. **Plan for the text** while writing the line: leave negative space (wall, sky, floor) where text will sit, and say so ("empty wall above him"). Keep the subject inside the centre safe zone on wide panels. Never put dialogue in the prompt.
-3. Show the takes. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
+3. **Check the takes against the reference sets yourself, and fix what is broken, before showing anything.** Compare each face to its mug shot — not to your memory of the character, and not to whether the panel *feels* right. A correct place, a good mood and correct signage say nothing about whether the faces are the right people; that combination has been reported as a success while both characters were wrong. Wrong in one take of three is variance and the author picks around it. **Wrong in all three is a cause: find it and fix it** (see "Debugging a wrong image"), then re-run. Never hand the author a broken take with a theory attached — debugging the pipeline is not their job, and a question like "shall I try a different style pack?" is one you answer by trying it.
+4. Show the takes, **with the mug shots beside them**, so identity can be judged rather than taken on trust. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
 
 ## Stage 2 — Letter
 
