@@ -47,11 +47,55 @@ def heading(text, fallback):
     return re.split(r"\s+[—–-]\s+", m.group(1).strip())[0].replace("`", "").strip() if m else fallback
 
 
-def field(text, label):
+def clean(s):
+    """Markdown and working notes off, for display: no **, no > quotes, no (draft) tags, bullets as ·."""
+    s = re.sub(r"\*?\((?:draft|the author'?s?\b|[^)]*verbatim)[^)]*\)\*?", "", s, flags=re.I)
+    s = s.replace("**", "").replace("__", "").replace("*", "")
+    s = re.sub(r"(^|\n)\s*>\s?", r"\1", s)
+    s = re.sub(r"\n\s*[-•]\s+", " · ", s)
+    s = re.sub(r"^\s*[-•]\s+", "", s)
+    return re.sub(r"\s+", " ", s).strip(" ·-—>:")
+
+
+def field_raw(text, label):
     m = re.search(r"\*\*" + re.escape(label) + r"[^*\n]*\*\*\s*:?(.*?)(?=\n\s*\*\*[^*\n]+\*\*|\n#|\Z)", text, re.S)
-    body = re.sub(r"\s+", " ", m.group(1)).strip(" -·*_>") if m else ""
-    body = re.sub(r"^\*?\((?:the author'?s? (?:own )?lines?|[^)]*verbatim)[^)]*\)\*?\s*>?\s*", "", body, flags=re.I).strip(" >*")
-    return "" if body.lower().startswith(("(open", "(omitted", "<")) else body
+    return m.group(1) if m else ""
+
+
+def field(text, label):
+    raw = field_raw(text, label).strip()
+    if raw.lstrip("-•*( \n").lower().startswith(("open", "omitted")) or raw.lstrip("-• ").startswith("<"):
+        return ""
+    return clean(raw)
+
+
+def relationships(text):
+    rows = []
+    for line in field_raw(text, "Relationships").splitlines():
+        if "|" not in line:
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if all(re.fullmatch(r":?-+:?", c) or not c for c in cells) or cells[0].lower() in ("with", "עם"):
+            continue
+        rest = [clean(c) for c in cells[1:] if clean(c)]
+        if clean(cells[0]):
+            rows.append(clean(cells[0]) + (" — " + " · ".join(rest) if rest else ""))
+    return "\n".join(rows)
+
+
+def made_from(sd, path, depth=0):
+    """(scene line, full prompt) from the generation sidecar beside an image, if there is one."""
+    path = Path(path)
+    for cand in (Path(str(path) + ".json"), path.with_suffix(".json")):
+        try:
+            j = json.loads(cand.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(j, dict) and (j.get("line") or j.get("prompt")):
+            return str(j.get("line") or ""), str(j.get("prompt") or "")
+        if isinstance(j, dict) and j.get("panel") and depth == 0:
+            return made_from(sd, sd / j["panel"], 1)
+    return "", ""
 
 
 def section(text, word):
@@ -118,7 +162,7 @@ def need(reason, text, cmd=None, *alts):
 
 
 def piece(row, pid, name, *, needs=(), state=None, refs=(), gens=(), pages=(), face=None, text="", source=None,
-          links=(), extra="", about="", extras=(), tile_text="", placeholder="+"):
+          links=(), extra="", about=(), extras=(), tile_text="", placeholder="+", draft_cmd=None):
     needs = list(needs)
     if state is None:
         reasons = [n["reason"] for n in needs]
@@ -127,7 +171,8 @@ def piece(row, pid, name, *, needs=(), state=None, refs=(), gens=(), pages=(), f
     face = face or (gens[0] if gens else None) or (refs[0] if refs else None) or (pages[0] if pages else None)
     return {"row": row, "id": pid, "name": name, "state": state, "needs": needs, "refs": refs, "gens": gens,
             "pages": pages, "face": face, "text": text, "source": source, "links": list(links), "extra": extra,
-            "about": about, "extras": list(extras), "tile_text": tile_text, "placeholder": placeholder}
+            "about": [(k, v) for k, v in about if v], "extras": list(extras), "tile_text": tile_text,
+            "placeholder": placeholder, "draft_cmd": draft_cmd}
 
 
 # --- cast ------------------------------------------------------------------------
@@ -166,8 +211,10 @@ def cast_piece(sd, stem, text, keys, chars, pack, src):
     name = heading(text, stem)
     one_liner = field(text, "Who they are") or field(text, "What they are") or field(text, "Bio")
     look = next((chars[k] for k in keys if k in chars), "") or field(text, "Appearance")
-    dna = [(s, field(text, s)) for s in DNA if field(text, s)]
-    about = "\n".join([one_liner] + [f"{s}: {v}" for s, v in dna]) if (one_liner or dna) else ""
+    dna = [(s, relationships(text) if s == "Relationships" else field(text, s)) for s in DNA]
+    dna = [(s, v) for s, v in dna if v]
+    about = [("", one_liner)] + dna if (one_liner or dna) else [("", clean(look))]
+    drafted = bool(re.search(r"\(draft", text, re.I))
 
     c = f"/kav-character {name}"
     skip = ("To skip this step", f"{c} complete as is")
@@ -194,7 +241,7 @@ def cast_piece(sd, stem, text, keys, chars, pack, src):
     face = next((g for g in gens if g.name == "front.png" and pack and g.parent.name == pack), None) or \
         next((g for g in gens if g.name == "front.png"), None)
     return piece("cast", f"cast-{stem}", name, needs=needs, refs=refs, gens=gens, face=face, text=text, source=src,
-                 about=about or look, extras=extras)
+                 about=about, extras=extras, draft_cmd=f"{c} build a dna" if drafted else None)
 
 
 # --- locations and objects -------------------------------------------------------
@@ -247,7 +294,7 @@ def place_piece(sd, section_key, stem, text, keys, reg, reg_photos, own, src):
         needs.append(need(PENDING, "Kav still has to set it up for drawing", c))
     row = "location" if loc else "object"
     return piece(row, f"{row}-{stem}", name, needs=needs, refs=refs, gens=gens, face=refs[0] if refs else None,
-                 text=text, source=src, about="\n".join(x for x in (what, turf and f"Whose turf: {turf}") if x))
+                 text=text, source=src, about=[("", clean(what)), ("Whose turf", turf)])
 
 
 # --- styles ----------------------------------------------------------------------
@@ -277,7 +324,7 @@ def style_row(sd, repo, briefs, principals):
         medium = read(p / "medium.txt").strip()
         if name != active:
             out.append(piece("style", f"style-{name}", name, state="available", refs=refs, text=medium, source=p / "medium.txt",
-                             about=medium, tile_text=kind))
+                             about=[("", medium)], tile_text=kind))
             continue
         samples = [s for s in images(sd / "style" / "samples") if "old" not in s.stem]
         needs = []
@@ -290,7 +337,7 @@ def style_row(sd, repo, briefs, principals):
         look = field(style, "The look") or medium
         out.append(piece("style", f"style-{name}", name, needs=needs, refs=refs, gens=samples,
                          face=samples[0] if samples else (refs[0] if refs else None), text=style,
-                         source=sd / "style" / "style.md", about=look, tile_text=f"{kind} · in use"))
+                         source=sd / "style" / "style.md", about=[("", clean(look))], tile_text=f"{kind} · in use"))
     if not out:
         out.append(piece("style", "style-none", "Style",
                          needs=[need(IMAGES, "Pick a style, or add 2–5 images of the look you want", "/kav-style <name>")]))
@@ -352,8 +399,8 @@ def story_row(sd, slug, ch_ids):
     brief = [("brief", u) for _, u in links_in(state_md, r"brief")][-1:]
     cover = sd / "package" / "cover.png"
     out = [piece("story", "concept", "Concept", needs=needs, gens=[cover] if cover.is_file() else [], face=None,
-                 text=concept_text, source=sd / "story.md", links=brief, about=line or synopsis,
-                 tile_text=line or synopsis[:200])]
+                 text=concept_text, source=sd / "story.md", links=brief,
+                 about=[("", clean(line)), ("Synopsis", clean(synopsis))], tile_text=clean(line or synopsis))]
 
     cards = sorted((sd / "storyboard").glob("ch[0-9]*.md"))
     missing = [c for c in ch_ids if not (sd / "storyboard" / f"{c}.md").is_file()]
@@ -401,7 +448,7 @@ def chapter_row(sd, n_hint):
         out.append(piece("chapter", ch, ch[2:], needs=needs, pages=pages, face=face,
                          gens=[face] if face and face not in pages else [], text=card,
                          source=(sd / "storyboard" / f"{ch}.md") if card else None, links=links,
-                         about="\n".join(x for x in ((m.group(1).strip() if m else ""), field(card, "Synopsis")) if x),
+                         about=[("", m.group(1).strip() if m else ""), ("Synopsis", field(card, "Synopsis"))],
                          placeholder=ch[2:]))
     return out, ids
 
@@ -467,8 +514,25 @@ box-shadow:-12px 0 30px -18px rgba(0,0,0,.5);overflow-y:auto;overflow-x:hidden;p
 #panel .ok-line{font-size:14px;margin:0 0 12px;color:var(--ready)}
 #panel .close{all:unset;cursor:pointer;position:absolute;top:calc(14px + env(safe-area-inset-top,0px));inset-inline-end:14px;font-size:26px;line-height:1;color:var(--soft);padding:4px 8px;border-radius:6px}
 #panel .close:focus-visible,#panel button:focus-visible{outline:2px solid var(--focus)}
-#panel .about{font-size:14.5px;line-height:1.55;white-space:pre-wrap;unicode-bidi:plaintext;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:0}
-#panel .about.open{display:block}
+#panel .about{max-height:4.9em;overflow:hidden;position:relative}
+#panel .about.open{max-height:none}
+#panel .about p{font-size:14.5px;line-height:1.6;margin:0 0 4px;white-space:pre-line;unicode-bidi:plaintext}
+#panel .about p b{font-weight:600}
+#panel .note{font-size:13px;color:var(--soft);margin:2px 0 6px}
+#panel .note+.cmd{margin-bottom:16px}
+#panel .imgs img,#panel .card img{cursor:zoom-in}
+.tile.wide{grid-column:1/-1}
+.tile.wide .sq{aspect-ratio:auto;min-height:120px}
+.tile.wide .txt{position:static;padding:16px 18px;font-size:16px;line-height:1.5;-webkit-line-clamp:5}
+#lb{position:fixed;inset:0;z-index:10;background:rgba(10,12,16,.92);display:flex;flex-direction:column;align-items:center;justify-content:center;
+gap:12px;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px))}
+#lb img{max-width:100%;max-height:72vh;object-fit:contain;border-radius:6px}
+#lb .t{max-width:760px;width:100%;color:#e8eaee;font-size:14px;line-height:1.5;overflow-y:auto;max-height:22vh}
+#lb .t p{margin:0 0 6px}
+#lb .t details summary{cursor:pointer;color:#aab1bd;font-size:13px}
+#lb .t pre{white-space:pre-wrap;font:12px/1.5 ui-monospace,Menlo,monospace;color:#cfd4dc;margin:6px 0 0}
+#lb .x{all:unset;cursor:pointer;position:absolute;top:calc(12px + env(safe-area-inset-top,0px));inset-inline-end:16px;font-size:30px;color:#fff;padding:4px 10px}
+#lb .x:focus-visible{outline:2px solid #7fb0ff}
 #panel .more{all:unset;cursor:pointer;font-size:13px;color:var(--focus);margin:4px 0 14px;display:inline-block}
 #panel .todo{background:var(--bg);border-radius:10px;padding:12px 14px;margin:0 0 16px}
 #panel .todo h4{margin-top:0}
@@ -502,7 +566,15 @@ last=b;body.innerHTML=s.innerHTML;panel.hidden=false;panel.scrollTop=0;
 const a=body.querySelector('.about'),m=body.querySelector('.more');if(a&&m)m.hidden=a.scrollHeight<=a.clientHeight+2;
 panel.querySelector('.close').focus()}));
 function closePanel(){panel.hidden=true;if(last)last.focus()}
+const lb=document.getElementById('lb');
+function openLb(im){lb.querySelector('img').src=im.src;const t=lb.querySelector('.t'),l=im.dataset.line||'',pr=im.dataset.prompt||'';
+t.innerHTML='';if(l){const p=document.createElement('p');p.dir='auto';p.textContent=l;t.append(p)}
+if(pr){const d=document.createElement('details'),s=document.createElement('summary'),q=document.createElement('pre');s.textContent='Full prompt';q.textContent=pr;d.append(s,q);t.append(d)}
+t.hidden=!(l||pr);lb.hidden=false;lb.querySelector('.x').focus()}
+function closeLb(){lb.hidden=true}
+lb.addEventListener('click',e=>{if(e.target===lb||e.target.closest('.x'))closeLb()});
 panel.addEventListener('click',e=>{
+  const im=e.target.closest('.imgs img,.card img');if(im){openLb(im);return}
   if(e.target.closest('.close')){closePanel();return}
   const more=e.target.closest('.more');if(more){const a=body.querySelector('.about');const open=a.classList.toggle('open');more.textContent=open?'Show less':'Read more';return}
   const b=e.target.closest('.cmd button');if(!b)return;const code=b.previousElementSibling,t=code.textContent;
@@ -510,7 +582,7 @@ panel.addEventListener('click',e=>{
   const pick=()=>{const r=document.createRange();r.selectNodeContents(code);const s=getSelection();s.removeAllRanges();s.addRange(r)};
   try{navigator.clipboard.writeText(t).then(done,pick)}catch(_){pick()}
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.hidden)closePanel()});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!lb.hidden){closeLb();return}if(!panel.hidden)closePanel()});
 const tabs=document.querySelectorAll('.tabs button');
 function show(id){tabs.forEach(t=>{const on=t.dataset.tab===id;t.setAttribute('aria-selected',on);document.getElementById('tab-'+t.dataset.tab).hidden=!on});
 if(id!=='overview')panel.hidden=true;try{localStorage.setItem('kav-tab',id)}catch(e){}}
@@ -529,7 +601,8 @@ def tile(p):
     cls = "ready" if p["state"] == "ready" else ("available" if p["state"] == "available" else "")
     why = {"ready": "ready", "available": "available, not used in this story"}.get(p["state"], p["state"])
     src = thumb(p["face"], 320) if p["face"] else None
-    if p["row"] == "story" and p["id"] == "concept" and p["tile_text"]:
+    if p["id"] == "concept" and p["tile_text"]:
+        cls += " wide"
         inner = f'<span class="txt" dir="auto">{esc(p["tile_text"])}</span>'
     elif src:
         inner = f'<img alt="" src="{src}">'
@@ -542,12 +615,28 @@ def tile(p):
     kind = f'<span class="kind">{esc(p["tile_text"])}</span>' if p["row"] == "style" and p["tile_text"] else ""
     return (f'<button class="tile {cls}" data-id="{esc(p["id"])}" title="{esc(tip)}" aria-label="{esc(tip)}"><span class="sq">{inner}'
             + (f'<span class="counts">{counts}</span>' if counts and p["id"] != "concept" else "")
-            + (f'<span class="ok">{CHECK}</span>' if cls == "ready" else "")
+            + (f'<span class="ok">{CHECK}</span>' if p["state"] == "ready" else "")
             + f'</span><span class="name" dir="auto">{esc(p["name"])}{kind}</span></button>')
 
 
 def cmdbox(cmd):
     return f'<div class="cmd"><code dir="ltr">{esc(cmd)}</code><button type="button">Copy</button></div>'
+
+
+_SD = Path(".")
+DETAIL_PX = 760
+PAGE_BUDGET = 14_000_000  # artifacts cap at 16 MB; step the detail images down until the page fits under this
+
+
+def image_grid(items, title):
+    figs = []
+    for i in items:
+        u = thumb(i, DETAIL_PX)
+        if not u:
+            continue
+        line, prompt = made_from(_SD, i)
+        figs.append(f'<img alt="" loading="lazy" src="{u}" data-line="{esc(line[:600])}" data-prompt="{esc(prompt[:4000])}">')
+    return f'<h4>{title}</h4><div class="imgs">{"".join(figs)}</div>' if figs else ""
 
 
 def detail(p):
@@ -557,7 +646,10 @@ def detail(p):
     elif p["state"] == "available":
         parts.append('<p class="ok-line" style="color:var(--soft)">Available, not used in this story</p>')
     if p["about"]:
-        parts.append(f'<p class="about" dir="auto">{esc(p["about"].strip())}</p><button class="more" type="button">Read more</button>')
+        rows = "".join(f'<p dir="auto">{f"<b>{esc(k)}:</b> " if k else ""}{esc(v)}</p>' for k, v in p["about"])
+        parts.append(f'<h4>What we know</h4><div class="about">{rows}</div><button class="more" type="button">Read more</button>')
+        if p["draft_cmd"]:
+            parts.append(f'<p class="note">The DNA is a draft. To revise it:</p>{cmdbox(p["draft_cmd"])}')
     if p["needs"] or p["extras"]:
         todo = []
         for n in p["needs"]:
@@ -571,12 +663,9 @@ def detail(p):
     if p["links"]:
         parts.append('<div class="links">' + "".join(
             f'<a href="{esc(u)}" target="_blank" rel="noopener">{esc(lbl.capitalize())} ↗</a>' for lbl, u in p["links"]) + "</div>")
-    for items, title in ((p["refs"], "Reference images"), (p["gens"], "Made by Kav"), (p["pages"], "Pages")):
-        figs = "".join(f'<img alt="" loading="lazy" src="{u}">' for u in (thumb(i, 420) for i in items) if u)
-        if figs:
-            parts.append(f'<h4>{title}</h4><div class="imgs">{figs}</div>')
-    if p["extra"]:
-        parts.append(p["extra"])
+    grids = "".join(image_grid(items, title) for items, title in
+                    ((p["refs"], "Reference images"), (p["gens"], "Made by Kav"), (p["pages"], "Pages")))
+    parts += [p["extra"], grids] if p["extra"] else [grids]
     if p["source"] and (p["text"].strip() or Path(p["source"]).is_file()):
         body = p["text"].strip() or read(p["source"]).strip()
         parts.append(f'<details><summary>{esc(p["source"])}</summary><pre dir="auto">{esc(body[:5000])}</pre></details>')
@@ -593,6 +682,8 @@ def main():
         sys.exit(f"No such story: {sd}")
     repo = sd.parent.parent
     slug = sd.name
+    global _SD
+    _SD = sd
     briefs = json.loads(read(sd / "briefs.json") or "{}")
     meta = json.loads(read(sd / "story.json") or "{}")
     story_md = read(sd / "story.md")
@@ -614,9 +705,19 @@ def main():
         f'<section><h2>{label}</h2><p class="hint">{hint[k]}</p>'
         + (f'<div class="grid">{"".join(tile(p) for p in rows[k])}</div>' if rows[k] else '<p class="none">None yet</p>')
         + "</section>" for k, label in ROWS)
-    details = "".join(detail(p) for ps in rows.values() for p in ps)
     ideas_html, ideas_css, ideas_js, n_ideas = ideas_section(sd)
-    page = f"""<meta charset="utf-8">
+    global DETAIL_PX
+    for DETAIL_PX in (760, 600, 460, 340):
+        page = render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas)
+        if len(page.encode("utf-8")) < PAGE_BUDGET:
+            break
+    out = Path(a.out) if a.out else sd / "package" / "story-map.html"
+    finish(out, sd, rows, page)
+
+
+def render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas):
+    details = "".join(detail(p) for ps in rows.values() for p in ps)
+    return f"""<meta charset="utf-8">
 <title>{esc(title)} · World Map</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Varela+Round&display=swap">
 <style>{CSS}{ideas_css}</style>
@@ -626,11 +727,14 @@ def main():
 <div id="tab-overview" role="tabpanel">{sections}</div>
 <div id="tab-ideas" role="tabpanel" hidden>{ideas_html}</div></div>
 <aside id="panel" hidden><div id="panel-body"></div></aside>
+<div id="lb" hidden role="dialog" aria-label="Image"><button class="x" aria-label="Close">×</button><img alt=""><div class="t"></div></div>
 {details}
 <script>{JS}</script>
 <script>{ideas_js}</script>
 """
-    out = Path(a.out) if a.out else sd / "package" / "story-map.html"
+
+
+def finish(out, sd, rows, page):
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(page, encoding="utf-8")
 
