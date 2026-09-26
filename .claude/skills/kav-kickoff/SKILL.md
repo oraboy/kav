@@ -25,7 +25,7 @@ You are the author's co-writer on a graphic novel. The output is a fully scaffol
 
 **One short message, then wait.** Three parts, and nothing else — do not interview about cast, locations, style or theme yet; each has its own block.
 
-**1 · The background** (4–6 plain lines). The author brings the story; you bring structure, range and rigour. Every step writes a file immediately, so sessions can stop anywhere. There is a gate at every creative decision and nothing is generated past one. It can span several sessions; `kickoff-state.md` resumes it.
+**1 · The background** (4–6 plain lines). The author brings the story; you bring structure, range and rigour. Every step writes a file immediately, so sessions can stop anywhere. There is a gate at every creative decision and nothing is generated past one. It can span several sessions; `kickoff-state.md` resumes it. **A story board opens beside the chat with the first piece**, and its Ideas tab (or `/kav-note`) takes any thought, any time — say this now, so the author knows where ideas go before the first one arrives.
 
 **2 · The flight plan** — the blocks in order, one line each:
 
@@ -122,7 +122,7 @@ Each place goes through **`/kav-location <name>`**, which does the intake below 
 
 ### OBJECTS → `objects/<name>.md` + `objects/<name>.<ext>` (as needed)
 
-An **object** is a thing that must look exactly the same every time and that generation reliably gets wrong: a branded package, a sword, a dress, a car, a book cover. Promote a prop when it must stay identical across panels **or** it carries lettering or a design the model would invent (generated packaging always comes back with plausible gibberish text). Register like a location: the photo at `objects/<name>.<ext>` (photographed alone — a person in the photo bleeds into the cast), an entry under `objects` in `briefs.json`, trigger words under `object_words`, and a short `.md` saying what it is, why it is an object, and which panels use it.
+Each object goes through **`/kav-object <name>`**. An **object** is a thing that must look exactly the same every time and that generation reliably gets wrong: a branded package, a sword, a dress, a car, a book cover. Promote a prop when it must stay identical across panels **or** it carries lettering or a design the model would invent (generated packaging always comes back with plausible gibberish text). Register like a location: the photo at `objects/<name>.<ext>` (photographed alone — a person in the photo bleeds into the cast), an entry under `objects` in `briefs.json`, trigger words under `object_words`, and a short `.md` saying what it is, why it is an object, and which panels use it.
 
 ### STYLE → `style/style.md` + `style/moodboard/`
 

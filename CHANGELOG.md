@@ -17,6 +17,10 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 **Everything copyable copies.** Every command on the board is a small panel with a copy button, section hints included, and a chapter with a published reader has a copy-link button on its square and its links at the top of its detail.
 
+**`/kav-object <name>`** — a thing that must always look the same (a can, a car, a dress) gets its own intake: one photo of the thing alone, a line on what it is, trigger words, a test scene.
+
+**The intro** (`/kav-start`, kickoff's first message) now tells the author about the board and where ideas go before the first one arrives, and says the order is a suggestion: start from a story, or from one character in one place.
+
 **`/kav-location <name>`** — a place gets the same intake a character does: photos under one name for sheet, folder and registry, a written line, trigger words, and a test scene to prove it binds.
 
 From reading *Last Light* end to end as a reader rather than as its authors. The story's dialogue was compressed and confident and, in several chapters, unparseable: nobody is told who David is, that he vanished, or why anyone has to go outside, because every agent that wrote a scene could see the brief and the reader never can. The visuals drifted the same way, in the things a reference set doesn't hold.

@@ -21,7 +21,7 @@ Notes are for anything: a scene, a situation, a look, an object, a line of dialo
    ```
    Create the file from the template in `docs/templates.md` if missing.
 5. Say back the id and type in one line, and rebuild the board.
-6. **If the note is an instruction, do it.** *"/kav-note add a can of Coke and a Sprite as objects and use them in cafés"* means: register both objects now (as the OBJECTS block does), keep the café part as a standing note for the scenes, and tag the note `[adopted: objects/coke-can, objects/sprite-can]`. Go through the command that owns the piece (`/kav-character`, `/kav-location`, the kickoff block). Stop and ask only when:
+6. **If the note is an instruction, do it.** *"/kav-note add a can of Coke and a Sprite as objects and use them in cafés"* means: register both objects now (through `/kav-object`), keep the café part as a standing note for the scenes, and tag the note `[adopted: objects/coke-can, objects/sprite-can]`. Go through the command that owns the piece (`/kav-character`, `/kav-location`, `/kav-object`, the kickoff block). Stop and ask only when:
    - you need something only the author has — a photo, a name — then ask for exactly that;
    - it would change work that's already approved or drawn, because that marks it stale — say what goes stale and confirm;
    - it would spend real money on generation beyond a quick test.

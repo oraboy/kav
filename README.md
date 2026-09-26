@@ -37,6 +37,7 @@ Every step writes a file, so you can stop anywhere and pick up later. Nothing is
 | `/kav-view [ideas]` | `/prompts:kav-view [ideas]` | pull up the story board, fresh |
 | `/kav-chapter <NN>` | `/prompts:kav-chapter <NN>` | write and draw one chapter |
 | `/kav-location <name>` | `/prompts:kav-location <name>` | bring a place into the story from its photos |
+| `/kav-object <name>` | `/prompts:kav-object <name>` | bring a thing that must always look the same (a can, a car, a dress) into the story |
 | `/kav-coldread [NN]` | `/prompts:kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |
 | `/kav-panel` | `/prompts:kav-panel` | one scene plus its text into a lettered panel |
 | `/kav-review <batch.json>` | `/prompts:kav-review <batch.json>` | open the image review page and apply your picks |

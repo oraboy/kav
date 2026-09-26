@@ -112,6 +112,10 @@ Suggest the default for the host you are running in, take their answer, and don'
 5. **Chapter by chapter** — outline, scene list, a cold read before any image money is spent, panel images reviewed on a local page, lettering, a second cold read, assembled pages. `/kav-chapter <NN>`
 6. **Publish** — readers per chapter, Instagram-ready carousel images, a trailer deck. `/kav-publish`, `/kav-trailer`
 
+Then, in two lines, the thing they'll use every day: **a story board opens beside the chat as soon as the first piece of a story is in** — every character, place, object, style and chapter as a square, green when ready, grey with the next step when not. Its **Ideas** tab takes any thought at any time — a scene, a visual, an object — and so does `/kav-note` in the chat. `/kav-view` brings the board back up whenever they want it.
+
+The order above is a suggestion, not a track. Someone with a finished story starts at kickoff; someone with only a character can start by drawing that character in one place (`/kav-character`, `/kav-location`, `/kav-panel`) and find the story later.
+
 ## Step 5 — The commands
 
 | Command | What it does |
@@ -125,6 +129,7 @@ Suggest the default for the host you are running in, take their answer, and don'
 | `/kav-view [ideas]` | pull up the story board, fresh |
 | `/kav-chapter <NN>` | write and draw one chapter |
 | `/kav-location <name>` | bring a place into the story from its photos |
+| `/kav-object <name>` | bring a thing that must always look the same (a can, a car, a dress) into the story |
 | `/kav-coldread [NN]` | read it back the way a first-time reader does, and say what isn't landing |
 | `/kav-panel` | one scene plus its text into one lettered panel |
 | `/kav-review <batch.json>` | open the local image review page and apply the author's picks |

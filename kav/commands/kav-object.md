@@ -1,0 +1,44 @@
+---
+name: kav-object
+description: Bring an object into a story — a thing that must look exactly the same every time (a can, a car, a dress, a sword, a branded box) — from the author's photo, and register it so every panel draws that exact thing. Use when the author types /kav-object <name>, says "add an object", "add a prop", drops a photo of a thing, or when an object keeps coming out different.
+argument-hint: "<name> [--story <slug>]"
+---
+
+# /kav-object <name> — a thing Kav draws the same way every time
+
+Promote a thing to an object when it must stay identical across panels, **or** it carries lettering or a design the model would otherwise invent — generated packaging always comes back with plausible gibberish. Everything else is scenery and stays in the scene line.
+
+It leaves as three things under `stories/<slug>/`, all under one `<name>`:
+
+| File | What it is |
+|---|---|
+| `objects/<name>.<ext>` | the photo, **of the thing alone** |
+| `objects/<name>.md` | what it is, why it's an object, which panels use it |
+| `briefs.json` → `objects.<name>` + `object_words.<name>` | the photo, one English description, the words that trigger it |
+
+Story-local, always.
+
+## Taking an object in
+
+1. **Name → key.** Lowercase-kebab (`coke-can`). One thing, one name.
+2. **The photo.** Copy the author's photo to `objects/<name>.<ext>`. **Photographed alone** — a person in the frame bleeds into the cast (a dress shot on a model gives the character the model's haircut; the flat-lay dress came through exactly). If the only photo has someone in it, ask for another or crop.
+3. **The sheet** (`docs/templates.md`, objects): what it is · why it's an object · binds on · used in.
+4. **Registry.** `briefs.json` → `objects.<name>`: `photos` and one English description of exactly what the photo shows, including any lettering verbatim. `object_words.<name>`: the words a scene line will use for it ("coke", "can of coke").
+5. **Prove it.** One test scene with the object in it (`python3 tools/generate.py --story <slug> "<a character> holding <the object> in <a place>"`). Read the sidecar to confirm it bound. Lettering comes through reliably only with the wording in `docs/know-how/image-prompting.md` (Objects); treat text on an object as pick-from-two, not one-shot.
+6. **Update the board**, then offer the fork: another object, or move on.
+
+## No photo
+
+A description only: generate 2–4 candidates of the thing alone on a plain ground, let the author pick, copy the pick in as `objects/<name>.png`. It shows on the board as made by Kav.
+
+## Arguments the board hands out
+
+- `/kav-object <name> <one line>` — write the line into the sheet as what it is.
+- `/kav-object <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*`; the board stops asking.
+
+## Hard rules
+
+- One thing, one name.
+- The author picks every image that stands for an object.
+- Photographed alone, or it isn't a clean reference.
+- Story-local in and out.

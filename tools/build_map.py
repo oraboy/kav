@@ -282,14 +282,14 @@ def place_piece(sd, section_key, stem, text, keys, reg, reg_photos, own, src):
     turf = field(text, "Whose turf")
     as_is = bool(re.search(r"complete as is", text, re.I))
     loc = section_key == "locations"
-    c = f"/kav-location {name}" if loc else f"new object: {name}"
+    c = f"/kav-location {name}" if loc else f"/kav-object {name}"
     needs = []
     if not refs:
         needs.append(need(IMAGES, "To complete this place, run this and drop its photos in the chat" if loc
-                          else "To complete this object, drop a photo of it in the chat with this", c))
+                          else "To complete this object, run this and drop a photo of it, alone, in the chat", c))
     if not (text or what) and not as_is:
-        needs.append(need(DESCRIPTION, "Add a line on what it is", f"{c} <what it is, in one line>" if loc else c,
-                          ("To skip this step", f"{c} complete as is") if loc else None))
+        needs.append(need(DESCRIPTION, "Add a line on what it is", f"{c} <what it is, in one line>",
+                          ("To skip this step", f"{c} complete as is")))
     if refs and not keys:
         needs.append(need(PENDING, "Kav still has to set it up for drawing", c))
     row = "location" if loc else "object"
@@ -470,7 +470,7 @@ def chapter_row(sd, n_hint):
 def hints(slug):
     return {"cast": ("To add someone", "/kav-character <name>"),
             "location": ("To add a place", "/kav-location <name>"),
-            "object": ("To add an object, send a photo with", "/kav-note add <name> as an object"),
+            "object": ("To add an object", "/kav-object <name>"),
             "style": ("To add a look, with 2–5 images", "/kav-style <name>"),
             "story": ("To change the story", f"/kav-kickoff {slug}"),
             "chapter": ("To write the next chapter", "/kav-chapter <NN>")}

@@ -32,6 +32,7 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-kickoff <slug>` · "new story", "kickoff", resume a kickoff | `kav/commands/kav-kickoff.md` |
 | `/kav-character <name>` · add or fix a character's look | `kav/commands/kav-character.md` |
 | `/kav-location <name>` · "add a location", photos of a place | `kav/commands/kav-location.md` |
+| `/kav-object <name>` · "add an object / a prop", a photo of a thing | `kav/commands/kav-object.md` |
 | `/kav-style <pack>` · "add these images as a style" | `kav/commands/kav-style.md` |
 | `/kav-visual-style-lock <pack>` · "lock the style", "styled mug shots" | `kav/commands/kav-visual-style-lock.md` |
 | `/kav-note <note>` · "note this", "jot this down", a note pinned on the board | `kav/commands/kav-note.md` |
