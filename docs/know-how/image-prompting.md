@@ -103,6 +103,8 @@ Cutting to one photograph is the obvious move and it is the wrong one: it costs 
 
 **Word the shot cues as viewpoints, not as scene dressing.** A first pass matched `"from the street"` as a cue for Brooklyn's shopfront and pulled the exterior into an interior scene whose line happened to read *"warm light from the street."* Cues name where the camera stands — `window counter`, `shopfront`, `order counter` — never what the light or the weather is doing.
 
+**And keep generic words out of cue lists entirely.** `pavement`, `table`, `sitting`, `outside`, `sunset` appear in nearly every line at an outdoor location, so they win by accident and decide the plate for scenes they say nothing about: a La Tigre panel asking for red neon got the terrace, which has neither the neon disc nor the mural, because `pavement` is a longer string than `neon`. Rank cues by specificity rather than length, and let a line that only says "at a table" fall through to the location's `default_shot` — that is what a default is for.
+
 ### How many faces a panel can carry
 
 **The lane sets the book's face budget, once.** The lane is locked for the whole book — switching it mid-book means re-rendering every panel, because two models never agree on a face — so a provider's image cap is not a caveat about crowded panels. It is a property of the book, fixed the moment the lane is chosen, and it decides which scenes the story can stage at all.

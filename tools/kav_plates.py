@@ -44,10 +44,16 @@ def shots(spec, loc):
 def pick_shot(brief, spec):
     """Which view of the location this scene wants: (shot key, photo path) or (None, None).
 
-    Matched on the scene line the same way the location itself is matched, so a line that
-    says "outside Brooklyn, walking up" gets the shopfront and one that says "at the window
-    counter" gets the interior. Longest keyword first, so a two-word cue beats a one-word
-    one. No match falls back to the location's `default_shot`.
+    Matched on the scene line, so "outside Brooklyn, walking up" gets the shopfront and "at
+    the window counter" gets the interior. **The most specific cue wins, not the longest.**
+    Ranking by string length put a La Tigre panel on the terrace because "pavement" is
+    longer than "neon" — and the terrace plate has neither the neon disc nor the mural the
+    line asked for. A cue that names a feature of the place beats one that names furniture,
+    and a multi-word cue beats a single word at equal specificity.
+
+    No match falls back to the location's `default_shot`, which is where generic words
+    belong: a scene that only says "at a table" wants the default view, and saying so by
+    silence is more honest than a cue list full of words every scene contains.
     """
     loc = brief.get("location")
     if not loc:
@@ -56,11 +62,14 @@ def pick_shot(brief, spec):
     if not declared:
         return None, None
     low = (brief.get("scene") or "").lower()
-    best, best_len = None, 0
+    best, best_rank = None, (0, 0)
     for key, cfg in declared.items():
         for w in cfg.get("words", []):
-            if len(w) > best_len and re.search(re.escape(w.lower()), low):
-                best, best_len = key, len(w)
+            if not re.search(re.escape(w.lower()), low):
+                continue
+            rank = (len(w.split()), len(w))   # a phrase outranks a word; then the longer word
+            if rank > best_rank:
+                best, best_rank = key, rank
     key = best or spec["locations"][loc].get("default_shot") or next(iter(declared))
     cfg = declared.get(key)
     return (key, root() / cfg["photo"]) if cfg else (None, None)
