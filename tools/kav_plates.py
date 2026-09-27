@@ -31,6 +31,13 @@ FRAME = (
     "the same signage with the same wording and the same lettering, the same fittings, "
     "furniture, colours and light, from the same viewpoint. Change nothing about the place "
     "and invent nothing that is not in the photograph. Draw no people. "
+    "Keep the photograph's orientation exactly: the ground stays at the bottom of the frame "
+    "and the sky or ceiling at the top, furniture stands on the floor, and the view is never "
+    "mirrored, tilted or turned over. "
+    "Copy every piece of lettering glyph for glyph from the photograph, in the same script "
+    "and the same spelling. Where a sign is cut off, turned away, or too small to read, draw "
+    "it blank or leave it out — never fill it with invented words. A plate is bound by every "
+    "panel set in this place, so a sign invented here is wrong on every page of the book. "
     "Render the entire final image as a {medium}, matching the style pack's line quality, "
     "colour palette, shading, texture and level of abstraction throughout."
 )
@@ -79,13 +86,22 @@ def plate_path(loc, shot):
     return root() / "locations" / loc / "plates" / f"{shot}.png"
 
 
-def build_plate(loc, shot, photo, style_pack, seed=11, provider=None):
-    """Draw one shot of one location in the pack's style and cache it. Returns the path."""
+def build_plate(loc, shot, photo, style_pack, seed=11, provider=None, camera=None):
+    """Draw one shot of one location in the pack's style and cache it. Returns the path.
+
+    `camera` replaces "from the same viewpoint" when a photograph will not copy — a wide
+    downward view of round café tables inverted on three separate seeds, the tabletops read
+    as ceiling lamps, until the camera was stated outright. A shot may carry one in
+    briefs.json as `camera`.
+    """
     import lanes
 
     medium = (styles_dir() / style_pack / "medium.txt").read_text(encoding="utf-8").strip()
     refs = [photo] + style_pack_images(style_pack, limit=3)
-    img, _ = lanes.generate(FRAME.format(n=len(refs), medium=medium), refs, lane="seedream",
+    prompt = FRAME.format(n=len(refs), medium=medium)
+    if camera:
+        prompt = prompt.replace("from the same viewpoint.", f"{camera.rstrip('.')}.")
+    img, _ = lanes.generate(prompt, refs, lane="seedream",
                             size=(1536, 1152), seed=seed, provider=provider)
     out = plate_path(loc, shot)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -109,4 +125,6 @@ def ensure_plate(brief, spec, style_pack, provider=None):
     out = plate_path(loc, shot)
     if out.exists():
         return out
-    return build_plate(loc, shot, photo, style_pack, provider=provider)
+    cfg = shots(spec, loc).get(shot) or {}
+    return build_plate(loc, shot, photo, style_pack, provider=provider,
+                       camera=cfg.get("camera"))

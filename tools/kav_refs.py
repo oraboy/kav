@@ -115,6 +115,21 @@ def parse_quick_line(text, n, characters):
     location = next((loc for loc, words in location_words().items()
                      if any(w.lower() in low for w in words)), None)
     objects = [o for o, words in object_words().items() if any(w.lower() in low for w in words)]
+    # An object may belong to particular places: `"at": ["artzieli"]` on the object lets its
+    # triggers be the ordinary words people use for it — "tray", "slice", "display case" —
+    # without those words dragging it into every other pizzeria in the book. Scoping is what
+    # makes a specific trigger safe; a global "slice" once bound Roman al taglio, and its
+    # shouted "never round" rule, into a Neapolitan place that serves round pizza.
+    spec_objects = (_spec_json() or {}).get("objects", {})
+    for obj, cfg in spec_objects.items():
+        at = cfg.get("at")
+        if not at:
+            continue
+        if obj in objects and location not in at:
+            objects.remove(obj)
+        elif obj not in objects and location in at and any(
+                w.lower() in low for w in cfg.get("here_words", [])):
+            objects.append(obj)
     # word-boundary match, longest name first: "sc2" must never match the "sc" pack
     pack = next((p for p in sorted(registered_packs(), key=len, reverse=True)
                  if re.search(rf"\b{re.escape(p.lower())}\b", low)), None)
@@ -418,9 +433,16 @@ def build_prompt(brief, spec, style_pack=None, max_refs=None):
             lines.append(f"Images {first} to {n} show {title(name)} — one character, "
                          f"photographed from several angles: {desc}.")
     loc = brief.get("location")
+    loc_is_plate = False
     if loc and plan["location"]:
         first, n = n + 1, n + len(plan["location"])
-        if n == first:
+        loc_is_plate = len(plan["location"]) == 1 and plan["location"][0].parent.name == "plates"
+        if loc_is_plate:
+            # A plate is already a drawing of the place in this book's style, so it is not
+            # "a photograph to work from" — it is the place itself, and saying so is what
+            # stops the panel quietly inventing a generic version of it.
+            lines.append(f"Image {n} is this exact real place, already drawn in the target style.")
+        elif n == first:
             lines.append(f"Image {n} shows the real location the scene takes place in.")
         else:
             lines.append(f"Images {first} to {n} show the real location the scene takes place in.")
@@ -459,6 +481,21 @@ def build_prompt(brief, spec, style_pack=None, max_refs=None):
             f"as in their reference images: keep each face's structure, eye shape and spacing, nose, "
             f"mouth, jawline, hairline, hair colour and hair texture, and their apparent age. The "
             f"rendering changes how they are drawn; it never changes who they are."
+        )
+
+    # A place erodes the same way a face does, and for the same reason: nothing in the
+    # prompt ever told the model to keep it. Measured on nero-pizza (2026-09-27): with a
+    # correct plate bound and no such clause, Zota came back as a generic late-night kiosk
+    # and Artzieli's al taglio counter as an American slice joint. The characters held,
+    # because they have this sentence and the location did not.
+    if loc_is_plate:
+        place = spec.get("locations", {}).get(loc, {}).get("name") or loc.replace("-", " ")
+        parts.append(
+            f"The setting is that same place and no other: keep its architecture, its frontage "
+            f"and counters, its signage and the exact wording on it, its fittings, furniture, "
+            f"colours and light as they are in that image. The camera may move within the place "
+            f"and the people are new, but nothing about {place} itself is redesigned, "
+            f"generalised, or replaced with a similar-looking venue."
         )
 
     # "a selfie" means the phone IS the camera, not a subject in someone else's photo
