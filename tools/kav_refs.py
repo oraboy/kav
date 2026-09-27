@@ -339,6 +339,14 @@ def plan_refs(brief, spec, style_pack=None, max_refs=None):
     shots = {n: mugshots(n, len(chars), style_pack) for n in chars}
     loc = brief.get("location")
     loc_photos = [root() / p for p in spec["locations"][loc].get("photos", [])] if loc else []
+    # A plate is the place already drawn in the book's style (see kav_plates). When one
+    # exists for the shot this scene wants, it is the whole location reference: the panel
+    # is never asked to reconcile a photograph with stylised faces.
+    if loc and style_pack:
+        import kav_plates
+        shot, _ = kav_plates.pick_shot(brief, spec)
+        if shot and kav_plates.plate_path(loc, shot).exists():
+            loc_photos = [kav_plates.plate_path(loc, shot)]
     objects = []
     for obj in brief.get("objects", []):
         p = next((root() / "objects" / f"{obj}{e}" for e in (".png", ".jpg", ".jpeg", ".webp")
