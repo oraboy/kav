@@ -21,6 +21,7 @@ text:
 ```
 
 - The scene line must name at least one cast member of the active story (that's how references bind). **Keep the named subjects** (characters plus any bound object) **inside the selected model's reference budget** — three on a capped provider like Magnific, more on fal.ai, per the story's lock in `style/style.md` or `KAV_PROVIDER`. Past it the style pack loses its slots and the look drifts. If the author's scene needs one more, say it plainly first — *"On Magnific we can't fit more than three cast members and objects in one panel; a scene like that means switching provider"* — then offer to split it, push someone into the background, or switch. Their call. Location and objects bind from the story's `location_words` / `object_words`.
+- **The location binds as a plate — the place drawn in the book's style, not photographed.** The shot is picked from the scene line's own words; if that view has never been drawn, it is drawn now (one cheap call) and cached for every later panel that takes it. **Show the author any plate drawn for the first time, before the panel that needed it** — it will govern every panel in that view, so a wrong one is worth catching once rather than in each page. A view the location has no shot for is a gap in the location's scene vocabulary: say so and offer to declare one, rather than letting the panel fall back to a photograph.
 - Text lines are in **reading order**; earlier = higher on the panel.
 - Kinds: `caption` (narrator) · `speech` · `thought` · `shout`/sound burst. Balloons stay short — two tight lines.
 

@@ -78,8 +78,30 @@ The most useful mental model: a reference exerts pressure to appear *as an objec
 | Kind | How many | Which ones |
 |---|---|---|
 | **Style plates** | **Constant across the book.** Pick the number once — three is a good default — and never vary it panel to panel. | May vary by **shot type**, never by panel: a crowd scene, a close-up and a wide interior may each take a different trio, as long as the mapping is fixed, so every close-up in the book takes the same trio as every other close-up. An ad-hoc per-panel choice optimises one panel and costs the book its consistency, which is the one thing a pack exists to protect. |
-| **Location photos** | As few as agree. | Only those showing what **this** panel shows. An interior scene gets interiors; the shopfront stays out of it. |
+| **Location photos** | **One — a plate, not a photograph.** See below. | The plate for the view this panel takes. An interior scene gets the interior plate; the shopfront stays out of it. |
 | **Mug shots** | 2–3 per character. | The views the shot needs — full-body for a standing wide, the smile shot for a laughing close-up, front always as the anchor. Taking the first two in a fixed order wastes both: a head-to-foot panel given `front` + `three-quarter` came back cropped at mid-thigh, and came back near full length given `full-body` + `front`. |
+
+### Locations get mug shots too
+
+A photograph of a real place and a stylised drawing of a character are two different kinds of picture, and a panel that binds both has to reconcile them — silently, and differently on every take. Move that reconciliation out of the panel: redraw the location once in the pack's style, look at it, and from then on bind the drawing. A **plate** is to a location what a mug shot is to a character.
+
+Measured on nero-pizza (2026-09-27), the same two-hander at the same three seeds, changing nothing but the location reference:
+
+| Location reference | Character read correctly | Place recognisable |
+|---|---|---|
+| Three photographs | 2/3 | Partly — the mural and the red stools went missing, the street outside turned American |
+| One photograph | 2/3 | **Worse.** La Tigre lost its neon disc and its tiger mural on every take; one had no sign at all |
+| **One plate** | **3/3** | Yes — concertina frames, red stools, tiled counter base, an Israeli bus outside |
+
+Cutting to one photograph is the obvious move and it is the wrong one: it costs the place its signature without buying identity back. The kind of picture is what matters, not the count.
+
+**Plates are per shot, not per location.** A scene at the window counter and a scene arriving from the street are two different views of the same pizzeria and want two different plates, exactly as a character wants `front` and `full-body`. Declare the shots the way mug shots are declared — the photograph each comes from, the words in a scene line that call for it, and what it shows.
+
+**Build them on demand and cache them.** The first panel that needs a view draws it (one cheap call); every later panel in that view is free. Nothing is generated up front, so a location the book never enters never costs anything, and a book that grows a new kind of scene grows a new plate without a ceremony.
+
+**Whatever is in the plate arrives in the panel, faithfully.** In testing the Tigre panels reproduced their plate's terrace down to the air-conditioning unit and the shop sign across the street — which is the argument for plates and the warning about them in one observation. If the plate is built from the wrong photograph, the panel is wrong in exactly that way, every time, instead of rolling the dice across three photos. That makes plate choice an author decision, made once and visibly, which is where it belongs. Show new plates at the next gate.
+
+**Word the shot cues as viewpoints, not as scene dressing.** A first pass matched `"from the street"` as a cue for Brooklyn's shopfront and pulled the exterior into an interior scene whose line happened to read *"warm light from the street."* Cues name where the camera stands — `window counter`, `shopfront`, `order counter` — never what the light or the weather is doing.
 
 ### How many faces a panel can carry
 
@@ -166,6 +188,14 @@ Then, in order:
 3. **Generate three takes before diagnosing anything.** One bad image is not evidence: identity at two mug shots per character lands most of the time and misses sometimes, so a single miss looks exactly like a broken pipeline. Diagnosing off one generation produced three wrong diagnoses in a row on one book — a systemic identity failure, then the style pack, then the seed — when the truth was one wrong word in each of two character descriptions, plus ordinary variance. **Wrong in one take of three is variance; wrong in all three is a cause.**
 4. When it is wrong in all three, suspect **a word in the character description before anything else.** Descriptions have overwhelmed mug shots repeatedly: *"tousled"* gave a cropped-haired man wavy hair; *"wavy and a little unruly"* gave a boy ringlets; and *"soft full cheeks · slender undeveloped jaw · a delicate jaw · full lips · narrow shoulders"* stacked onto a blunt fringe rendered an eighteen-year-old boy as a girl in every take. Read the description aloud and ask what it would conjure with no photograph attached — that is most of what the model is doing with it.
 5. Only then rewrite the scene line — for a named reason.
+
+**When one cast member keeps failing, rebuild their references pushed the other way.** Rewording the panel prompt is arguing with the model at the wrong end: the reading the panel inherits was baked into the mug shots. Rebuild the set with the mug-shot direction pushed *past* the target, so the drawing has to travel back through the panel's variance rather than start at the edge of it. An eighteen-year-old boy who rendered as a girl in every take — pale, slight, a heavy blunt fringe that kept resolving to a bob — got a direction written in the opposite direction: squarer jaw, visible Adam's apple, flat broad chest, the fringe cut short and above the brows, the sides cropped close, *"so the head reads as a boy's crop and never as a bob."* The same panel at the same seeds went from 0 to 2 of 3.
+
+Three notes on doing it:
+
+- **Push the reading, not the likeness.** The direction steers the mug build only; it never reaches a panel prompt. Overshooting there costs nothing in the book and buys margin in every panel.
+- **Retest on the panel that was failing, at three seeds, before believing it.** Two of three is progress, not a fix, and says to keep going.
+- **Then ask the author.** A rebuilt set changes how a real person's character looks on every page they appear on. That is theirs to accept, and they may know a better lever — a different haircut in the book, a signature prop, or a better photograph. (Invented features carry well: a character given large glasses and an orange shirt at touch-up time, neither in any photograph of him, kept both across panels.)
 
 ## Known failure modes
 

@@ -35,6 +35,41 @@ The roster is `stories/<slug>/cast/*.md` — use that explicit list for every st
 
 One sheet showing everything collected: every character's reference (front shot or source) + name · every location's primary photo + name · the pack's images, the `medium.txt` line verbatim, and the lettering theme rendered (a sample caption and balloon). The author confirms the input set is complete.
 
+## Step 1b — Quick scan (GATE · the reliability test)
+
+**Before any styled mugs are baked, find out whether this cast, these locations and this pack can actually be rendered together.** A book's look is not locked by agreeing it is pretty; it is locked by proving it comes out the same twice. This stage exists so that failures surface here, cheaply, against the *sources* — not in chapter three against a deadline.
+
+**1 · Generate a 9-image scan.** Nine different combinations — no duplicates — spread across the cast and the locations, on the pack: a couple of single-character shots, several two-handers, at least one crowded panel, each location at least once, a mix of interior and exterior and of close and wide. About $0.36.
+
+**Location plates come with it.** The scan draws a plate for every location shot it touches — the place redrawn once in the pack's style, which is what panels bind from then on (`docs/know-how/image-prompting.md`). **Show the plates beside the scan** and treat them as their own small gate: a plate built from the wrong photograph is wrong in every panel that takes that view, so this is the moment the author picks the view. A place whose identifying feature is missing from its plate — the sign, the mural, the frontage — needs a second shot declared, not a reworded prompt.
+
+**2 · Review it yourself first, and say what you flagged.** Compare every face to its mug shot, every place to its reference photos, every panel to the pack. Flag identity drift, location drift, style drift, invented people, invented signage. **Never present a scan you have not judged** — that is the author's second opinion, not their first.
+
+**3 · Show the grid with your flags on it**, each image numbered, and for each one **the exact prompt and the reference list that produced it, available to read**. The author can overrule any flag, add flags you missed, and say why. A flag you cannot explain in one line is not a flag.
+
+**4 · Then, depending on what the scan shows:**
+
+- **Clean** — say so and move on. Do not invent problems to look diligent.
+- **Isolated misses** (a character wrong in one image of nine) — that is variance. Note it, move on.
+- **Something failing consistently** — roughly one or two bad in every three attempts at the same character, place or combination — **is not a prompt problem and must not be treated as one.** Work the loop yourself first: better reference crops, a reworded description, an added reference image, the chaining method. Ask for more source photographs when they would settle it. Then re-scan.
+  - **For a character, the first move is to rebuild their mug set with the reading pushed the other way** — if they keep rendering as a girl, write the mug-shot direction unmistakably male and overshoot; the direction never reaches a panel prompt, so overshooting costs nothing in the book. Retest on the panel that was failing, at three seeds. Then bring it to the author: a rebuilt set changes how a real person looks on every page they appear on, and they may know a better lever. Worked example in `docs/know-how/image-prompting.md`.
+- **Impasse** — when the loop stops improving, **stop.** Do not keep spending.
+
+**5 · At an impasse, escalate to a book-level decision and walk the author through it.** Say it plainly: *the image generator, with this story's current material, cannot render X reliably.* Then give concrete options, each with its cost:
+
+| The failure | The book-level options |
+|---|---|
+| A character keeps coming out wrong | new source photographs · a different/stronger signature feature · demote them to background · write them out |
+| A location keeps breaking | new photographs covering the surfaces panels need · restrict it to the shots that do work · replace it with another place · cut it |
+| The style keeps drifting | swap the pack · change the register · simplify the palette |
+| A combination fails (these two together, this place at night) | stage it differently · split across panels · avoid the combination in the storyboard |
+
+This is a **story** decision, not a technical one, so it belongs to the author — including the option to accept the flaw and carry on. Log whichever they choose in `kickoff-state.md`, and mark the storyboard stale if a place or a character left the book.
+
+**6 · Re-scan with another nine** after any change, to prove the fix rather than assume it. **7 · The author approves the scan, and only then does anything expensive get baked.**
+
+**Write the outcome into `style/style.md`** — what was scanned, what failed, what was changed, and the **capability envelope** the book now operates under: how many faces a panel can hold, which combinations need staging, and what this book has decided it will not attempt. `/kav-chapter` and `/kav-panel` read that envelope and refuse to spend past it.
+
 ## Step 2 — Cheap samples with text (GATE · iterate here)
 
 On Seedream (~$0.04/image):
