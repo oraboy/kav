@@ -103,6 +103,16 @@ Cutting to one photograph is the obvious move and it is the wrong one: it costs 
 
 **Word the shot cues as viewpoints, not as scene dressing.** A first pass matched `"from the street"` as a cue for Brooklyn's shopfront and pulled the exterior into an interior scene whose line happened to read *"warm light from the street."* Cues name where the camera stands — `window counter`, `shopfront`, `order counter` — never what the light or the weather is doing.
 
+**A place erodes the same way a face does, and for the same reason: nothing told the model to keep it.** The character block has always carried an explicit *must remain recognisably the same* sentence; the location block had none. With a correct plate bound and no such clause, a pizzeria came back as a generic late-night kiosk and an al taglio counter as an American slice joint, while the characters in the same panels held. Say it for the place too: *the setting is that same place and no other — keep its architecture, frontage, signage and the wording on it, fittings, furniture, colours and light; the camera may move within it and the people are new, but the place itself is never redesigned, generalised, or replaced with a similar-looking venue.*
+
+**The seating is a shot, and most books need it.** A story set in cafés, bars or restaurants is mostly people sitting outside, and a frontage plate does not contain the furniture — so every seated scene borrows a frontage view and the model invents the tables. It reads as *the place is wrong* in four different panels and is one missing shot. Declare the seating as its own view wherever characters sit, and make it the location's `default_shot`.
+
+**But keep the seating cues narrow.** Making seating the default is right; giving it cues like `table` or `at a table` is not, because those appear in scenes whose real subject is the sign or the frontage — a La Tigre panel asking for the red neon got the terrace and lost the mural. The default already catches a plain seated scene; the cues only need to name the seating itself.
+
+**Two things a plate prompt must forbid, because both are wrong on every page set there.** *Invented lettering:* a plate built from a photograph with a sign cut off filled it with nonsense in the right script, and every panel copied it faithfully. Tell it to copy lettering glyph for glyph and to leave unreadable signs blank. *Inverted geometry:* a wide downward view of round café tables came back with the tables hanging from the sky, on four seeds and three prompt variants — the model reads tabletops seen from above as ceiling lamps. Stating the orientation did not fix it and neither did stating the camera; **a different photograph did.** When a plate fails the same way twice, change the source, not the words.
+
+**Bind a location's signature object rather than describing it.** ARTZIELI's Roman al taglio — rectangular trays cut into rectangles on baking paper — came back as round American pizza every time, because *pizza* has a strong prior and the description was fighting it. The tray was already a registered object with a photograph and nothing was binding it. Objects need to be scoped to the places they belong to (`"at": ["artzieli"]`), so ordinary words like `tray` or `slice` can trigger them there without dragging a Roman pizza into a Neapolitan pizzeria.
+
 **And keep generic words out of cue lists entirely.** `pavement`, `table`, `sitting`, `outside`, `sunset` appear in nearly every line at an outdoor location, so they win by accident and decide the plate for scenes they say nothing about: a La Tigre panel asking for red neon got the terrace, which has neither the neon disc nor the mural, because `pavement` is a longer string than `neon`. Rank cues by specificity rather than length, and let a line that only says "at a table" fall through to the location's `default_shot` — that is what a default is for.
 
 ### How many faces a panel can carry
@@ -198,6 +208,14 @@ Three notes on doing it:
 - **Push the reading, not the likeness.** The direction steers the mug build only; it never reaches a panel prompt. Overshooting there costs nothing in the book and buys margin in every panel.
 - **Retest on the panel that was failing, at three seeds, before believing it.** Two of three is progress, not a fix, and says to keep going.
 - **Then ask the author.** A rebuilt set changes how a real person's character looks on every page they appear on. That is theirs to accept, and they may know a better lever — a different haircut in the book, a signature prop, or a better photograph. (Invented features carry well: a character given large glasses and an orange shirt at touch-up time, neither in any photograph of him, kept both across panels.)
+
+## Cost and speed
+
+**References are posted on every call, so their size is most of the wall-clock.** Sending files as they sit on disk is the obvious thing and it is very expensive: styled mug shots are 2048-square PNGs and style plates are larger, so a four-face panel posted **13 MB** of base64 per generation. Measured on one panel: 17.7s uploading 1.9 MB against ~110 KB/s upstream, which at 13 MB is over two minutes before the model starts. Downscale references to **1024px JPEG** on the wire — the same stack becomes 1.7 MB, eight times less — and cache the encoding per file so a batch sending the same mug shots nine times encodes them once. Nothing is lost: the model resizes them anyway, and identity is carried by structure. A/B'd at 1024, 1600 and 2048 against a location that was failing: **no difference in fidelity**, so the small one is free.
+
+**The rest of the wall-clock is the provider's queue, so generate concurrently.** A single Seedream panel is ~100s and ~80s of it is waiting on their side. Nine in sequence is a quarter of an hour of nothing; three at a time is about five minutes. Draw any missing location plates serially first — two scenes at one place would otherwise race to draw the same plate, paying twice — then fan out.
+
+**Retry upload failures.** `write operation timed out` happens, and a nine-image run that dies on the second image wastes everything already paid for.
 
 ## Known failure modes
 

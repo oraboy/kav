@@ -30,3 +30,13 @@ Packs are the one asset stories may share. A story uses only the pack its `style
 ## Registered packs
 
 *(Each pack gets a short entry here: name · what it looks like · the medium line.)*
+
+- **`ligne-tlv`** — clear line and flat warm colour. Even-weight contour on every form, no hatching and no
+  rendered shadow; light is a hard-edged warm/cool split between two flat fills of the same surface; a cool
+  violet carries the shadow pole against ochre, terracotta and amber. Faces get black ink on eyes and brows
+  and colour-matched line everywhere else, so line and colour integrate. Plates: `01` a close portrait of an
+  older East Asian woman (an unrelated face, so the pack teaches face rendering without competing with any
+  cast), `02` an empty plastered corner cut by a wedge of sun (the light logic, nothing else), `03` three
+  tomatoes on a folded cloth. Deliberately content-light — the v1 plates were an interior with a counter and
+  a shopfront, and they donated furniture to scenes that had their own; kept in `ligne-tlv/_v1/`.
+  Built for `nero-pizza`; shareable. Medium line in `ligne-tlv/medium.txt`.

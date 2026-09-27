@@ -96,6 +96,23 @@ python3 tools/build_mugshots.py --story <slug> --char <name> [--char <name2>] [-
 - **Output:** `S/cast/<name>/<shot>.png`, or `S/cast/<name>/<pack>/<shot>.png` with `--style-pack`.
 - **Lanes:** `--lane seedream` writes cheap drafts to `.../draft/`, which the pipeline never uses. The default seed is 7. Existing shots are skipped unless you pass `--force`. Needs FAL_KEY.
 
+## calibrate.py (calls the API)
+
+The Visual Calibration Lock: nine stress-test images, rated on consistency, style, adherence and quality, with the author's ratings on top of Kav's.
+
+```
+python3 tools/calibrate.py --story <slug> --generate [--only c4,c7] [--seed N]
+python3 tools/calibrate.py --story <slug> --static <out.html>
+```
+
+- **Inputs:** `S/style/calibration.json` — a list of `{id, what, line, ar}` chosen to stress the book: one to four characters, every location, day and night, the moods and poses the story actually uses.
+- **Output:** `S/style/calibration-state.json` (images, ratings, feedback, superseded takes) plus a self-contained page, published as an Artifact. Ratings save into the artifact's own store, so read them back from there rather than asking the author to copy anything.
+- Generates three at a time, drawing any missing location plates serially first so two scenes at one place cannot race. Retries upload failures. `--only` re-runs named scenes and moves what they replace into Previous generations.
+
+## kav_plates.py (library, calls the API)
+
+Location plates: a place drawn once in the book's style, then bound like a mug shot. Per shot, built on demand by the first panel that needs that view and cached at `S/locations/<loc>/plates/<shot>.png`. Shots are declared under the location in briefs.json — `photo`, `words`, `description`, and an optional `camera` for a view the model will not copy. `default_shot` catches a line that names none; `KAV_NO_PLATES` falls back to the raw photographs.
+
 ## touch_up.py (calls the API)
 
 Makes a single-detail edit pass on a finished mug shot.

@@ -20,11 +20,11 @@
           "edit": "fal-ai/bytedance/seedream/v4.5/edit",
           "text_to_image": "fal-ai/bytedance/seedream/v4.5/text-to-image",
           "takes": "size",
-          "max_refs": null,
+          "max_refs": 10,
           "price": 0.04,
           "status": "recommended",
-          "verified_on": "2026-09-17",
-          "notes": "Kav's default panel lane. Replayed ten picked panels of berko-and-olive and matched the book."
+          "verified_on": "2026-09-27",
+          "notes": "Kav's default panel lane. Replayed ten picked panels of berko-and-olive and matched the book. max_refs 10 is fal's documented hard limit, verified 2026-09-27 in the endpoint's own OpenAPI schema: 'Presently, up to 10 image inputs are allowed. If over 10 images are sent, only the last 10 will be used.' It truncates SILENTLY and keeps the TAIL — and Kav sends characters first, so an over-cap call drops character references and says nothing. Upstream ByteDance allows 14; the 10 is fal's."
         },
         "nanobanana": {
           "title": "Nano Banana Pro",

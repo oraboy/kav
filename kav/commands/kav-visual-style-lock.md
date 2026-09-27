@@ -33,27 +33,60 @@ The roster is `stories/<slug>/cast/*.md` — use that explicit list for every st
 
 One sheet showing everything collected: every character's reference (front shot or source) + name · every location's primary photo + name · the pack's images, the `medium.txt` line verbatim, and the lettering theme rendered (a sample caption and balloon). The author confirms the input set is complete.
 
-## Step 1b — Quick scan (GATE · the reliability test)
+## Step 1b — Visual Calibration Lock (GATE · the reliability test)
 
-**Before any styled mugs are baked, find out whether this cast, these locations and this pack can actually be rendered together.** A book's look is not locked by agreeing it is pretty; it is locked by proving it comes out the same twice. This stage exists so that failures surface here, cheaply, against the *sources* — not in chapter three against a deadline.
+**Before any styled mugs are baked, find out whether this cast, these locations and this pack can be drawn together.** The question is never whether the model is good. It is: *given this story's material, can we reliably generate an image that works as a page of this book?* Failures belong here, cheap, against the sources — not in chapter three against a deadline.
 
-**1 · Generate a 9-image scan.** Nine different combinations — no duplicates — spread across the cast and the locations, on the pack: a couple of single-character shots, several two-handers, at least one crowded panel, each location at least once, a mix of interior and exterior and of close and wide. About $0.36.
+**Four things are rated, each out of five, on every image:**
 
-**Location plates come with it.** The scan draws a plate for every location shot it touches — the place redrawn once in the pack's style, which is what panels bind from then on (`docs/know-how/image-prompting.md`). **Show the plates beside the scan** and treat them as their own small gate: a plate built from the wrong photograph is wrong in every panel that takes that view, so this is the moment the author picks the view. A place whose identifying feature is missing from its plate — the sign, the mural, the frontage — needs a second shot declared, not a reworded prompt.
+| | What it asks |
+|---|---|
+| **Consistency** | Do the cast look like their mug shots, and like themselves in the other images here? Does the place match its reference? |
+| **Style** | Is this the book's look, and the *same* look across all nine? |
+| **Adherence** | Did we get what the line asked for — smiling if it says smiling, holding a slice if it says holding one? |
+| **Quality** | Anything the eye snags on: broken hands, fused bodies, melted faces, artefacts. |
 
-**2 · Review it yourself first, and say what you flagged.** Compare every face to its mug shot, every place to its reference photos, every panel to the pack. Flag identity drift, location drift, style drift, invented people, invented signage. **Never present a scan you have not judged** — that is the author's second opinion, not their first.
+**5 is perfect, 2 is unusable.** Below 3 blended, an image cannot be a page.
 
-**3 · Show the grid with your flags on it**, each image numbered, and for each one **the exact prompt and the reference list that produced it, available to read**. The author can overrule any flag, add flags you missed, and say why. A flag you cannot explain in one line is not a flag.
+**1 · Choose nine scenes that stress the book, not nine that flatter it.** Vary every axis the story actually uses: **one, two, three and four characters**; every location; day, night and whatever seasons the story has; and the moods and poses it calls for — laughing, angry, afraid, dancing, reciting — plus a full-body and a wide, since those break differently from a close two-hander. Written to `stories/<slug>/style/calibration.json`. About $0.40.
 
-**4 · Then, depending on what the scan shows:**
+```
+python3 tools/calibrate.py --story <slug> --generate        # writes style/calibration-state.json
+python3 tools/calibrate.py --story <slug> --static <out.html>
+```
 
-- **Clean** — say so and move on. Do not invent problems to look diligent.
-- **Isolated misses** (a character wrong in one image of nine) — that is variance. Note it, move on.
-- **Something failing consistently** — roughly one or two bad in every three attempts at the same character, place or combination — **is not a prompt problem and must not be treated as one.** Work the loop yourself first: better reference crops, a reworded description, an added reference image, the chaining method. Ask for more source photographs when they would settle it. Then re-scan.
-  - **For a character, the first move is to rebuild their mug set with the reading pushed the other way** — if they keep rendering as a girl, write the mug-shot direction unmistakably male and overshoot; the direction never reaches a panel prompt, so overshooting costs nothing in the book. Retest on the panel that was failing, at three seeds. Then bring it to the author: a rebuilt set changes how a real person looks on every page they appear on, and they may know a better lever. Worked example in `docs/know-how/image-prompting.md`.
-- **Impasse** — when the loop stops improving, **stop.** Do not keep spending.
+**Location plates come with it.** The run draws a plate for every location shot it touches — the place redrawn once in the pack's style, which is what panels bind from then on (`docs/know-how/image-prompting.md`). A plate built from the wrong photograph is wrong in every panel that takes that view. **Check every new plate yourself, and do not put it in front of the author** — they judge the panels, not the intermediates. A place whose identifying feature is missing from its plate — the sign, the mural, the frontage — needs another shot declared, not a reworded prompt; and a plate that fails the same way twice needs a different source photograph, not different words.
 
-**5 · At an impasse, escalate to a book-level decision and walk the author through it.** Say it plainly: *the image generator, with this story's current material, cannot render X reliably.* Then give concrete options, each with its cost:
+**Most books need a seating shot.** A story set in cafés, bars or restaurants is mostly people sitting; a frontage plate has no furniture in it, so every seated scene invents the tables and reads as *the place is wrong* in panel after panel. Declare the seating as its own view wherever characters sit, make it the location's `default_shot`, and keep its cues narrow — `table` and `at a table` will steal scenes whose real subject is the sign.
+
+**2 · Rate all nine yourself before the author sees them.** Every image, every category, plus one short paragraph of prose per image saying what you see. **Never present a calibration you have not rated** — the author's ratings are a second opinion, not the first.
+
+**3 · Diagnose each weak image into one of six causes,** because the cause decides who fixes it:
+
+| Cause | Who acts |
+|---|---|
+| The prompt is loose around a character, a place or a pose | **you** — tighten it and re-run |
+| The mug shots carry the wrong reading | **you** — rebuild them pushed the other way, re-run |
+| A shot cue picked the wrong plate, or a plate is missing | **you** — fix the cue or declare the shot, re-run |
+| A character or location needs more reference photographs | **the author** — ask |
+| The style pack is wrong or too thin | **the author** — ask |
+| Bad luck | **nobody** — re-run once and look again |
+
+Work the technical causes yourself, in a loop, keeping every superseded take in **Previous generations** with the reason it was replaced. Stop when the set is good enough or the loop stops improving; do not keep spending past that.
+
+**The standard is one in three.** One bad take out of three is luck, and two good ones to pick from is a working process. Worse than that and the book cannot be drawn at this cost — say so plainly rather than hiding it in an average.
+
+**4 · Publish the page as an Artifact and say what the author has to do,** not what you did: review the images, change any rating they disagree with, write feedback, save, and say *"please continue"*. Their ratings save into the artifact's own store, so read them straight back — never ask the author to copy anything.
+
+**The page shows the state, not the story of getting there.** The images, the four ratings on each, what is wrong with each in one or two sentences, the exact prompt and references behind the fold, and **Previous generations** — every superseded take with the reason it was replaced. Recommendations, plans, and what changed since last time belong in the conversation: they date the moment they are acted on, and a page that argues with itself is a record of nothing.
+
+**Write each evaluation as the problem, in the author's terms.** *What is wrong* first, in a sentence; the cause after, and only when it points at a fix. Never narrate what you tried, believed, or discovered — they may not agree the problem is a problem, or may have a cheaper answer than yours ("drop that location"), and they cannot say so if the finding is buried in your reasoning.
+
+**Show the categories separately, not just an average.** Five images consistent at 2 and clean at 5 average to a comfortable number and describe a book that cannot be drawn.
+
+**Read the author's notes for the common cause before acting on them one by one.** Four separate complaints in one round turned out to be a single missing shot; fixing them as four would have been four wrong fixes.
+
+**5 · At an impasse, escalate to a book-level decision.** Say it plainly: *with this story's current material, we cannot render X reliably.* Then the options, each with its cost:
 
 | The failure | The book-level options |
 |---|---|
@@ -64,9 +97,9 @@ One sheet showing everything collected: every character's reference (front shot 
 
 This is a **story** decision, not a technical one, so it belongs to the author — including the option to accept the flaw and carry on. Log whichever they choose in `kickoff-state.md`, and mark the storyboard stale if a place or a character left the book.
 
-**6 · Re-scan with another nine** after any change, to prove the fix rather than assume it. **7 · The author approves the scan, and only then does anything expensive get baked.**
+**6 · The author confirms, and only then does anything expensive get baked.** Confirmation sets `confirmed` in `style/calibration-state.json`, which is what turns Concept art green on the story board.
 
-**Write the outcome into `style/style.md`** — what was scanned, what failed, what was changed, and the **capability envelope** the book now operates under: how many faces a panel can hold, which combinations need staging, and what this book has decided it will not attempt. `/kav-chapter` and `/kav-panel` read that envelope and refuse to spend past it.
+**Write the outcome into `style/style.md`** — what was calibrated, what failed, what was changed, and the **capability envelope** the book now operates under: how many faces a panel can hold, which combinations need staging, and what this book has decided it will not attempt. `/kav-chapter` and `/kav-panel` read that envelope and refuse to spend past it.
 
 ## Step 2 — Cheap samples with text (GATE · iterate here)
 
@@ -121,6 +154,8 @@ Build one self-contained HTML page (`stories/<slug>/style/style-sheet.html`, ima
 4. **Samples** — lettered look-tests and the dual-lane pairs, lane-labelled.
 
 Open it for the author. Share or host it only if the author asks.
+
+Rebuild the story board after each stage (`docs/know-how/story-board.md`): the style's square turns green when the look is locked and every principal has portraits in it.
 
 ## Hard rules
 
