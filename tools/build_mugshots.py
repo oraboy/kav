@@ -99,6 +99,17 @@ def build(name, provider=None, describe=None, extra=None, force=False, style_pac
         if direction and shot == "smile":
             prompt += " " + direction
         images = list(seeds)
+        # A provider's reference cap is a silent one: fal keeps the LAST 10 images and says
+        # nothing, so a character with a dozen source photos would lose the seeds we chose
+        # first and keep whatever sorted last. Trim here instead, keeping the earliest seeds
+        # (the ones the author put first) and leaving room for the style references.
+        cap = lanes.max_refs(provider or lanes.resolve(lane), lane)
+        n_style = 0 if not style_pack else (0 if shot == "full-body" else 2)
+        if cap and len(images) + n_style > cap:
+            keep = max(1, cap - n_style)
+            print(f"  {shot}: {len(images)} seed images, {cap}-image cap on this lane — "
+                  f"using the first {keep}")
+            images = images[:keep]
         if style_pack:
             # A full-body frame ("entire figure, empty space above and below") is a wide
             # composition, the same shape as the style stills, which invites the model to
