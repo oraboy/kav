@@ -16,11 +16,12 @@ configured provider (registry order) that runs the lane.
 import json
 import os
 import sys
+from base64 import b64encode
 from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from kav_env import data_uri, get_key  # noqa: E402
+from kav_env import get_key, jpeg_bytes  # noqa: E402
 
 REGISTRY = json.loads((Path(__file__).resolve().parent / "models.json").read_text())
 PROVIDERS = {k: v for k, v in REGISTRY["providers"].items()}
@@ -53,6 +54,33 @@ def days_since_verified(provider, lane=None):
         return None
 
 
+REF_PX = int(os.environ.get("KAV_REF_PX") or 1024)   # longest side of a reference on the wire
+_REF_CACHE = {}
+
+
+def ref_uri(path):
+    """One reference image as a data: URI, downscaled and JPEG-encoded first.
+
+    Sending the file as it sits on disk is the obvious thing and it is very expensive: a
+    styled mug shot is a 2048-square PNG and a style plate is bigger, so a four-face panel
+    was posting **13 MB** of base64 on every call — measured on nero-pizza, 2026-09-27 —
+    which is most of the wall-clock of a generation and the cause of the upload timeouts
+    that killed whole batches. At 1024px JPEG the same stack is 1.7 MB, eight times less.
+
+    Nothing is lost: the model resizes references on its side anyway, and identity is
+    carried by structure, not by pixels the model never sees. Cached per file, so a batch
+    that sends the same mug shots nine times encodes them once.
+    """
+    p = Path(path)
+    st = p.stat()
+    key = (str(p), st.st_mtime_ns, st.st_size)
+    if key not in _REF_CACHE:
+        _REF_CACHE.clear() if len(_REF_CACHE) > 64 else None
+        _REF_CACHE[key] = "data:image/jpeg;base64," + b64encode(
+            jpeg_bytes(p, max_px=REF_PX, quality=88)).decode()
+    return _REF_CACHE[key]
+
+
 def _nearest_ar(size):
     w, h = size
     return min(ASPECTS, key=lambda k: abs(ASPECTS[k][0] / ASPECTS[k][1] - w / h))
@@ -69,7 +97,7 @@ def _fal(spec, lane, prompt, refs, ar, size, seed):
         payload = {"prompt": prompt, "aspect_ratio": nb_aspect(ar), "resolution": "2K",
                    "safety_tolerance": "5", "output_format": "png"}
     if refs:
-        payload["image_urls"] = [data_uri(p) for p in refs]
+        payload["image_urls"] = [ref_uri(p) for p in refs]
     if seed is not None:
         payload["seed"] = seed
     return fal.run(endpoint, payload, get_key("FAL_KEY"))

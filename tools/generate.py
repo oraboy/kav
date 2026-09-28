@@ -19,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from kav_refs import (build_prompt, build_refs, current_story, default_style_pack,  # noqa: E402
                       load_spec, out_dir, parse_quick_line, plan_refs, ref_warning, set_story)
+import kav_plates  # noqa: E402
 import lanes  # noqa: E402
 import ledger  # noqa: E402
 
@@ -57,6 +58,13 @@ def generate(line, style=None, lane="seedream", seed=None, ar=None, provider=Non
     except SystemExit as e:
         return {"ok": False, "error": str(e)}
     cap = lanes.max_refs(via, lane)
+    # Draw the location plate first if this shot has never been drawn, so the panel binds a
+    # drawing of the place rather than a photograph of it. Cached after the first time.
+    try:
+        kav_plates.ensure_plate(brief, spec, pack, provider=via)
+    except Exception as e:
+        print(f"  plate not built ({e}); falling back to the location photographs",
+              file=sys.stderr)
     prompt = build_prompt(brief, spec, pack, max_refs=cap)
     refs = build_refs(brief, spec, pack, max_refs=cap)
     warning = ref_warning(plan_refs(brief, spec, pack, cap), pack, cap)
@@ -109,7 +117,11 @@ def main():
         pack = None if pack == "none" or a.style == "none" else pack
         via = lanes.resolve(a.lane, a.provider)
         cap = lanes.max_refs(via, a.lane)
+        shot, _ = kav_plates.pick_shot(brief, spec)
         out = {"brief": brief, "provider": via, "max_refs": cap,
+               "shot": shot, "plate": (str(kav_plates.plate_path(brief["location"], shot))
+                                       if shot else None),
+               "plate_exists": bool(shot and kav_plates.plate_path(brief["location"], shot).exists()),
                "refs": [{"kind": r["kind"], "name": r["name"], "local": str(r["local"])}
                         for r in build_refs(brief, spec, pack, max_refs=cap)],
                "prompt": build_prompt(brief, spec, pack, max_refs=cap)}
