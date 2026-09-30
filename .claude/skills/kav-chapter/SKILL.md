@@ -114,7 +114,7 @@ One batch per 2–4 scenes: `chapters/chNN/panels/batch-<name>.json`
 }
 ```
 
-- `n` = **2–4 takes per panel**. Explore on the cheap lane (Seedream); move a panel to Nano Banana only when it needs what that lane does better (text in frame, a recognisable real place, a precise gesture) — see `docs/know-how/image-prompting.md`.
+- `n` = **2–4 takes per panel** on the production lane locked in `style/style.md`. Do not move individual panels to another model as a quality upgrade; reopening the lane is a book-level author gate — see `docs/know-how/image-prompting.md`.
 - `ar` from the cell count: 1 cell = `4:5`, 2 cells = `8:5`, 3 cells = `12:5`.
 - `line` follows the prompting manual: name every cast member present (that's how references bind), use the location's trigger words, name the specific place first, frame positively, give the subject a position ("in the foreground centre, face clear"). Never put dialogue in the line. For a wide panel, keep the subject in the centre third of the frame. Leave negative space where the text will go.
 - **Every `line` carries the scene's scene-state clause and this panel's expression**, copied from `plan.md`. The state clause is the same words in every panel of the scene; the face changes per panel. A batch whose lines leave either out is not ready to run — grep the batch for the state clause before you spend on it.
