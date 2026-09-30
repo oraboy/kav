@@ -30,7 +30,7 @@ This step is **collection, not story**. Ideas that come up get jotted into `pitc
 
 **Commands:** `/kav-style <pack>` · `/kav-visual-style-lock <pack>`
 
-Register or choose a style pack (reference images + one `medium.txt` line) and a lettering theme. Then lock it: a summary sheet of everything collected, cheap lettered samples (iterate here until it's a yes), draft styled mug shots, production mug shots, samples on both image lanes, a saved gallery and a style sheet.
+Register or choose a style pack (reference images + one `medium.txt` line) and a lettering theme. Then lock it: a summary sheet of everything collected, economical lettered samples (iterate here until it's a yes), styled mug shots and concept scenes on the intended production lane, an optional author-approved lane comparison, a saved gallery and a style sheet. “Production” is a lifecycle stage, not a model tier; the locked lane carries through every panel and reroll unless the author explicitly reopens the decision.
 
 **Gates:** style choice · each lock stage (summary, samples, draft mugs, production mugs)
 **Produces:** `styles/<pack>/` · `style/style.md` · `cast/<name>/<pack>/` styled mugs · `style/samples/` · `style/worksheets/` · `style/style-sheet.html`

@@ -7,8 +7,8 @@ portrait carries no frontal information, so a selfie invents the face. This turn
 exists into a consistent set of views (front, three-quarter, smile, full-body) written
 to stories/<slug>/cast/<name>/<shot>.png, or cast/<name>/<pack>/<shot>.png with
 --style-pack. Seed images are cast/<name>/source*.{png,jpg,jpeg,webp} plus --from.
-The seedream lane is a cheap draft pass saved under .../draft/, which the pipeline never
-binds. Needs FAL_KEY.
+Pass --draft to save an exploratory set under .../draft/, which the pipeline never
+binds. The lane and the lifecycle stage are independent. Needs FAL_KEY.
 """
 import argparse
 import sys
@@ -63,15 +63,15 @@ def seed_images(name, extra=None):
     return out
 
 
-def build(name, provider=None, describe=None, extra=None, force=False, style_pack=None, lane="nanobanana",
-          shots=None, seed=7):
+def build(name, provider=None, describe=None, extra=None, force=False, style_pack=None, lane="seedream",
+          shots=None, seed=7, draft=False):
     seeds = seed_images(name, extra)
     if not seeds and not describe:
         sys.exit(f"{name}: nothing to work from. Put a photo at cast/{name}/source.jpg, "
                  f"or pass --from <image> or --describe '<text>'")
 
     folder = cast_dir() / name / style_pack if style_pack else cast_dir() / name
-    if lane == "seedream":
+    if draft:
         folder = folder / "draft"        # drafts only: the pipeline never binds draft/
     folder.mkdir(parents=True, exist_ok=True)
     legacy = cast_dir() / f"{name}.png"
@@ -154,8 +154,10 @@ def main():
     ap.add_argument("--describe", help="who they are, if briefs.json does not say")
     ap.add_argument("--force", action="store_true", help="rebuild shots that already exist")
     ap.add_argument("--style-pack", help="render the set in a style pack, into cast/<name>/<pack>/")
-    ap.add_argument("--lane", default="nanobanana", choices=["nanobanana", "seedream"],
-                    help="seedream = cheap draft pass saved under .../draft/; nanobanana = production set")
+    ap.add_argument("--lane", default="seedream", choices=["nanobanana", "seedream"],
+                    help="image model to use (default: seedream); neither lane implies draft or production")
+    ap.add_argument("--draft", action="store_true",
+                    help="save under .../draft/ instead of the bindable production-reference folder")
     ap.add_argument("--provider", choices=list(lanes.PROVIDERS),
                     help="who runs the lane (default: $KAV_PROVIDER, else the first configured)")
     ap.add_argument("--shots", help="comma list of shots (front,three-quarter,smile,full-body); default all")
@@ -168,7 +170,8 @@ def main():
         sys.exit("Name a character: --char <name>")
     print(f"[root] {root().relative_to(REPO)}")
     provider = lanes.resolve(a.lane, a.provider)
-    failed = sum(build(n, provider, a.describe, a.extra, a.force, a.style_pack, a.lane, a.shots, a.seed)
+    failed = sum(build(n, provider, a.describe, a.extra, a.force, a.style_pack, a.lane, a.shots, a.seed,
+                       a.draft)
                  for n in names)
     sys.exit(1 if failed else 0)
 

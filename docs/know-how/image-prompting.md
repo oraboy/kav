@@ -34,6 +34,8 @@ The prompt names each by index *and* role: *"Image 1 shows <name>: …"*, *"Imag
 
 ## Choosing a model
 
+**A locked lane overrides the recommendations below.** These are capabilities to consider before the author locks a lane, not an escalation ladder. “Production” does not name a model: a more expensive or generally stronger model is not a transparent upgrade. Because models reinterpret identity and style, changing lanes requires an explicit author gate and a labelled side-by-side comparison.
+
 | Need | Use | Why |
 |---|---|---|
 | Non-Latin text in frame (e.g. Hebrew signage) | **Nano Banana Pro** | The only model tested that spells it correctly; others render convincing nonsense — worse than no text |
@@ -58,7 +60,7 @@ The wording decides whether it works, by a wide margin. "An object to place in t
 
 > Image N is a photograph of a real physical object. Place this exact object into the scene unchanged, as though it were photographed there. Any lettering on it is copied verbatim, glyph for glyph, in the same script and spelling — it is never re-typeset, translated, or replaced with different words.
 
-- This is how the cheap lane gets correct non-Latin text: it can't spell from a prompt, but it carries text off an object photo. Treat signage as pick-from-two, not one-shot.
+- This is how a lane that can't spell gets correct non-Latin text without a lane change: Seedream won't spell it from a prompt, but it carries text off an object photo. Treat signage as pick-from-two, not one-shot.
 - **Photograph objects alone.** A dress photographed on a model gave the character wearing it the model's haircut; the flat-lay dress came through exactly.
 - **Making a sign:** render it with PIL and a font that covers the script. PIL applies bidi itself — pass the logical string, don't pre-reverse it. Verify by checking the first glyph sits on the correct edge.
 
@@ -234,4 +236,4 @@ Three notes on doing it:
 
 ## Cost shape
 
-Explore on Seedream (~$0.04/image), publish on Nano Banana Pro (~$0.15 at 2K) when a panel needs it. Many books run Seedream end to end. A chapter of ~25 panels at 3 takes each plus rerolls is roughly 100 images: ~$4 on Seedream. Mug shots are ~$0.60 per character on Nano Banana. Prices as of 2026; check fal.ai and Google AI Studio for current rates.
+Use the story's approved lane from exploration through publication. Before lock, Seedream is an economical candidate for broad exploration (~$0.04/image), while Nano Banana Pro (~$0.15 at 2K) may be worth comparing for specific capabilities. Neither is inherently the production model. A chapter of ~25 panels at 3 takes each plus rerolls is roughly 100 images: about $4 on Seedream at these example prices. Prices as of 2026; check fal.ai and Google AI Studio for current rates.

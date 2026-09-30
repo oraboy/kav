@@ -10,7 +10,16 @@ argument-hint: "<pack> [--story <slug>]"
 
 Runs **after** kickoff has collected cast references, location references and a chosen style pack with a lettering theme. Output: production styled mug sets in `stories/<slug>/cast/<name>/<pack>/` — the references every panel binds automatically — plus an approved sample gallery proving the look works *with text on it*.
 
-**Cheap lane first, expensive lane only after approval.** The author gates every stage and may iterate the style at any gate (swap reference images, reword `medium.txt`, retune the lettering theme). Iterating restarts from step 2, which is the point of doing it cheap.
+**Explore cheaply; production uses the author-approved lane.** Price, model name and nominal quality tier never promote a lane automatically. The author gates every stage and may iterate the style at any gate (swap reference images, reword `medium.txt`, retune the lettering theme). Iterating restarts from step 2, which is the point of doing it cheaply.
+
+## Lane preflight — before any generation
+
+Read `style/style.md`, `kickoff-state.md`, `briefs.json`, and the latest approved image metadata before choosing a lane.
+
+- If the author has named or approved a production lane, inherit it for mugs, scenes, rerolls and replacements.
+- Existing approved work on one lane is evidence of a lane decision even if a state field is missing. Reconcile the files; do not silently switch models.
+- **“Production” is a lifecycle stage, not a model tier.** It does not mean Nano Banana, a more expensive model, or a model that is generally stronger at some task. Different models redraw identity and style.
+- A different lane may be generated only in an explicit, labelled comparison before lock, or after the author explicitly agrees to reopen the lane decision.
 
 ## Inputs (all story-local)
 
@@ -107,7 +116,7 @@ This is a **story** decision, not a technical one, so it belongs to the author �
 
 On Seedream (~$0.04/image):
 1. **One styled front portrait per character** — draft into `cast/<name>/<pack>/draft/`:
-   `python3 tools/build_mugshots.py --story <slug> --char <name> --style-pack <pack> --lane seedream --shots front` *(flags per `--help`)*
+   `python3 tools/build_mugshots.py --story <slug> --char <name> --style-pack <pack> --lane seedream --draft --shots front` *(flags per `--help`)*
 2. **Three simple scenes** — one character in one of the story's locations each:
    `python3 tools/generate.py --story <slug> "<character> in <location words>, <pack>" --lane seedream --ar 4:5`
    Letter each with `python3 tools/letter.py <spec.json> <out.png>` using the story's lettering theme: a caption naming the lane (`sample · Seedream`), and a speech balloon **in the story language**: *"Hi, I'm <NAME>. Nice to meet you"* (no final period).
@@ -115,19 +124,19 @@ On Seedream (~$0.04/image):
 
 ## Step 3 — Full draft mugs (GATE)
 
-Full sets (front, three-quarter, smile, full-body) on Seedream into `cast/<name>/<pack>/draft/` for each character in the roster. Contact sheet → show it **together with the latest lettered sample scenes** (a mug set is judged against how the character reads in a scene) → approve. (~$0.16 per character.)
+Full sets (front, three-quarter, smile, full-body) on Seedream with `--draft` into `cast/<name>/<pack>/draft/` for each character in the roster. Contact sheet → show it **together with the latest lettered sample scenes** (a mug set is judged against how the character reads in a scene) → approve. (~$0.16 per character.)
 
-## Step 4 — Production mugs (GATE)
+## Step 4 — Promote the approved mugs (GATE)
 
-Production sets on Nano Banana Pro into `cast/<name>/<pack>/`:
-`python3 tools/build_mugshots.py --story <slug> --char <name> --style-pack <pack>` *(flags per `--help`)*
-Contact sheet + sample scenes → approve. Rebuild bad shots individually — a full-body with a cropped head is a broken reference. Fix a single detail with `python3 tools/touch_up.py --story <slug> --char <name> --shot <shot> --instruction "<one detail>"`. (~$0.60 per character.)
+Once the author approves a complete mug set, promote it into `cast/<name>/<pack>/` without changing lanes. A full-body with a cropped head is a broken reference; rebuild it on the same lane. Fix a single detail with `python3 tools/touch_up.py --story <slug> --char <name> --shot <shot> --instruction "<one detail>"` while preserving the locked lane.
 
-**If the author picks Seedream as the single production lane** (the simple default), skip step 4 and **promote** the step-3 drafts: copy `cast/<name>/<pack>/draft/*.png` → `cast/<name>/<pack>/`. Record the promotion in `style/style.md`. Generation must never bind a `draft/` folder directly.
+For the Seedream flow above, copy `cast/<name>/<pack>/draft/*.png` → `cast/<name>/<pack>/`. Record the lane and promotion in `style/style.md`. Generation must never bind a `draft/` folder directly.
 
-## Step 5 — Concept scenes, both lanes
+## Step 5 — Concept scenes on the intended lane
 
-Five varied scenes (different characters, locations, times of day, group sizes), each on **both** lanes, production mugs now binding automatically. **Letter them** — a caption and a balloon per scene, in the story language, through `tools/letter.py`. This is the author's first real look at the book: art, type and language together, not a gallery of untexted pictures. Show them **side by side per scene**, one lane against the other, labelled `A` / `B` — the author decides the lane by comparison, not assertion.
+Five varied scenes (different characters, locations, times of day, group sizes) on the intended production lane, with the promoted mugs binding automatically. **Letter them** — a caption and a balloon per scene, in the story language, through `tools/letter.py`. This is the author's first real look at the book: art, type and language together, not a gallery of untexted pictures.
+
+If the lane is still undecided, the author may approve an explicit comparison: render the same scenes on the candidate lanes, label them `A` / `B`, disclose cost, and let the author choose. A comparison is optional and never an automatic “production” step.
 
 These are concept art for the brief and the trailer. They never become page art: a page image is only one the author picked in a chapter review.
 
@@ -161,7 +170,9 @@ Rebuild the story board after each stage (`docs/know-how/story-board.md`): the s
 
 ## Hard rules
 
-- Cheap lane before expensive lane, always; nothing generates on the expensive lane before the cheap gate passes.
+- Production is a lifecycle stage, not a synonym for Nano Banana or any other model.
+- An established or author-approved lane overrides generic model recommendations and is inherited by every reroll.
+- A lane switch requires an explicit author gate and a labelled comparison; cost or nominal model strength is not authorization.
 - **Always show the scene samples at every stage that has any — never only the mug shots.**
 - Sample text goes through the lettering tool, never generation-time text.
 - Story-local in and out.

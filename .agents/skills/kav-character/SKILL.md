@@ -35,7 +35,7 @@ Animals and non-human characters get the same four views, adapted.
 python3 tools/build_mugshots.py --story <slug> --char <name> [--seed N]
 ```
 
-Runs on the identity-strong lane (Nano Banana Pro), roughly $0.60 per character. Existing shots are skipped by the tool unless asked to rebuild (see its `--help`).
+**Runs on the book's lane, not on a model this command picks.** If `style/style.md` names a lane, pass it (`--lane <lane>`); before a lane is locked, the tool's default stands. A character's references and every panel that binds them must come from the same lane — a set rebuilt on another model is a different person in the same clothes, and "this model is stronger" is not authorization to switch. Reopening the lane is a book-level decision, `/kav-visual-style-lock`. Cost per character depends on the lane (roughly $0.16 on Seedream, $0.60 on Nano Banana Pro at four shots). Add `--draft` to explore without writing the bindable set. Existing shots are skipped unless asked to rebuild (see its `--help`).
 
 4. **Look at all four shots before moving on.** If the front has drifted from the source, that drift propagates into everything. Rebuild, or add a better seed.
 5. **One detail wrong** (a scar missing, the ear shape, a collar colour)? Don't rebuild the set — touch it up:

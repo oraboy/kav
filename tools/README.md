@@ -89,12 +89,12 @@ python3 tools/generate.py --story <slug> "<scene line>" [--lane seedream|nanoban
 Builds a character's reference set.
 
 ```
-python3 tools/build_mugshots.py --story <slug> --char <name> [--char <name2>] [--seed N] [--shots front,three-quarter,smile,full-body] [--style-pack <pack>] [--lane nanobanana|seedream] [--from <image>] [--describe "<text>"] [--force]
+python3 tools/build_mugshots.py --story <slug> --char <name> [--char <name2>] [--seed N] [--shots front,three-quarter,smile,full-body] [--style-pack <pack>] [--lane nanobanana|seedream] [--draft] [--from <image>] [--describe "<text>"] [--force]
 ```
 
 - **Inputs:** `S/cast/<name>/source*` plus `--from`, and the character's description from briefs.json (or `--describe`).
 - **Output:** `S/cast/<name>/<shot>.png`, or `S/cast/<name>/<pack>/<shot>.png` with `--style-pack`.
-- **Lanes:** `--lane seedream` writes cheap drafts to `.../draft/`, which the pipeline never uses. The default seed is 7. Existing shots are skipped unless you pass `--force`. Needs FAL_KEY.
+- **Lane and lifecycle are separate:** the lane defaults to Seedream, but neither model means “draft” or “production.” Pass `--draft` to write an exploratory set to `.../draft/`, which the pipeline never uses. Without it, the approved set is written to the bindable reference folder. The default seed is 7. Existing shots are skipped unless you pass `--force`. Needs FAL_KEY.
 
 ## calibrate.py (calls the API)
 
