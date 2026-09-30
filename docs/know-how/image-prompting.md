@@ -60,7 +60,7 @@ The wording decides whether it works, by a wide margin. "An object to place in t
 
 > Image N is a photograph of a real physical object. Place this exact object into the scene unchanged, as though it were photographed there. Any lettering on it is copied verbatim, glyph for glyph, in the same script and spelling — it is never re-typeset, translated, or replaced with different words.
 
-- This is how the cheap lane gets correct non-Latin text: it can't spell from a prompt, but it carries text off an object photo. Treat signage as pick-from-two, not one-shot.
+- This is how a lane that can't spell gets correct non-Latin text without a lane change: Seedream won't spell it from a prompt, but it carries text off an object photo. Treat signage as pick-from-two, not one-shot.
 - **Photograph objects alone.** A dress photographed on a model gave the character wearing it the model's haircut; the flat-lay dress came through exactly.
 - **Making a sign:** render it with PIL and a font that covers the script. PIL applies bidi itself — pass the logical string, don't pre-reverse it. Verify by checking the first glyph sits on the correct edge.
 
