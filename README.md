@@ -2,6 +2,14 @@
 
 Kav turns an agentic coding tool into a graphic-novel studio. You bring the story and make the calls; Kav helps you shape it (character DNA, intention and obstacle, story shape, a chapter-by-chapter storyboard), then draws it with you: panel images generated against your own character, location and style references, a local review page where you pick every image, lettering in any language including right-to-left, and assembled pages with two web readers per chapter. It grew out of a finished five-chapter book, and every rule in it was earned making that book.
 
+[![The Story Tool: one page holding a story's cast, locations, objects, style, storyboard and chapters](docs/media/tour/story-tool-overview.jpg)](docs/tour.md)
+
+The **Story Tool** above is where your story lives while you work on it: cast, places, the look, your loose ideas and the chapter-by-chapter storyboard on one page. [Take the tour](docs/tour.md) to see each part, and the stories made with it.
+
+| [Last Light](docs/tour.md#last-light) | [Berkovitz and Olive](docs/tour.md#berkovitz-and-olive-ברקוביץ-ואוליב) | [If I Had Cats](docs/tour.md#if-i-had-cats-אם-היו-לי-חתולים) |
+|---|---|---|
+| ![Last Light, a panel on a phone screen](docs/media/tour/last-light-phone.jpg) | ![Berkovitz and Olive, a panel on a phone screen](docs/media/tour/berko-olive-phone.jpg) | ![If I Had Cats, one post](docs/media/tour/if-i-had-cats.jpg) |
+
 ## Install
 
 Open Claude Code or Codex CLI in an empty folder and paste:
@@ -34,7 +42,7 @@ Every step writes a file, so you can stop anywhere and pick up later. Nothing is
 | `/kav-style <pack>` | `/prompts:kav-style <pack>` | register reference images as a named style |
 | `/kav-visual-style-lock <pack>` | `/prompts:kav-visual-style-lock <pack>` | test the style on cheap samples, then bake production references |
 | `/kav-note <note>` | `/prompts:kav-note <note>` | jot down any idea — a scene, a visual, an object — for Kav to pick up when it fits |
-| `/kav-view [ideas]` | `/prompts:kav-view [ideas]` | pull up the story board, fresh |
+| `/kav-view [ideas]` | `/prompts:kav-view [ideas]` | pull up the Story Tool, fresh |
 | `/kav-chapter <NN>` | `/prompts:kav-chapter <NN>` | write and draw one chapter |
 | `/kav-location <name>` | `/prompts:kav-location <name>` | bring a place into the story from its photos |
 | `/kav-object <name>` | `/prompts:kav-object <name>` | bring a thing that must always look the same (a can, a car, a dress) into the story |
@@ -68,9 +76,9 @@ styles/                shared style packs
 stories/<slug>/        your stories: cast, locations, style, storyboard, chapters, package
 ```
 
-## Sample story
+## Sample stories
 
-Coming soon.
+Three stories made with Kav, with screenshots of both readers, are in [the tour](docs/tour.md#sample-stories): *Last Light* (English, six chapters), *Berkovitz and Olive* (Hebrew, five chapters) and *If I Had Cats* (Hebrew, an ongoing series of single images).
 
 ## License
 
