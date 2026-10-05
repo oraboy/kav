@@ -4,22 +4,28 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
-**The story board.** One page that opens beside the chat the moment a story's first piece lands, and stays current after every change (`docs/know-how/story-board.md`, `tools/build_map.py`).
+**`/kav-update`** — the latest Kav in one command. Pulls the new version, refreshes dependencies and the Codex prompts, re-runs the health check and says what changed in a few plain lines. It never touches `stories/`, `styles/` or `.env`, and it sets local changes to Kav aside rather than discarding them.
+
+**`/kav-report`** — how it's going, in one message the author sends. `tools/report.py` reads the version, the setup and how far each story has got; the command adds three answers in the author's words. Nothing from the story is included, story names are hidden unless asked for, and Kav sends nothing itself.
+
+**The story board is now the Story Tool.** One name for the page beside the chat, so it stops being confused with the storyboard, which is the chapter outline. `docs/know-how/story-board.md` moved to `story-tool.md`. "Show me the board" still works. A tour with screenshots is in `docs/tour.md`.
+
+**The Story Tool.** One page that opens beside the chat the moment a story's first piece lands, and stays current after every change (`docs/know-how/story-tool.md`, `tools/build_map.py`).
 - **Overview:** cast, locations, objects, styles (the one in use, every custom pack, any that ship with Kav), the story (concept, storyboard) and chapters, each named under its square. A square shows the piece with two counts — reference images the author gave and images Kav made. Green check when ready; grey otherwise, and hovering says why in one of three plain reasons: reference images missing, description missing, Kav processing pending. Click for a short description (read more for the rest), what to do next as commands to copy — including *complete as is* to skip a step and *build a dna* to go deeper — the images, links to published chapters and the brief, and the source file by its full path. Each row says how to add to it.
-- **Ideas:** the notes from `pitch-inbox.md`, and a box to pin a thought any time. In Claude the drop goes straight onto the board; Kav files it at the next gate and brings it up when it touches what's being worked on. Used notes show where they went.
+- **Ideas:** the notes from `pitch-inbox.md`, and a box to pin a thought any time. In Claude the drop goes straight onto the Story Tool; Kav files it at the next gate and brings it up when it touches what's being worked on. Used notes show where they went.
 - After each piece, Kav offers the fork: another, or move on.
 
 **`/kav-note`** replaces `/kav-plot-note`: notes are about anything — a scene, a visual, an object, a line — not only plot. A note that's an instruction ("add a Coke can as an object") gets done; Kav stops only for something it needs from the author, for work that would go stale, or for real generation spend. The Ideas tab opens with an invitation, a copyable `/kav-note <jot your note>`, and one example note Kav wrote from what it knows of the story.
 
-**`/kav-view [ideas]`** pulls the board up by hand: files any pinned ideas, rebuilds, republishes to the same link. In Claude an open board also updates itself whenever Kav republishes it.
+**`/kav-view [ideas]`** pulls the Story Tool up by hand: files any pinned ideas, rebuilds, republishes to the same link. In Claude an open Story Tool also updates itself whenever Kav republishes it.
 
-**On ChatGPT / Codex** there are no artifacts, so the board lives on its own owner-only ChatGPT Site, built with `build_map.py --standalone`. `/kav-publish` stays for the book.
+**On ChatGPT / Codex** there are no artifacts, so the Story Tool lives on its own owner-only ChatGPT Site, built with `build_map.py --standalone`. `/kav-publish` stays for the book.
 
-**Everything copyable copies.** Every command on the board is a small panel with a copy button, section hints included, and a chapter with a published reader has a copy-link button on its square and its links at the top of its detail.
+**Everything copyable copies.** Every command on the Story Tool is a small panel with a copy button, section hints included, and a chapter with a published reader has a copy-link button on its square and its links at the top of its detail.
 
 **`/kav-object <name>`** — a thing that must always look the same (a can, a car, a dress) gets its own intake: one photo of the thing alone, a line on what it is, trigger words, a test scene.
 
-**The intro** (`/kav-start`, kickoff's first message) now tells the author about the board and where ideas go before the first one arrives, and says the order is a suggestion: start from a story, or from one character in one place.
+**The intro** (`/kav-start`, kickoff's first message) now tells the author about the Story Tool and where ideas go before the first one arrives, and says the order is a suggestion: start from a story, or from one character in one place.
 
 **`/kav-location <name>`** — a place gets the same intake a character does: photos under one name for sheet, folder and registry, a written line, trigger words, and a test scene to prove it binds.
 

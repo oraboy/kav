@@ -2,8 +2,8 @@
 """The Ideas tab: every note in pitch-inbox.md as a sticky note, plus a drop box so the
 author can pin a thought the moment it arrives.
 
-`tools/build_map.py` includes this as the Ideas tab of the story's board; run this
-file directly only for a standalone board.
+`tools/build_map.py` includes this as the Ideas tab of the story's Story Tool; run this
+file directly only for a standalone Story Tool.
 
 The inbox file is the truth. Published as a Claude artifact with capabilities
 {"db": {}}, the drop box writes each new thought to the artifact's `drops`
@@ -12,7 +12,7 @@ into pitch-inbox.md as the next N00N, marks the drop {filed: true, note_id}, the
 rebuilds and republishes. Anywhere without the capability (a local file, ChatGPT,
 Codex) the box says to drop ideas in the chat instead.
 
-Tags the board understands at the end of a note: `[not-yet-agreed]` (open),
+Tags the Story Tool understands at the end of a note: `[not-yet-agreed]` (open),
 `[adopted: ch03]` or `[adopted → cast/imi]` (used, and where), `[dropped]`.
 
   python3 tools/build_ideas.py --story <slug> [--out <file.html>]
@@ -115,7 +115,7 @@ DONE_ICON = ('<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5l3 3 
 
 
 def cmdbox(text):
-    """A small command panel with a copy button, shared by the board and the Ideas tab."""
+    """A small command panel with a copy button, shared by the Story Tool and the Ideas tab."""
     return (f'<div class="cmd"><code dir="auto">{esc(text)}</code>'
             f'<button class="cp" type="button" aria-label="Copy" title="Copy">{COPY_ICON}</button></div>')
 
@@ -157,8 +157,8 @@ window.claude.use('db').then(db=>{
     btn.disabled=true;msg.textContent='Pinning…';
     try{await drops.add({text,created:new Date().toISOString(),filed:false,note_id:null});
       ta.value='';msg.textContent='Pinned.';}
-    catch(e){msg.textContent=e&&e.code==='quota_exceeded'?'The board is full. Ask Kav to archive filed ideas, then try again.':
-      e&&e.code==='invalid_argument'?'This view can read the board but not pin to it.':'That didn’t save. Try again in a moment.';}
+    catch(e){msg.textContent=e&&e.code==='quota_exceeded'?'The Story Tool is full. Ask Kav to archive filed ideas, then try again.':
+      e&&e.code==='invalid_argument'?'This view can read the Story Tool but not pin to it.':'That didn’t save. Try again in a moment.';}
     finally{btn.disabled=false;ta.focus()}
   }
   btn.addEventListener('click',pin);
@@ -179,7 +179,7 @@ def render_note(n, i):
 
 
 def ideas_section(sd, suggestion=None):
-    """(html, css, js, n_notes) for the Ideas tab of a story's board.
+    """(html, css, js, n_notes) for the Ideas tab of a story's Story Tool.
 
     suggestion: an example note written by Kav from what it knows of the story; defaults to
     package/idea-suggestion.txt when that file exists."""

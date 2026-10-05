@@ -44,7 +44,7 @@ Next gate: <the decision the author owes>
 | 01 | empty | — | |
 
 ## Links
-- Story board: <URL — opened at the first piece, same link for the life of the story>
+- Story Tool: <URL — opened at the first piece, same link for the life of the story>
 - Book brief: <URL>
 - Trailer deck: <path or URL>
 - Readers: <per chapter, when published — also in each chapter-state.md as `classic <url>` / `carousel <url>`>
@@ -327,7 +327,7 @@ Human-readable, co-author framing. The story in a page: theme, feel line, the ca
 
 ```markdown
 # <Story name> — Pitch Inbox
-Notes on anything — scenes, visuals, objects, what-ifs — not yet agreed. Shown on the board's Ideas tab, picked up when they fit, all raised at PITCH. Remove one with `/kav-note remove N00N`.
+Notes on anything — scenes, visuals, objects, what-ifs — not yet agreed. Shown on the Story Tool's Ideas tab, picked up when they fit, all raised at PITCH. Remove one with `/kav-note remove N00N`.
 
 - **<id> · <type>** (<date>): <note> `[not-yet-agreed]`
 ```

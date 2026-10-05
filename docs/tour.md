@@ -40,7 +40,7 @@ Once a style is locked, Kav rebuilds every character's reference set in that sty
 
 ### Ideas
 
-Ideas arrive out of order: a scene for the last chapter while you are still describing the first character, a running gag, a twist. The Ideas tab is where they go. Type `/kav-note` and the thought in the chat, or pin it on the board, and carry on with what you were doing.
+Ideas arrive out of order: a scene for the last chapter while you are still describing the first character, a running gag, a twist. The Ideas tab is where they go. Type `/kav-note` and the thought in the chat, or pin it on the Story Tool, and carry on with what you were doing.
 
 ![The Ideas tab: a corkboard of colour-coded notes for scenes, visuals, gimmicks, concepts, twists and beats](media/tour/story-tool-ideas.jpg)
 

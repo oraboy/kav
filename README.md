@@ -34,6 +34,8 @@ This installs the skills and instruction files your AI needs to work as Kav. It 
 
 To start your first story, type `/kav-kickoff <code-name>`. For ideas on what to make, see the [samples](#samples).
 
+Kav changes often. To get the latest version, type `/kav-update`: it updates Kav and leaves your stories alone. To tell us how it's going, type `/kav-report` and send us what it gives you.
+
 > **Note:** Kav needs an agentic coding tool. Claude Code and OpenAI Codex are supported; Cursor, Gemini CLI / Antigravity and other tools that read `AGENTS.md` should work. It does **not** work in chat-only interfaces. If you have the Claude or ChatGPT desktop app, you already have one of these tools: open Claude Code or Codex there and start a new session (ask your chat for help if you get stuck). Manual steps are in [INSTALL.md](INSTALL.md).
 
 > **Note:** Everything you make, from reference photos to finished panels, is stored in the `stories/<story-name>/` folder inside your Kav folder, where you can use it, back it up or copy it.
@@ -98,6 +100,8 @@ Details: [docs/process.md](docs/process.md).
 | `/kav-review <batch.json>` | `/prompts:kav-review <batch.json>` | open the image review page and apply your picks |
 | `/kav-trailer` | `/prompts:kav-trailer` | build the story's swipeable trailer deck |
 | `/kav-publish` | `/prompts:kav-publish` | build and link readers for every chapter; where to post them |
+| `/kav-update` | `/prompts:kav-update` | get the latest version of Kav; your stories are not touched |
+| `/kav-report` | `/prompts:kav-report` | a short report of how it's going, for you to send; no story content |
 
 In Codex, custom prompts are invoked with the `/prompts:` prefix. In any other agent, ask for the step in plain words ("start a kickoff for my story") — the agent routes it through `AGENTS.md`.
 

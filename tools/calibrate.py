@@ -73,11 +73,11 @@ def save_state(story, state):
     try:
         build_face(story, state)
     except Exception:
-        pass       # the face is a convenience for the story board, never a reason to lose ratings
+        pass       # the face is a convenience for the Story Tool, never a reason to lose ratings
 
 
 def build_face(story, state):
-    """A 2x2 of the two best and the two worst takes, for the story board's tile.
+    """A 2x2 of the two best and the two worst takes, for the Story Tool's tile.
 
     Best and worst together, because a tile that shows only the good ones says the
     calibration passed when it has not.

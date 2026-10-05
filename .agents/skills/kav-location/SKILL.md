@@ -24,24 +24,24 @@ Story-local, always: a place from another story is never borrowed unless the aut
 3. **The sheet** (`docs/templates.md`, locations): what it is · whose turf · what it looks like · the reference images. Ask the author for a line on what it is, and whose place it is; don't invent the rest. Dramatic uses of a place are decided at PITCH, not here.
 4. **Registry.** In `briefs.json`, add `locations.<name>` with `photos` and one English description of what the photos actually show (it goes into every prompt), and `location_words.<name>` with the words a scene line will use for it. Triggers are first-match: a specific place (`shop-entrance`) is listed before a general one (`shop`), and generic words ("room", "street", "apartment") stay out — they steal scenes meant for other places.
 5. **Prove it.** Generate one test scene in the place (`python3 tools/generate.py --story <slug> "<a character> in <the place>"`), read the candidate's `.json` sidecar to confirm this location bound, and show it. If it came out wrong, fix the photos or the words, not the adjectives.
-6. **Update the board** (`docs/know-how/story-board.md`), then offer the next step: another place, or move on.
+6. **Update the Story Tool** (`docs/know-how/story-tool.md`), then offer the next step: another place, or move on.
 
 ## No photos
 
-The author has only a description. Generate 2–4 candidate views with `tools/generate.py`, let the author pick — **choosing what a place looks like is the author's call** — and copy the pick in as `<name>-01.png`. Label it on the board as made by Kav, never as the author's photo.
+The author has only a description. Generate 2–4 candidate views with `tools/generate.py`, let the author pick — **choosing what a place looks like is the author's call** — and copy the pick in as `<name>-01.png`. Label it on the Story Tool as made by Kav, never as the author's photo.
 
 ## When a place drifts in chapters
 
-Adjectives don't fix drift; references do. Copy an **approved panel** of the place into `locations/<name>/<name>-chNN.png` and add it to `photos` — the next generation binds the drawn place. It shows on the board as made by Kav.
+Adjectives don't fix drift; references do. Copy an **approved panel** of the place into `locations/<name>/<name>-chNN.png` and add it to `photos` — the next generation binds the drawn place. It shows on the Story Tool as made by Kav.
 
 ## Removing an image
 
-"Remove the second photo of the café": resolve it through the board's `story-map.json` (the piece's images, in the order the board shows them), confirm which one, move the file to `locations/<name>/_excluded/` (park, don't delete), take it out of `photos`, and update the board.
+"Remove the second photo of the café": resolve it through the Story Tool's `story-map.json` (the piece's images, in the order the Story Tool shows them), confirm which one, move the file to `locations/<name>/_excluded/` (park, don't delete), take it out of `photos`, and update the Story Tool.
 
-## Arguments the board hands out
+## Arguments the Story Tool hands out
 
 - `/kav-location <name> <one line>` — write the line into the sheet as what it is, verbatim.
-- `/kav-location <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*` under its heading; the board stops asking for more.
+- `/kav-location <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*` under its heading; the Story Tool stops asking for more.
 
 ## Hard rules
 
