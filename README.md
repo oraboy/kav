@@ -43,20 +43,20 @@ To start your first story, type `/kav-kickoff <code-name>`. For ideas on what to
 <table>
 <tr>
 <td width="33%" align="center" valign="top">
-<a href="docs/tour.md#sample-stories"><img src="docs/media/tour/sample-last-light.jpg" width="260" alt="The Last Light, chapter 1 in the comic view"></a>
-<br><b>The Last Light</b>
+<a href="https://last-light-oren-review.oraboy.chatgpt.site/"><img src="docs/media/tour/sample-last-light.jpg" width="260" alt="The Last Light, chapter 1 in the comic view"></a>
+<br><b><a href="https://last-light-oren-review.oraboy.chatgpt.site/">The Last Light</a></b>
 <br>A wild story about a lighthouse, a girl and a lost boy.
 <br>[English]
 </td>
 <td width="33%" align="center" valign="top">
-<a href="docs/tour.md#sample-stories"><img src="docs/media/tour/sample-berko-olive.jpg" width="260" alt="Berkovitz and Olive, one panel in the phone view"></a>
-<br><b>Berkovitz and Olive</b>
+<a href="https://claude.ai/code/artifact/f69c71ef-8b2e-4fcb-96ab-f6d517cffbc9"><img src="docs/media/tour/sample-berko-olive.jpg" width="260" alt="Berkovitz and Olive, one panel in the phone view"></a>
+<br><b><a href="https://claude.ai/code/artifact/f69c71ef-8b2e-4fcb-96ab-f6d517cffbc9">Berkovitz and Olive</a></b>
 <div dir="rtl">סיפור אהבה תל-אביבי בזמן מלחמת איראן</div>
 [Hebrew] [עברית]
 </td>
 <td width="33%" align="center" valign="top">
 <a href="https://if-i-had-cats.oraboy.chatgpt.site"><img src="docs/media/tour/sample-if-i-had-cats.jpg" width="260" alt="If I Had Cats, one post"></a>
-<br><b>If I Had Cats</b>
+<br><b><a href="https://if-i-had-cats.oraboy.chatgpt.site">If I Had Cats</a></b>
 <div dir="rtl">פיד מתגלגל של הצעות לשמות של חתולים עירוניים. למי שצריך 🐈🐈‍⬛</div>
 [Hebrew] [עברית]
 </td>

@@ -64,6 +64,8 @@ Every chapter Kav finishes comes out in two forms. *Pages* is the comic layout, 
 
 English · six chapters. A wild story about a lighthouse, a girl and a lost boy.
 
+[Read it](https://last-light-oren-review.oraboy.chatgpt.site/)
+
 | Pages | Phone |
 |---|---|
 | ![Last Light chapter 1 as comic pages](media/tour/last-light-pages.jpg) | ![Last Light chapter 1, one panel on a phone screen](media/tour/last-light-phone.jpg) |
@@ -73,6 +75,8 @@ English · six chapters. A wild story about a lighthouse, a girl and a lost boy.
 Hebrew · five chapters. A Tel Aviv love story during the Iran war.
 
 <div dir="rtl">סיפור אהבה תל-אביבי בזמן מלחמת איראן</div>
+
+[Read it](https://claude.ai/code/artifact/f69c71ef-8b2e-4fcb-96ab-f6d517cffbc9)
 
 | Pages | Phone |
 |---|---|
