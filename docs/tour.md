@@ -60,9 +60,9 @@ Each chapter then gets its own square. A finished chapter shows its assembled pa
 
 Every chapter Kav finishes comes out in two forms. *Pages* is the comic layout, several panels to a page. *Phone* is one panel per screen, swiped through like a story.
 
-### Last Light
+### The Last Light
 
-English · six chapters. Ruth's family has kept the last working lighthouse on the Mediterranean for three generations. Tomorrow the Ministry of Automation takes it over.
+English · six chapters. A wild story about a lighthouse, a girl and a lost boy.
 
 | Pages | Phone |
 |---|---|
@@ -70,7 +70,9 @@ English · six chapters. Ruth's family has kept the last working lighthouse on t
 
 ### Berkovitz and Olive (ברקוביץ ואוליב)
 
-Hebrew · five chapters. A shy border collie falls for the dog next door during the nights their owners spend in the neighbourhood shelter.
+Hebrew · five chapters. A Tel Aviv love story during the Iran war.
+
+<div dir="rtl">סיפור אהבה תל-אביבי בזמן מלחמת איראן</div>
 
 | Pages | Phone |
 |---|---|
@@ -78,7 +80,9 @@ Hebrew · five chapters. A shy border collie falls for the dog next door during 
 
 ### If I Had Cats (אם היו לי חתולים)
 
-Hebrew · an ongoing series of single images, 12 so far. Each one is set at a real Tel Aviv spot and names the cats the narrator would keep there.
+Hebrew · an ongoing feed of single images, 12 so far: name suggestions for city cats, for whoever needs them.
+
+<div dir="rtl">פיד מתגלגל של הצעות לשמות של חתולים עירוניים. למי שצריך 🐈🐈‍⬛</div>
 
 [Read it](https://if-i-had-cats.oraboy.chatgpt.site)
 
