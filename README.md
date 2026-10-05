@@ -43,7 +43,7 @@ To start your first story, type `/kav-kickoff <code-name>`. For ideas on what to
 <table>
 <tr>
 <td width="33%" align="center" valign="top">
-<a href="https://last-light-oren-review.oraboy.chatgpt.site/"><img src="docs/media/tour/sample-last-light.jpg" width="260" alt="The Last Light, chapter 1 in the comic view"></a>
+<a href="https://last-light-oren-review.oraboy.chatgpt.site/"><img src="docs/media/tour/sample-last-light.jpg" width="260" alt="The Last Light, three rows of chapter 4 in the comic view"></a>
 <br><b><a href="https://last-light-oren-review.oraboy.chatgpt.site/">The Last Light</a></b>
 <br>A wild story about a lighthouse, a girl and a lost boy.
 <br>[English]
