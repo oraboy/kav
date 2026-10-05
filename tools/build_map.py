@@ -362,7 +362,8 @@ def chapter_face(sd, ch):
 def storyboard_html(sd, story, ch_ids):
     parts = []
     for label, body in (("Shape", section(story, "Shape")), ("Intention and obstacle", section(story, "I/O"))):
-        parts.append(f"<h4>{label}</h4>" + (f'<div class="prose" dir="auto">{esc(body[:1400])}</div>' if body else
+        prose = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", esc(body[:1400]))
+        parts.append(f"<h4>{label}</h4>" + (f'<div class="prose" dir="auto">{prose}</div>' if body else
                                              '<p class="missing">Not written yet</p>'))
     board = read(sd / "storyboard" / "storyboard.md")
     if board:
