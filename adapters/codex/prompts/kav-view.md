@@ -1,5 +1,5 @@
 ---
-description: "Pull up the story board — rebuild it from the story's files, file any ideas pinned on it, and put it in front of the author beside the chat. Use when the author types /kav-view, says \"show me the board\", \"open the map\", \"where are we\", \"refresh the board\", or \"check the board\". /kav-view ideas opens it on the Ideas tab."
+description: "Pull up the Story Tool — rebuild it from the story's files, file any ideas pinned on it, and put it in front of the author beside the chat. Use when the author types /kav-view, says \"show me the Story Tool\", \"show me the board\", \"open the map\", \"where are we\", \"refresh the board\", or \"check the board\". /kav-view ideas opens it on the Ideas tab."
 argument-hint: "[ideas]"
 ---
 

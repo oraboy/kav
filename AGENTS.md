@@ -35,20 +35,22 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-object <name>` · "add an object / a prop", a photo of a thing | `kav/commands/kav-object.md` |
 | `/kav-style <pack>` · "add these images as a style" | `kav/commands/kav-style.md` |
 | `/kav-visual-style-lock <pack>` · "lock the style", "styled mug shots" | `kav/commands/kav-visual-style-lock.md` |
-| `/kav-note <note>` · "note this", "jot this down", a note pinned on the board | `kav/commands/kav-note.md` |
-| `/kav-view [ideas]` · "show me the board", "refresh the board", "check the board" | `kav/commands/kav-view.md` |
+| `/kav-note <note>` · "note this", "jot this down", a note pinned on the Story Tool | `kav/commands/kav-note.md` |
+| `/kav-view [ideas]` · "show me the Story Tool", "show me the board", "refresh the board", "check the board" | `kav/commands/kav-view.md` |
 | `/kav-chapter <NN>` · "write/draw chapter N", "next chapter" | `kav/commands/kav-chapter.md` |
 | `/kav-coldread [NN]` · "is this clear", "read it like a reader", "what's confusing" | `kav/commands/kav-coldread.md` |
 | `/kav-panel` · one scene plus its text into a lettered panel | `kav/commands/kav-panel.md` |
 | `/kav-review <batch.json>` · "open the review page", "picks are in" | `kav/commands/kav-review.md` |
 | `/kav-trailer` · "the trailer", "rebuild the slides" | `kav/commands/kav-trailer.md` |
 | `/kav-publish` · "publish", "build all the readers" | `kav/commands/kav-publish.md` |
+| `/kav-update` · "update Kav", "get the latest version" | `kav/commands/kav-update.md` |
+| `/kav-report` · "send feedback", "report a problem", "tell them how it went" | `kav/commands/kav-report.md` |
 
 Writing or revising any story material, with or without a command: apply `docs/know-how/story-craft.md`. Writing any image prompt: apply `docs/know-how/image-prompting.md`. Judging whether any of it reaches a reader: `docs/know-how/cold-read.md` — you can see the brief and they can't, so you cannot run that check on yourself.
 
 **At every gate**, open with the one-line progress header — where the author is in the book — and show the work on their review surface: `docs/know-how/progress.md`, `docs/know-how/review-surfaces.md`.
 
-**The story board** opens beside the chat as soon as a story's first piece lands, and stays current after every change: an Overview of every piece (ready or not, and what to do next) and an Ideas tab where the author drops thoughts any time. Read their pinned ideas at every gate. `docs/know-how/story-board.md`.
+**The Story Tool** opens beside the chat as soon as a story's first piece lands, and stays current after every change: an Overview of every piece (ready or not, and what to do next) and an Ideas tab where the author drops thoughts any time. Read their pinned ideas at every gate. `docs/know-how/story-tool.md`.
 
 ## Tools
 
@@ -66,7 +68,8 @@ python3 tools/assemble.py <layout.json>
 python3 tools/build_readers.py --story <slug> --chapters chNN --title "..." --out <dir> [--next "..."] [--next-story-url U] [--next-pages-url U] [--home-url U]
 python3 tools/build_trailer.py --story <slug> [--statics]
 python3 tools/build_cover.py --story <slug> --portrait-char <name> --scene-image <path>
-python3 tools/build_map.py --story <slug>          # the story board: Map + Ideas
+python3 tools/build_map.py --story <slug>          # the Story Tool: Overview + Ideas
+python3 tools/report.py [--names]                  # how far this install has got, for /kav-report
 python3 tools/chrome.py
 ```
 

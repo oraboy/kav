@@ -54,7 +54,7 @@ stories/<slug>/site/
     chNN/reader-comic.html    page reader
 ```
 
-The story board is not part of this Site: it's a working tool, not the book, and it has its own (`/kav-view`).
+The Story Tool is not part of this Site: it's a working tool, not the book, and it has its own (`/kav-view`).
 
 Every path relative, every font, image, stylesheet and script inside the package. Nothing may point at a source tree or a localhost port.
 
@@ -131,7 +131,7 @@ Then offer every delivery route and let them choose:
 
 Nothing is sent anywhere by Kav. The file is theirs; they send it.
 
-Record every published link (each chapter's readers, the brief) in the chapter's `chapter-state.md` or `kickoff-state.md` as `classic <url>` / `carousel <url>` / `Book brief: <url>`, then rebuild the story board (`docs/know-how/story-board.md`) — its chapter and concept squares link straight to them.
+Record every published link (each chapter's readers, the brief) in the chapter's `chapter-state.md` or `kickoff-state.md` as `classic <url>` / `carousel <url>` / `Book brief: <url>`, then rebuild the Story Tool (`docs/know-how/story-tool.md`) — its chapter and concept squares link straight to them.
 
 ## Hard rules
 

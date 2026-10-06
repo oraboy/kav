@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render a story's board: an Overview tab (one square per piece, green check when
+"""Render a story's Story Tool: an Overview tab (one square per piece, green check when
 ready, grey when not) and an Ideas tab (the notes, plus a box to pin a new one).
 
 Overview rows: cast, locations, objects, styles (the one in use, every custom pack,
@@ -785,7 +785,7 @@ def main():
 def render(title, sections, rows, ideas_html, ideas_css, ideas_js, n_ideas):
     details = "".join(detail(p) for ps in rows.values() for p in ps)
     return f"""<meta charset="utf-8">
-<title>{esc(title)} · World Map</title>
+<title>{esc(title)} · Story Tool</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Karantina:wght@700&family=Varela+Round&display=swap">
 <style>{CSS}{ideas_css}</style>
 <!--body--><div class="wrap"><h1 dir="auto">{esc(title)}</h1>

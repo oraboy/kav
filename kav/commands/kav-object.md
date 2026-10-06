@@ -25,16 +25,16 @@ Story-local, always.
 3. **The sheet** (`docs/templates.md`, objects): what it is · why it's an object · binds on · used in.
 4. **Registry.** `briefs.json` → `objects.<name>`: `photos` and one English description of exactly what the photo shows, including any lettering verbatim. `object_words.<name>`: the words a scene line will use for it ("coke", "can of coke").
 5. **Prove it.** One test scene with the object in it (`python3 tools/generate.py --story <slug> "<a character> holding <the object> in <a place>"`). Read the sidecar to confirm it bound. Lettering comes through reliably only with the wording in `docs/know-how/image-prompting.md` (Objects); treat text on an object as pick-from-two, not one-shot.
-6. **Update the board**, then offer the fork: another object, or move on.
+6. **Update the Story Tool**, then offer the fork: another object, or move on.
 
 ## No photo
 
-A description only: generate 2–4 candidates of the thing alone on a plain ground, let the author pick, copy the pick in as `objects/<name>.png`. It shows on the board as made by Kav.
+A description only: generate 2–4 candidates of the thing alone on a plain ground, let the author pick, copy the pick in as `objects/<name>.png`. It shows on the Story Tool as made by Kav.
 
-## Arguments the board hands out
+## Arguments the Story Tool hands out
 
 - `/kav-object <name> <one line>` — write the line into the sheet as what it is.
-- `/kav-object <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*`; the board stops asking.
+- `/kav-object <name> complete as is` — mark the sheet `*Complete as is — the author's call, <date>.*`; the Story Tool stops asking.
 
 ## Hard rules
 

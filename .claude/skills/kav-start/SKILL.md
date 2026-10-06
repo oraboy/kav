@@ -107,13 +107,13 @@ Suggest the default for the host you are running in, take their answer, and don'
 ## Step 4 — The process
 
 1. **Kickoff** — a slug and a one-line pitch. `/kav-kickoff <slug>`
-2. **Collect** — characters (a quick sketch or a full DNA, your pick), locations and the key events. Ideas that come up any time get jotted down with `/kav-note`, or pinned on the board's Ideas tab.
+2. **Collect** — characters (a quick sketch or a full DNA, your pick), locations and the key events. Ideas that come up any time get jotted down with `/kav-note`, or pinned on the Story Tool's Ideas tab.
 3. **Visual style** — pick or build a style pack, then lock the look on cheap samples before spending on production references. `/kav-style`, `/kav-visual-style-lock`
 4. **Storyboard & brief** — the story's shape, what each character wants and what stands in the way, then a card per chapter and a one-page brief.
 5. **Chapter by chapter** — outline, scene list, a cold read before any image money is spent, panel images reviewed on a local page, lettering, a second cold read, assembled pages. `/kav-chapter <NN>`
 6. **Publish** — readers per chapter, Instagram-ready carousel images, a trailer deck. `/kav-publish`, `/kav-trailer`
 
-Then, in two lines, the thing they'll use every day: **a story board opens beside the chat as soon as the first piece of a story is in** — every character, place, object, style and chapter as a square, green when ready, grey with the next step when not. Its **Ideas** tab takes any thought at any time — a scene, a visual, an object — and so does `/kav-note` in the chat. `/kav-view` brings the board back up whenever they want it.
+Then, in two lines, the thing they'll use every day: **the Story Tool opens beside the chat as soon as the first piece of a story is in** — every character, place, object, style and chapter as a square, green when ready, grey with the next step when not. Its **Ideas** tab takes any thought at any time — a scene, a visual, an object — and so does `/kav-note` in the chat. `/kav-view` brings the Story Tool back up whenever they want it.
 
 The order above is a suggestion, not a track. Someone with a finished story starts at kickoff; someone with only a character can start by drawing that character in one place (`/kav-character`, `/kav-location`, `/kav-panel`) and find the story later.
 
@@ -127,7 +127,7 @@ The order above is a suggestion, not a track. Someone with a finished story star
 | `/kav-style <pack>` | register reference images as a named visual style |
 | `/kav-visual-style-lock <pack>` | test the style cheaply, then bake production references |
 | `/kav-note <note>` | jot down any idea — a scene, a visual, an object — for Kav to pick up when it fits |
-| `/kav-view [ideas]` | pull up the story board, fresh |
+| `/kav-view [ideas]` | pull up the Story Tool, fresh |
 | `/kav-chapter <NN>` | write and draw one chapter |
 | `/kav-location <name>` | bring a place into the story from its photos |
 | `/kav-object <name>` | bring a thing that must always look the same (a can, a car, a dress) into the story |
@@ -136,6 +136,8 @@ The order above is a suggestion, not a track. Someone with a finished story star
 | `/kav-review <batch.json>` | open the local image review page and apply the author's picks |
 | `/kav-trailer` | build the story's swipeable trailer deck |
 | `/kav-publish` | build readers for every drawn chapter and explain where to post them |
+| `/kav-update` | get the latest version of Kav, stories untouched |
+| `/kav-report` | a short report of how it's going, for the author to send |
 
 In Codex CLI the same commands are invoked as `/prompts:kav-start` etc. (see `INSTALL.md`). In any other agent, just ask for the step by name — the agent reads `kav/commands/kav-<name>.md`.
 
@@ -149,6 +151,7 @@ Then give the route that suits them. Ask which they'd prefer, or read the room:
 
 - **Comfortable with GitHub:** open an issue at https://github.com/oraboy/kav/issues, send a pull request, or star the repo so others find it.
 - **Everyone else:** email or WhatsApp — say that Kav's author reads both and that the beta invitation carries the details. Never invent an address or a number.
+- **Either way, `/kav-report` does the writing-up:** it gathers the version, the setup and how far the story has got, asks three short questions, and hands back one message to send. It sends nothing itself and includes nothing from the story.
 
 When the author finishes a book, `/kav-publish` offers a proper feedback pass — a few questions, written to a file they can send. Don't pre-empt it here.
 

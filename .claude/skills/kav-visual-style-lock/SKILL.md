@@ -108,7 +108,7 @@ Work the technical causes yourself, in a loop, keeping every superseded take in 
 
 This is a **story** decision, not a technical one, so it belongs to the author — including the option to accept the flaw and carry on. Log whichever they choose in `kickoff-state.md`, and mark the storyboard stale if a place or a character left the book.
 
-**6 · The author confirms, and only then does anything expensive get baked.** Confirmation sets `confirmed` in `style/calibration-state.json`, which is what turns Concept art green on the story board.
+**6 · The author confirms, and only then does anything expensive get baked.** Confirmation sets `confirmed` in `style/calibration-state.json`, which is what turns Concept art green on the Story Tool.
 
 **Write the outcome into `style/style.md`** — what was calibrated, what failed, what was changed, and the **capability envelope** the book now operates under: how many faces a panel can hold, which combinations need staging, and what this book has decided it will not attempt. `/kav-chapter` and `/kav-panel` read that envelope and refuse to spend past it.
 
@@ -166,7 +166,7 @@ Build one self-contained HTML page (`stories/<slug>/style/style-sheet.html`, ima
 
 Open it for the author. Share or host it only if the author asks.
 
-Rebuild the story board after each stage (`docs/know-how/story-board.md`): the style's square turns green when the look is locked and every principal has portraits in it.
+Rebuild the Story Tool after each stage (`docs/know-how/story-tool.md`): the style's square turns green when the look is locked and every principal has portraits in it.
 
 ## Hard rules
 

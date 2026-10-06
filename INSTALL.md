@@ -67,7 +67,7 @@ Codex also supports skills (OpenAI now recommends skills over custom prompts). T
 
 **Other agents** (Cursor, Gemini CLI, …): nothing to install. They read `AGENTS.md`; the author asks for a step by name ("run kav-start").
 
-After pulling Kav updates, re-copy the Codex prompts. Maintainers who edit `kav/commands/` run `python3 scripts/sync_adapters.py` to regenerate all adapters.
+After pulling Kav updates, re-copy the Codex prompts. The author doesn't need to know any of this: **`/kav-update`** pulls the latest version, refreshes dependencies and the Codex prompts, and re-runs the health check, without touching `stories/`, `styles/` or `.env`. Maintainers who edit `kav/commands/` run `python3 scripts/sync_adapters.py` to regenerate all adapters.
 
 ## 7 · Smoke test
 
