@@ -6,7 +6,7 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 **`/kav-update`** — the latest Kav in one command. Pulls the new version, refreshes dependencies and the Codex prompts, re-runs the health check and says what changed in a few plain lines. It never touches `stories/`, `styles/` or `.env`, and it sets local changes to Kav aside rather than discarding them.
 
-**`/kav-report`** — how it's going, in one message the author sends. `tools/report.py` reads the version, the setup and how far each story has got; the command adds three answers in the author's words. Nothing from the story is included, story names are hidden unless asked for, and Kav sends nothing itself.
+**`/kav-report`** — how it's going, in one message the author sends. `tools/report.py` reads the version, the setup and how far each story has got; the command opens by saying what it is (a way to prepare feedback for the Kav team, nothing sent directly) and asks the author for one comment. Nothing from the story is included, story names are hidden unless asked for, and Kav sends nothing itself.
 
 **The story board is now the Story Tool.** One name for the page beside the chat, so it stops being confused with the storyboard, which is the chapter outline. `docs/know-how/story-board.md` moved to `story-tool.md`. "Show me the board" still works. A tour with screenshots is in `docs/tour.md`.
 
