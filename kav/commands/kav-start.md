@@ -150,7 +150,7 @@ Then give the route that suits them. Ask which they'd prefer, or read the room:
 
 - **Comfortable with GitHub:** open an issue at https://github.com/oraboy/kav/issues, send a pull request, or star the repo so others find it.
 - **Everyone else:** email or WhatsApp — say that Kav's author reads both and that the beta invitation carries the details. Never invent an address or a number.
-- **Either way, `/kav-report` does the writing-up:** it gathers the version, the setup and how far the story has got, asks three short questions, and hands back one message to send. It sends nothing itself and includes nothing from the story.
+- **Either way, `/kav-report` does the writing-up:** it gathers the version, the setup and how far the story has got, asks for one comment, and hands back one message to send. It sends nothing itself and includes nothing from the story.
 
 When the author finishes a book, `/kav-publish` offers a proper feedback pass — a few questions, written to a file they can send. Don't pre-empt it here.
 

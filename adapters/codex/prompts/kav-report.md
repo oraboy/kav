@@ -1,5 +1,5 @@
 ---
-description: "Put together a short report of how the author's Kav install and stories are going — version, setup, how far each story has got, plus three answers in the author's own words — for them to send to whoever invited them to try Kav. Never sends anything itself and never includes story content. Use when the author types /kav-report, says \"send feedback\", \"report a problem\", \"how do I tell Oren how it went\", or is stuck and wants to pass the details on."
+description: "Prepare a feedback message for the Kav team — version, setup, how far each story has got, plus the author's own comment — organized in one place for the author to send. Never sends anything itself and never includes story content. Use when the author types /kav-report, says \"send feedback\", \"report a problem\", \"how do I tell the Kav team how it went\", or is stuck and wants to pass the details on."
 argument-hint: "[names]"
 ---
 
