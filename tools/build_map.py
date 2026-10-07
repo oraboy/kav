@@ -230,10 +230,12 @@ def cast_piece(sd, stem, text, keys, chars, pack, src):
                               f"{c} build a dna", skip))
     if refs and not keys:
         needs.append(need(PENDING, "Kav still has to set them up for drawing", c))
-    elif principal and refs and not gens:
-        needs.append(need(PENDING, "Kav still has to build their portraits", c))
     elif principal and pack and keys and not all((sd / "cast" / k / pack / "front.png").is_file() for k in keys):
         needs.append(need(PENDING, f"Kav still has to build their portraits in the {pack} style", f"/kav-visual-style-lock {pack}"))
+    elif principal and refs and not pack and not gens:
+        # portraits are drawn in the story's style, so they wait for one
+        needs.append(need(PENDING, "Kav draws their portraits once the story has a visual style. Choose the style next",
+                          "/kav-style <name>"))
     extras = []
     if principal and not full and not dna:
         extras.append(("You can also build their full DNA for a complete personality. It helps Kav come up with better "

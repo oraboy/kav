@@ -4,6 +4,8 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
+**Reference shots wait for the style.** `/kav-character` used to draw a plain photographic set the moment a photo arrived, before the story had a look. It now registers the photos and the description and stops: the author is offered another character, a place, or the look. The set is drawn once a style is chosen, in that style, straight from the author's photos. The Story Tool says so on a character that is waiting.
+
 From the first author outside the team, who finished an 18-page book the day after Kav was shared: he arrived with the story already written, drew with his AI tool's own image generator, and never touched a provider key. The book got made, but most of Kav's pipeline was bypassed on the way.
 
 **Any image tool is welcome, and its output goes through the pipeline.** Kav used to say its pipeline couldn't use the agent's own image generator. It now says yes: one panel per image, a few takes each, saved with the new `tools/add_candidate.py`, then review, picks, lettering and pages as for any lane (`docs/know-how/own-image-tool.md`). Kav's tested providers are a head start, not a fence. Asked about models, Kav lists every option and asks what the author already has.

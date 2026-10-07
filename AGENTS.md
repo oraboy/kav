@@ -72,7 +72,7 @@ All image, lettering and assembly work goes through `tools/` (run from the repo 
 
 ```
 python3 tools/generate.py --story <slug> "<scene line>" [--lane seedream|nanobanana] [--ar 4:5|8:5|12:5|9:16] [--seed N]
-python3 tools/build_mugshots.py --story <slug> --char <name> [--seed N]
+python3 tools/build_mugshots.py --story <slug> --char <name> --style-pack <pack> [--seed N]   # reference shots, in the story's style
 python3 tools/touch_up.py --story <slug> --char <name> --shot front --instruction "<one detail>"
 python3 tools/panel_batch.py <batch.json>
 python3 tools/add_candidate.py <batch.json> <panel-id> <image> [...] [--source "..."] [--fit]   # takes made by another image tool
