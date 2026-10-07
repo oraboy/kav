@@ -142,7 +142,7 @@ python3 tools/panel_batch.py <batch.json> [--sheet-only]
 Opens a local review page where the author picks candidates.
 
 ```
-python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open] [--title "..."] [--static out.html]
+python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open] [--title "..."] [--static out.html] [--artifact out.html]
 ```
 
 - **Page:** shows panels in batch order. Each panel has its candidates, a pick or reroll toggle, an editable text box (pre-filled from the batch `text`) and a notes box. A panel with `picked` shows only that image, marked locked. A wide panel (`ar` wider than 4:5) shows the full image and its centre 4:5 phone crop side by side.
@@ -150,6 +150,7 @@ python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open
   `{"batch", "story", "chapter", "submittedAt", "panels": {"<id>": {"pick": "2"|null, "reroll": bool, "comment": str, "text": str}}}`
   The page then shows "Saved — tell your AI 'picks in'". If a review file already exists, it pre-fills the page. Stop the server with Ctrl+C.
 - **`--static out.html`:** writes a standalone page instead, with images linked by relative path. Its Submit button shows the JSON to copy.
+- **`--artifact out.html`:** writes one self-contained page, images embedded as 1000px JPEGs, for an author whose review surface is `artifact`. Publish it as a Claude artifact with `capabilities: {"db": {}}`. Submit saves the same JSON to the artifact's store as the document `reviews/<batch-stem>`, and an earlier save pre-fills the page. The agent reads that document back and writes `CH/panels/reviews/<batch-stem>.json`. If the store can't be reached, Submit shows the JSON to copy.
 
 ## cell_crop.py
 

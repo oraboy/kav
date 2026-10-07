@@ -12,8 +12,14 @@ writes stories/<story>/chapters/<chapter>/panels/reviews/<batch-stem>.json:
 An existing review file pre-fills the page. Stop the server with Ctrl+C.
 --static out.html writes a standalone page instead (images linked by relative path); its
 Submit button shows the JSON to copy, since there is no server to save it.
+--artifact out.html writes one self-contained page (images embedded as 1000px JPEGs) to
+publish as a Claude artifact with capabilities {"db": {}}. Submit saves the same JSON to
+the artifact's store as the document reviews/<batch-stem>, which the agent reads back and
+writes to the review file; an earlier save pre-fills the page.
 """
 import argparse
+import base64
+import re
 import html as H
 import json
 import mimetypes
@@ -42,7 +48,8 @@ def paths(batch_path):
 
 
 def build_page(batch_path, img_url, title=None, mode="server"):
-    """img_url(Path) -> src string. mode: 'server' posts to /submit, 'static' shows JSON."""
+    """img_url(Path) -> src string. mode: 'server' posts to /submit, 'static' shows JSON,
+    'artifact' saves to the published page's own store."""
     spec, cand_dir, review_file = paths(batch_path)
     stem = batch_path.stem
     story, chapter = spec["story"], spec["chapter"]
@@ -193,6 +200,7 @@ textarea.text{{font-size:15px;line-height:1.6}}
 <script>
 const MODE = {js(mode)};
 const BATCH = {js(stem)}, STORY = {js(story)}, CHAPTER = {js(chapter)};
+const DOC = 'reviews/' + {js(re.sub(r"[^A-Za-z0-9_.~:@+-]", "_", stem))};
 const LOCKED = new Set({js([p["id"] for p in spec["panels"] if p.get("picked")])});
 const state = {js(seed)};
 function ent(id){{ return state[id] || (state[id] = {{pick:null, reroll:false, comment:"", text:""}}); }}
@@ -224,12 +232,47 @@ document.querySelectorAll('textarea.text').forEach(t => t.oninput = () => {{ ent
 Object.keys(state).forEach(paint);
 
 const send = document.getElementById('send'), msg = document.getElementById('msg'), dump = document.getElementById('dump');
+// A published page keeps the picks in its own store. An earlier save pre-fills the page.
+let store = null;
+if (MODE === 'artifact' && window.claude && window.claude.use) {{
+  window.claude.use('db').then(async db => {{
+    store = db;
+    if (!db) return;
+    try {{
+      const snap = await db.doc(DOC).get();
+      const saved = snap.exists ? ((snap.data() || {{}}).panels || {{}}) : {{}};
+      Object.keys(saved).forEach(id => {{
+        if (!state[id] || LOCKED.has(id)) return;
+        Object.assign(state[id], saved[id]);
+        const q = '[data-panel="' + CSS.escape(id) + '"]';
+        const t = document.querySelector('textarea.text' + q), n = document.querySelector('textarea.note' + q);
+        if (t) t.value = state[id].text || '';
+        if (n) n.value = state[id].comment || '';
+        paint(id);
+      }});
+    }} catch (e) {{}}
+  }});
+}}
 send.onclick = async () => {{
   const payload = {{batch: BATCH, story: STORY, chapter: CHAPTER,
                    submittedAt: new Date().toISOString(), panels: state}};
+  if (MODE === 'artifact' && store) {{
+    send.disabled = true; msg.textContent = "saving…";
+    try {{
+      await store.doc(DOC).set(JSON.parse(JSON.stringify(payload)));
+      msg.textContent = "Saved — tell your AI 'picks in'";
+      send.textContent = "Submit again";
+    }} catch (e) {{
+      dump.style.display = 'block'; dump.value = JSON.stringify(payload, null, 2); dump.select();
+      msg.textContent = "Could not save here: copy this JSON to your AI.";
+    }}
+    send.disabled = false;
+    return;
+  }}
   if (MODE !== 'server') {{
     dump.style.display = 'block'; dump.value = JSON.stringify(payload, null, 2); dump.select();
-    msg.textContent = "No server here: copy this JSON to your AI, or run tools/review.py without --static.";
+    msg.textContent = MODE === 'artifact' ? "Could not save here: copy this JSON to your AI."
+      : "No server here: copy this JSON to your AI, or run tools/review.py without --static.";
     return;
   }}
   send.disabled = true; msg.textContent = "saving…";
@@ -325,6 +368,9 @@ def main():
     ap.add_argument("--no-open", action="store_true", help="do not open a browser")
     ap.add_argument("--title", help="page title (default '<chapter> · <batch-stem>')")
     ap.add_argument("--static", metavar="OUT_HTML", help="write a standalone page and exit, no server")
+    ap.add_argument("--artifact", metavar="OUT_HTML",
+                    help="write one self-contained page to publish as a Claude artifact "
+                         "(capabilities {\"db\": {}}); picks save to its store as reviews/<batch-stem>")
     a = ap.parse_args()
     if a.demo:
         a.batch = str(Path(__file__).resolve().parent / "examples" / "review-demo" / "batch.json")
@@ -335,6 +381,19 @@ def main():
     if not batch_path.exists():
         sys.exit(f"No such batch: {batch_path}")
     _, _, review_file = paths(batch_path)
+
+    if a.artifact:
+        out = Path(a.artifact).resolve()
+        out.parent.mkdir(parents=True, exist_ok=True)
+
+        def embedded(f):
+            return "data:image/jpeg;base64," + base64.b64encode(jpeg_bytes(str(f), 1000, 76)).decode("ascii")
+
+        out.write_text(build_page(batch_path, embedded, a.title, mode="artifact"), encoding="utf-8")
+        print(f"wrote {out} · {out.stat().st_size // 1024} KB")
+        print(f"publish it as an artifact with capabilities {{\"db\": {{}}}}; "
+              f"picks land in its store as reviews/{re.sub(r'[^A-Za-z0-9_.~:@+-]', '_', batch_path.stem)}")
+        return
 
     if a.static:
         out = Path(a.static).resolve()

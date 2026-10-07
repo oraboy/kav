@@ -13,7 +13,15 @@ The author chooses every image that lands in a page. This is where that happens.
 
 Read `KAV_REVIEW` (`docs/know-how/review-surfaces.md`): `inline` posts boards into the conversation, `artifact` publishes a page, `local` serves the click-to-pick page. When it is unset, use `artifact` where Artifacts exist, else `inline`, and confirm once.
 
-**`inline` or `artifact`.** Post the batch's contact sheet, `.../candidates/<batch-stem>_sheet.png` (rebuild it any time with `python3 tools/panel_batch.py <batch.json> --sheet-only`). Every take is burned in as `<panel-id> A/B/C`, so the author replies "s2p1 B, s2p2 A, reroll s2p3 — too dark". Write their answer into `reviews/<batch-stem>.json` yourself, in the shape the page saves, then carry on at step 2. Split a long chapter into a few sheets rather than posting a stack of separate images.
+**`artifact`.** Publish the click-to-pick page. The author chose a page, so a board posted in the chat is not it:
+
+```
+python3 tools/review.py <batch.json> --artifact stories/<slug>/chapters/<ch>/panels/reviews/<batch-stem>-review.html
+```
+
+It writes one self-contained page with the takes embedded. Publish that file as an artifact with `capabilities: {"db": {}}` and give the author the link; republish the same file after a reroll to keep the link. The author picks, marks rerolls, edits text and presses Submit, which saves to the artifact's store as the document `reviews/<batch-stem>`. When they say "picks in", read that document (ArtifactData `get`, collection `reviews`) and write it to `reviews/<batch-stem>.json` in the shape the local page saves, then carry on at step 2. If the document isn't there, the save didn't happen: say so and wait. An author who answers in the chat instead ("s1p1 B") is answered the same way as `inline`.
+
+**`inline`.** Post the batch's contact sheet, `.../candidates/<batch-stem>_sheet.png` (rebuild it any time with `python3 tools/panel_batch.py <batch.json> --sheet-only`). Every take is burned in as `<panel-id> A/B/C`, so the author replies "s2p1 B, s2p2 A, reroll s2p3 — too dark". Write their answer into `reviews/<batch-stem>.json` yourself, in the shape the page saves, then carry on at step 2. Split a long chapter into a few sheets rather than posting a stack of separate images.
 
 **`local`.**
 
