@@ -12,7 +12,7 @@ From the first author outside the team, who finished an 18-page book the day aft
 
 **A few takes per panel, said and shown up front.** `/kav-start` tells the author before their first story that every panel comes as takes to pick from or re-roll, and shows it with a bundled demo of the review page: a picture of it mid-use (two picks, one re-roll with a note) and the live page on ready-made *Last Light* takes, `python3 tools/review.py --demo`. No story, no key, no cost. The review page now labels takes A, B, C like the contact sheet, and counts picks and re-rolls beside the submit button.
 
-**`docs/know-how/image-models.md`** — what each image model is like to work with in Kav, with the evidence behind each line: Seedream on fal.ai and on Magnific, Nano Banana Pro, Higgsfield, the AI tool's own generator, and Midjourney (no API, so only by hand).
+**`docs/know-how/image-models.md`** — a short table of what each image model is like to work with in Kav: Seedream on fal.ai and on Magnific, Nano Banana Pro, Higgsfield, and Midjourney (no API, so only by hand). Asked about a tool that isn't listed, Kav says it knows of no specific limits and offers to try a few examples.
 
 **Starting points.** Before the first story, Kav asks where the author is starting from: a finished story to adapt, a few photos to play with, an idea to develop, or a look around. A finished story gets its own way into `/kav-kickoff`: the text is saved untouched and Kav asks how to adapt it, not what it is about.
 
