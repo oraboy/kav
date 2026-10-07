@@ -14,7 +14,7 @@ Show this, verbatim, as the first thing the author reads:
 
 > **Kav is a co-writer for graphic novels.** You bring the story and the visual style, and you make every call. Kav brings the structure, pushes back on weak spots, draws and letters the panels, and puts together the finished book.
 >
-> Stories can come from real life or pure imagination. Your own photos become the cast and the places, or a world illustrated purely from imagination. The visual style is yours to pick or invent as well: anime, film noir, watercolor and anything you can point to.
+> Stories can come from real life or from your imagination. Use your own photos for the cast and the places, or let Kav draw a world that does not exist. You choose the visual style: anime, film noir, watercolor, or any style that you can show.
 >
 > **How it works:** kick off with a one-line pitch, then collect the cast, the places and the look. Lock the visual style and build the reference art. Storyboard the arc, then write and draw one chapter at a time. Kav suggests options; you pick, refine, overrule and direct.
 >
