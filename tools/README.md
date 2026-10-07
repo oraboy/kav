@@ -272,7 +272,7 @@ Brings images made outside Kav's own lanes (the agent's built-in image generator
 python3 tools/review.py --demo [--static out.html]
 ```
 
-Opens the review page on `tools/examples/review-demo/`: three panels from the sample story *Last Light*, three ready-made takes each. No story, no keys, no cost; picks are saved to `setup/` and change nothing. `sheet.png` in the same folder is the contact-sheet version for showing inline. `/kav-start` uses it to show an author how picking works before their first story.
+Opens the review page on `tools/examples/review-demo/`: three panels from the sample story *Last Light*, three ready-made takes each. No story, no keys, no cost; picks are saved to `setup/` and change nothing. `picking.jpg` in the same folder is that page mid-use (two picks, one re-roll with a note, the submit button), for showing in a chat. The page labels takes A, B, C, the same letters the contact sheet burns in, and counts picks and re-rolls beside the submit button. `/kav-start` uses it to show an author how picking works before their first story.
 
 ## Support modules (not run directly)
 

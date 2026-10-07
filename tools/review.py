@@ -36,7 +36,7 @@ def paths(batch_path):
     if spec.get("demo"):
         # the bundled demo carries its own ready-made takes and belongs to no story;
         # its picks land in setup/, which is gitignored
-        return spec, batch_path.parent / "candidates", REPO / "setup" / f"review-{batch_path.parent.name}.json"
+        return spec, batch_path.parent / "candidates", REPO / "setup" / f"{batch_path.parent.name}.json"
     panels_dir = REPO / "stories" / story / "chapters" / chapter / "panels"
     return spec, panels_dir / "candidates", panels_dir / "reviews" / f"{batch_path.stem}.json"
 
@@ -58,7 +58,9 @@ def build_page(batch_path, img_url, title=None, mode="server"):
     for p in spec["panels"]:
         pid = p["id"]
         picked = p.get("picked")
-        files = sorted(cand_dir.glob(f"{pid}-*.png"),
+        # the bundled demo ships its takes as small JPEGs; a story's takes are always PNG
+        kinds = (".png", ".jpg") if spec.get("demo") else (".png",)
+        files = sorted((f for f in cand_dir.glob(f"{pid}-*") if f.suffix.lower() in kinds),
                        key=lambda f: (len(f.stem), f.stem))
         files = [f for f in files if f.stem.rsplit("-", 1)[1].isdigit()]
         if picked:
@@ -84,6 +86,8 @@ def build_page(batch_path, img_url, title=None, mode="server"):
 
         def card(f):
             n = f.stem.rsplit("-", 1)[1]
+            # the same letter the contact sheet burns in, so "s2p1 B" means one thing everywhere
+            letter = "ABCDEFGH"[int(n) - 1] if 1 <= int(n) <= 8 else n
             src = H.escape(img_url(f), quote=True)
             if wide:
                 views = (f'<span class="view full" style="flex:{aw / ah:.3f}">'
@@ -93,7 +97,8 @@ def build_page(batch_path, img_url, title=None, mode="server"):
             else:
                 views = f'<span class="view solo"><img src="{src}" alt="" loading="lazy"></span>'
             return (f'<button class="cand{" wide" if wide else ""}" data-panel="{H.escape(pid)}" '
-                    f'data-pick="{n}"><span class="pair">{views}</span><span class="n">{n}</span></button>')
+                    f'data-pick="{n}" data-letter="{letter}"><span class="pair">{views}</span>'
+                    f'<span class="n">{letter}</span></button>')
 
         cards = "".join(card(f) for f in files)
         settled = " settled" if picked else ""
@@ -198,7 +203,14 @@ function paint(id){{
   const r = document.querySelector('.reroll[data-panel="'+CSS.escape(id)+'"]');
   if (r) r.classList.toggle('on', s.reroll);
   const st = document.querySelector('.state[data-panel="'+CSS.escape(id)+'"]');
-  if (st) st.textContent = s.reroll ? 'reroll' : (s.pick ? 'picked #' + s.pick : '');
+  const on = document.querySelector('.cand.on[data-panel="'+CSS.escape(id)+'"]');
+  if (st) st.textContent = s.reroll ? 'reroll' : (s.pick ? 'picked ' + (on ? on.dataset.letter : '#' + s.pick) : '');
+  // a running count beside the submit button, so the author sees what one submit will send
+  const open = Object.keys(state).filter(k => !LOCKED.has(k));
+  const picked = open.filter(k => state[k].pick && !state[k].reroll).length;
+  const redo = open.filter(k => state[k].reroll).length;
+  const m = document.getElementById('msg');
+  if (m && (picked || redo)) m.textContent = picked + ' picked · ' + redo + ' to redraw';
 }}
 document.querySelectorAll('.cand').forEach(b => b.onclick = () => {{
   if (LOCKED.has(b.dataset.panel)) return;

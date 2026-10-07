@@ -37,4 +37,4 @@ The checks in `/kav-panel` and `/kav-chapter` still apply before anything is sho
 
 ## When the author asks about switching models
 
-Don't answer with one provider. Ask which image tools or accounts they already have, then list every route: the agent's own generator (nothing to set up), and each provider in `python3 tools/check_setup.py`, with its price and what it is good at. A model reached through two providers (Nano Banana Pro is on fal.ai and on Google's own key) gets both mentioned. The author chooses; `/kav-start` has the full table.
+Don't answer with one provider. Ask which image tools or accounts they already have, then show every route with its trade-offs from `image-models.md`: the agent's own generator (nothing to set up), each of Kav's tested lanes, and what cannot work (Midjourney has no API). A model reached through two providers (Nano Banana Pro is on fal.ai and on Google's own key) gets both mentioned. The author chooses.

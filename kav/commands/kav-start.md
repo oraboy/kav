@@ -55,7 +55,7 @@ It copies only the key names Kav knows, reports names only, and keeps keys alrea
 
 **If you have an image generator of your own** (ChatGPT / Codex image generation, a Gemini or MCP image tool), offer it as a real option, and first when the author has no provider key: there is nothing to set up. Kav's pipeline takes what it makes, one panel at a time (`docs/know-how/own-image-tool.md`). Say the two differences once, then respect the choice: Kav can't report what that tool costs, and a character stays consistent only as well as that tool holds a reference image. Record the choice in `.env` as `KAV_IMAGE_TOOL=<its name>`; leave `KAV_PROVIDER` for Kav's own lanes.
 
-**(b) Then present the options, with the trade-offs, and let the author choose.** `check_setup.py` prints the current list from the registry (`tools/lanes/models.json`) with each model's status, price and reference cap — read it rather than trusting the table below, which is a snapshot. Mark what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it. Mention an entry the check marks as needing re-verification.
+**(b) Then present the options, with the trade-offs, and let the author choose.** What each model is like to work with in Kav, and the evidence behind it, is in `docs/know-how/image-models.md`: use it, including for models that aren't in the table (Midjourney has no API; anything unknown gets tried on two or three panels). `check_setup.py` prints the current list from the registry (`tools/lanes/models.json`) with each model's status, price and reference cap — read it rather than trusting the table below, which is a snapshot. Mark what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it. Mention an entry the check marks as needing re-verification.
 
 | Provider | Models | Trade-offs |
 |---|---|---|
@@ -108,14 +108,15 @@ Suggest the default for the host you are running in, take their answer, and don'
 
 Say this before any story starts, in these words or close to them:
 
-> **You never get one image and have to live with it.** For every panel, Kav draws a few takes. You pick the one you like, or ask for another go and say what to change. The text is added afterwards, so you can reword a caption without redrawing anything.
+> **You never get one image and have to live with it.** For every panel, Kav draws a few takes. You pick the one you like, or ask for another go and say what to change: "she should be frowning", "he wears a striped shirt", "every ant has six legs". The text is added afterwards, so you can reword a caption without redrawing anything.
 
-Then **show it instead of explaining it**, with the bundled demo: three panels from the sample story *Last Light*, three takes of each. It needs no story and no key, and costs nothing.
+Then **show the review page instead of explaining it.** Kav ships a demo of it: three panels from the sample story *Last Light*, three takes of each. It needs no story and no key, and costs nothing.
 
-- **`inline` or `artifact`:** post `tools/examples/review-demo/sheet.png`, and say how they would answer in a real chapter: "s1p1 C, s1p2 A, another go at s2p1, it's too crowded".
-- **`local`,** or any author at a desktop who would like to click: run `python3 tools/review.py --demo` in the background and give them the address. They can pick, mark a re-roll and edit the text; saving writes to `setup/` and changes nothing.
+- **Always post the picture:** `tools/examples/review-demo/picking.jpg` is the review page in the middle of being used: take B picked for the first panel, take A for the second, and the third marked for a re-roll with the note "She should make a frowning face", next to the submit button. Point at those three things in one line each.
+- **Then offer the real thing** to any author at a desktop: run `python3 tools/review.py --demo` in the background and give them the address. They can click a take, mark a re-roll, write a note and edit the text. Saving writes to `setup/` and changes nothing.
+- Say how the same thing works when they are on a phone or prefer the chat: the takes arrive as one labelled sheet and they answer in words, "s1p1 B, s1p2 A, redo s2p2, she should be frowning".
 
-Two lines and the picture, then move on. Don't quiz them on it.
+A few lines and the picture, then move on. Don't quiz them on it.
 
 ## Step 4 — The process
 
