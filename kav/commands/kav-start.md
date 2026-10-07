@@ -14,13 +14,21 @@ Show this, verbatim, as the first thing the author reads:
 
 > **Kav is a co-writer for graphic novels.** You bring the story and the visual style, and you make every call. Kav brings the structure, pushes back on weak spots, draws and letters the panels, and puts together the finished book.
 >
-> Stories can come from real life or pure imagination. Your own photos become the cast and the places, so a book can star your street, your family or your dog, or a world nobody has seen. The look is yours to pick or invent: anime, film noir, watercolour, rotoscope, anything you can point to.
+> Stories can come from real life or pure imagination. Your own photos become the cast and the places, or a world illustrated purely from imagination. The visual style is yours to pick or invent as well: anime, film noir, watercolor and anything you can point to.
 >
 > **How it works:** kick off with a one-line pitch, then collect the cast, the places and the look. Lock the visual style and build the reference art. Storyboard the arc, then write and draw one chapter at a time. Kav suggests options; you pick, refine, overrule and direct.
 >
 > **What you get:** a phone reader for each chapter, full pages, Instagram carousels and a trailer to share.
 >
 > Everything is saved as files in one folder per story, so work stays organised and you can run several stories side by side.
+>
+> **How image generation works**
+>
+> During setup, Kav connects to the image model that you already use, or helps you set up one.
+>
+> Kav then draws a few versions of each panel. You select the version that you like, or you ask for a new one and say what to change. Here is an example:
+
+Post `tools/examples/review-demo/picking.jpg` directly below that text, as part of the welcome. **Do not describe the picture**: it shows the selections, the request for a new version and the submit button, and the text must not repeat it. Say nothing more about image generation here. Only if the author asks to try it, run `python3 tools/review.py --demo` in the background and give them the address; it uses ready-made images and costs nothing.
 
 Then, in your own words, say what happens next: a quick look at this machine, image generation set up (or left for later), and a first story whenever they're ready.
 
@@ -104,20 +112,6 @@ Kav stops at every visual decision and shows you the work. Ask where the author 
 
 Suggest the default for the host you are running in, take their answer, and don't ask again. Full rules: `docs/know-how/review-surfaces.md`. A localhost page is never the only way to see a gate; `local` always comes with the same board posted inline.
 
-## Step 3c — How drawing works: a few takes, and you pick (show it)
-
-Say this before any story starts, in these words or close to them:
-
-> **You never get one image and have to live with it.** For every panel, Kav draws a few takes. You pick the one you like, or ask for another go and say what to change: "she should be frowning", "he wears a striped shirt", "every ant has six legs". The text is added afterwards, so you can reword a caption without redrawing anything.
-
-Then **show the review page instead of explaining it.** Kav ships a demo of it: three panels from the sample story *Last Light*, three takes of each. It needs no story and no key, and costs nothing.
-
-- **Always post the picture:** `tools/examples/review-demo/picking.jpg` is the review page in the middle of being used: take B picked for the first panel, take A for the second, and the third marked for a re-roll with the note "She should make a frowning face", next to the submit button. Point at those three things in one line each.
-- **Then offer the real thing** to any author at a desktop: run `python3 tools/review.py --demo` in the background and give them the address. They can click a take, mark a re-roll, write a note and edit the text. Saving writes to `setup/` and changes nothing.
-- Say how the same thing works when they are on a phone or prefer the chat: the takes arrive as one labelled sheet and they answer in words, "s1p1 B, s1p2 A, redo s2p2, she should be frowning".
-
-A few lines and the picture, then move on. Don't quiz them on it.
-
 ## Step 4 — The process
 
 1. **Kickoff** — a slug and a one-line pitch. `/kav-kickoff <slug>`
@@ -187,7 +181,7 @@ When the author finishes a book, `/kav-publish` offers a proper feedback pass �
   | 1 · a finished story | Ask them to paste or attach it. Then `/kav-kickoff <slug>`, *adapting a finished story*: the text is saved untouched, and Kav asks how to adapt it, not what it is about |
   | 2 · photos | One character (`/kav-character`) in one place (`/kav-location`), a look (`/kav-style`), then a single panel (`/kav-panel`). Nothing has to be planned first; a story can grow from it later |
   | 3 · an idea | `/kav-kickoff <slug>` from a one-line pitch. No idea yet? Offer three one-liners, then stop and let them pick |
-  | 4 · a look around | The take-picking demo (Step 3c) if they haven't seen it, the sample stories and the tour (`docs/tour.md`), then ask again |
+  | 4 · a look around | The sample stories and the tour (`docs/tour.md`), then ask again |
 
   An author who wants something else entirely is followed, inside the frame in `AGENTS.md` ("However the author works, these hold").
 
