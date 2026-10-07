@@ -94,6 +94,8 @@ Save the read to `cold-reads/<date>-scenes.md` and record it in `chapter-state.m
 
 ## Stage C — Panels: batch → review page → picks in
 
+**Drawing with the author's own image tool?** Write the batch the same way. Then make each panel's takes with that tool, one panel per image, and file them with `tools/add_candidate.py` in place of running `panel_batch.py` (`docs/know-how/own-image-tool.md`). The review, the picks and everything after are unchanged.
+
 ### 1 · Write the batch
 
 One batch per 2–4 scenes: `chapters/chNN/panels/batch-<name>.json`

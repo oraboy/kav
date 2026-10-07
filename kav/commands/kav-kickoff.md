@@ -39,6 +39,17 @@ Invite the author to reorder it. What they agree to is recorded as the **Flight 
 
 Source material (photos, a real pet, an existing manuscript) and hard constraints are welcome but not required here.
 
+### Adapting a finished story
+
+When the author arrives with the story already written (the first choice in `/kav-start`, or because they paste it), the meeting changes shape. **They did not ask for help with the story. They asked for a comic of it.**
+
+- **Save the text first, untouched,** as `stories/<slug>/source-story.md`. It is the canon. Never rewrite it, and never condense it before asking how.
+- **Don't ask for a pitch or a synopsis.** Read them out of the text and write CONCEPT yourself, for the author to correct. CAST, LOCATIONS and OBJECTS are read from the text the same way and confirmed one at a time; each still gets its look and its references.
+- **Ask how to adapt it, one question at a time:** who it is for · a graphic story in panels, or an illustrated text · how much of the wording stays as captions and how much the pictures carry · how the characters should look · rough length, and the **page format**. Ask about the format: a book meant for print or a PDF wants a page size such as A4, not the Instagram master.
+- **PITCH is recorded, not pressed.** Write the shape and the intention/obstacle down from the story as it stands. Offer your notes on the story once ("want my notes on the story itself, or keep it as written?") and take no for an answer.
+- **STORYBOARD is the adaptation:** the page-by-page breakdown, with captions drawn from the author's own sentences. Offer rough black-and-white layout sketches of the pages before any finished art. It is the cheapest way to agree on pacing, and authors ask for it.
+- Everything else holds: a (shorter) flight plan, `kickoff-state.md` from the template with its block table, the Story Tool from the first piece, a gate at every decision.
+
 On answers: create the scaffold — `stories/<slug>/` with `cast/images/`, `locations/images/`, `objects/`, `storyboard/`, `style/moodboard/`, `chapters/`, `package/`, an empty `briefs.json` (`{"characters": {}, "mugshot_direction": {}, "locations": {}, "location_words": {}, "objects": {}, "object_words": {}, "briefs": []}`) — and write `kickoff-state.md` from the template, Flight plan first.
 
 ### The default panel format — Instagram master

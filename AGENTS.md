@@ -8,6 +8,20 @@ These instructions apply to any agent working in this repo (Codex CLI, Claude Co
 
 - If the author asks to install Kav or get started and the install isn't done, follow `INSTALL.md`.
 - Otherwise, if the author seems new, run `kav/commands/kav-start.md`.
+- **Before the first story, find out where the author is starting from.** Don't assume they have nothing, and don't assume they know how a comic gets made. Offer the starting points and let them choose (`kav-start.md` Step 6 has the wording): a finished story to adapt, a few photos to play with, an idea to develop, or a look around first. Each one has its own way in; a finished story is adapted, never re-pitched.
+
+## However the author works, these hold
+
+Authors arrive with their own way of working, and Kav adapts to it: any order, any starting point, any image tool. What Kav does not drop is the frame that makes a book come out the other end. An author who is new to comics should never have to know these steps exist; you keep them.
+
+1. **The story lives in Kav's files, in Kav's shapes.** `stories/<slug>/` as laid out below, with `kickoff-state.md` and `chapter-state.md` written from `docs/templates.md` (the block table included), whatever route the conversation takes. The Story Tool, `/kav-report` and the next session all read those shapes. Free-form notes go inside them, never in place of them.
+2. **The Story Tool opens with the first piece** and is brought up again at every gate (`docs/know-how/story-tool.md`). It is how an author sees what exists and what is next without knowing the process.
+3. **One image is one panel.** Pages are assembled from panels, never generated whole. This holds in every image lane, including the author's own tool. (A rough layout sketch of a page, made to talk about pacing, is discussion art and may show the whole page. It never becomes page art.)
+4. **Every panel comes as a few takes, and the author picks or asks for another go.** Say so before the first image is made, and show it: `python3 tools/review.py --demo` (or the sheet at `tools/examples/review-demo/sheet.png`) is a ready-made example that costs nothing.
+5. **Any image tool is welcome; its output goes through the pipeline.** Kav's tested lanes are a head start. If the author prefers the image generator in their AI tool, or anything else, say yes and follow `docs/know-how/own-image-tool.md`: single panels, takes saved with `tools/add_candidate.py`, then review, lettering, pages and readers as usual. Asked about models, list every option and ask what they already have, never one provider.
+6. **Lettering, pages and readers are made with Kav's tools** (`tools/letter.py`, `tools/assemble.py`, `tools/build_readers.py`). Don't write a one-off script to do what a tool here already does; if a tool falls short of what the author wants (a page size, a PDF), say so, extend the work from the tool's output, and note the gap under *Process learnings* in `kickoff-state.md`.
+7. **Show, don't describe.** Any choice about how something looks is put in front of the author as a picture: fonts as the story's own sentence set in each one, a palette as swatches on a panel, a layout as a sketch. Quick choices inline in the chat; panel and style choices on the author's review surface or the Story Tool. A link to go and look at something is not showing it.
+8. **Only the author can call a picture fixed.** Say what you changed and show it. Never report an image as corrected, consistent or matching on your own inspection.
 
 ## The process
 
@@ -61,8 +75,10 @@ python3 tools/generate.py --story <slug> "<scene line>" [--lane seedream|nanoban
 python3 tools/build_mugshots.py --story <slug> --char <name> [--seed N]
 python3 tools/touch_up.py --story <slug> --char <name> --shot front --instruction "<one detail>"
 python3 tools/panel_batch.py <batch.json>
+python3 tools/add_candidate.py <batch.json> <panel-id> <image> [...] [--source "..."] [--fit]   # takes made by another image tool
 python3 tools/cell_crop.py <image> --cells 1|2|3
 python3 tools/review.py <batch.json> [--port 8765]
+python3 tools/review.py --demo                     # ready-made takes to pick from: no story, no keys, no cost
 python3 tools/letter.py <spec.json> <out.png> [--phone]
 python3 tools/assemble.py <layout.json>
 python3 tools/build_readers.py --story <slug> --chapters chNN --title "..." --out <dir> [--next "..."] [--next-story-url U] [--next-pages-url U] [--home-url U]
@@ -99,3 +115,5 @@ styles/<pack>/   shared style packs (images + medium.txt)
 9. **Lettering is post-process.** Story text is never generated into images.
 10. **Every panel line names the scene state and the face.** Time, weather, light, wardrobe, condition, and the expression the beat needs. Panels generate independently; anything unsaid is re-invented per panel, and faces default to a pleasant smile.
 11. Keep replies short. It's a working session, not a report.
+12. **One image, one panel.** Page artwork is never generated as a whole page, a strip or several panels in a single image, in any lane.
+13. **Never say a picture is fixed, correct or consistent unless the author has said so.** Report what was changed and show it.

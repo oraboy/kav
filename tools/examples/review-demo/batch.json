@@ -1,0 +1,27 @@
+{
+  "_comment": "Kav's bundled demo of picking takes. Ready-made images from the sample story Last Light: nothing is generated and nothing costs money. Open it with: python3 tools/review.py --demo",
+  "demo": true,
+  "story": "demo",
+  "chapter": "ch01",
+  "n": 3,
+  "panels": [
+    {
+      "id": "s1p1",
+      "ar": "4:5",
+      "line": "Ruth climbing the lighthouse's spiral stairs in late-afternoon light, full body, one hand on the rail",
+      "text": "RUTH: Life in the last operating lighthouse on the Mediterranean can be demanding."
+    },
+    {
+      "id": "s1p2",
+      "ar": "4:5",
+      "line": "Ruth reaching for a gauge that an automated green status lamp has already checked, frustrated close-up",
+      "text": "RUTH: Setting the beacon timing, for example, requires precision, skill and elegance."
+    },
+    {
+      "id": "s2p1",
+      "ar": "8:5",
+      "line": "The family at the kitchen table: Babz reads an official letter aloud, Ruth stands tense, Imi marks a checklist",
+      "text": "BABZ: Today's the final date of manual operation. Tomorrow the Ministry of Automation takes control."
+    }
+  ]
+}

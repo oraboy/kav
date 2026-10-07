@@ -258,6 +258,22 @@ python3 tools/report.py [--names] [--json]
 
 How far this install has got, as text the author can send: Kav version, OS and Python, the setup check as ok/missing, and per story which planning blocks are done, piece counts, chapters and images made (from the ledger). No story content, no paths, no keys; story names only with `--names`. Sends nothing. `/kav-report` wraps it.
 
+## add_candidate.py
+
+```
+python3 tools/add_candidate.py <batch.json> <panel-id> <image> [<image> ...] [--source "codex image generation"] [--fit]
+```
+
+Brings images made outside Kav's own lanes (the agent's built-in image generator, any other tool) into a batch as takes. Each image becomes the panel's next `candidates/<id>-<k>.png` with a sidecar naming where it came from, a ledger row with provider `agent` and no price, and a rebuilt contact sheet. An image of the wrong shape is added with a warning; `--fit` centre-crops it to the panel's `ar`. One panel per image: it cannot tell a whole page from a panel, so never feed it one. See `docs/know-how/own-image-tool.md`.
+
+## review.py --demo
+
+```
+python3 tools/review.py --demo [--static out.html]
+```
+
+Opens the review page on `tools/examples/review-demo/`: three panels from the sample story *Last Light*, three ready-made takes each. No story, no keys, no cost; picks are saved to `setup/` and change nothing. `sheet.png` in the same folder is the contact-sheet version for showing inline. `/kav-start` uses it to show an author how picking works before their first story.
+
 ## Support modules (not run directly)
 
 - `kav_env.py`: repo root, story paths, `.env` key loading with friendly missing-key messages, Pillow JPEG helpers.

@@ -4,6 +4,18 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
+From the first author outside the team, who finished an 18-page book the day after Kav was shared: he arrived with the story already written, drew with his AI tool's own image generator, and never touched a provider key. The book got made, but most of Kav's pipeline was bypassed on the way.
+
+**Any image tool is welcome, and its output goes through the pipeline.** Kav used to say its pipeline couldn't use the agent's own image generator. It now says yes: one panel per image, a few takes each, saved with the new `tools/add_candidate.py`, then review, picks, lettering and pages as for any lane (`docs/know-how/own-image-tool.md`). Kav's tested providers are a head start, not a fence. Asked about models, Kav lists every option and asks what the author already has.
+
+**One image is one panel**, in every lane. Pages drawn as a single image can't be lettered, re-rolled or fixed a panel at a time. Now a hard rule.
+
+**A few takes per panel, said and shown up front.** `/kav-start` tells the author before their first story that every panel comes as takes to pick from or re-roll, and shows it with a bundled demo: `python3 tools/review.py --demo`, three panels from *Last Light* with three takes each. No story, no key, no cost.
+
+**Starting points.** Before the first story, Kav asks where the author is starting from: a finished story to adapt, a few photos to play with, an idea to develop, or a look around. A finished story gets its own way into `/kav-kickoff`: the text is saved untouched and Kav asks how to adapt it, not what it is about.
+
+**However the author works, these hold** — a short frame in `AGENTS.md` that survives any route: the story in Kav's files and shapes, the Story Tool from the first piece, single panels, takes and picks, Kav's own lettering and page tools, show instead of describe (fonts as the story's sentence set in each one, never links), and only the author can call a picture fixed.
+
 **`/kav-update`** — the latest Kav in one command. Pulls the new version, refreshes dependencies and the Codex prompts, re-runs the health check and says what changed in a few plain lines. It never touches `stories/`, `styles/` or `.env`, and it sets local changes to Kav aside rather than discarding them.
 
 **`/kav-report`** — how it's going, in one message the author sends. `tools/report.py` reads the version, the setup and how far each story has got; the command opens by saying what it is (a way to prepare feedback for the Kav team, nothing sent directly) and asks the author for one comment. Nothing from the story is included, story names are hidden unless asked for, and Kav sends nothing itself.

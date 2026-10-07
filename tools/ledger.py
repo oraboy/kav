@@ -41,7 +41,8 @@ def record(story, *, stage, tool, provider=None, lane=None, ar=None, seed=None,
     try:
         if price is None and provider and lane:
             import lanes
-            m = lanes.model(provider, lane) or {}
+            # a provider Kav has no entry for (the agent's own generator) has no known price
+            m = (lanes.model(provider, lane) if provider in lanes.PROVIDERS else None) or {}
             price = m.get("price")
         row = {"at": int(time.time()), "stage": stage, "tool": tool, "provider": provider,
                "lane": lane, "ar": ar, "seed": seed, "outcome": outcome, "price": price,

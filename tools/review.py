@@ -33,6 +33,10 @@ from kav_env import REPO, jpeg_bytes, resolve  # noqa: E402
 def paths(batch_path):
     spec = json.loads(batch_path.read_text(encoding="utf-8"))
     story, chapter = spec["story"], spec["chapter"]
+    if spec.get("demo"):
+        # the bundled demo carries its own ready-made takes and belongs to no story;
+        # its picks land in setup/, which is gitignored
+        return spec, batch_path.parent / "candidates", REPO / "setup" / f"review-{batch_path.parent.name}.json"
     panels_dir = REPO / "stories" / story / "chapters" / chapter / "panels"
     return spec, panels_dir / "candidates", panels_dir / "reviews" / f"{batch_path.stem}.json"
 
@@ -175,6 +179,7 @@ textarea.text{{font-size:15px;line-height:1.6}}
 </style></head><body>
 <div class="wrap">
   <h1>{H.escape(title)}</h1>
+  {'<p class="sub"><b>This is a demo.</b> The images are ready-made takes from the sample story Last Light: nothing is generated and nothing costs money. In your own story, every panel arrives like this.</p>' if spec.get("demo") else ''}
   <p class="sub">Pick one per panel, or mark it for a reroll. Notes are optional. One submit at the end.</p>
   <p class="legend">Wide panels show twice: the full image, and beside it exactly what the phone keeps.</p>
   {''.join(blocks)}
@@ -300,13 +305,20 @@ def make_handler(batch_path, title):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("batch", help="batch JSON (same file panel_batch.py consumed)")
+    ap.add_argument("batch", nargs="?", help="batch JSON (same file panel_batch.py consumed)")
+    ap.add_argument("--demo", action="store_true",
+                    help="open the bundled demo: ready-made takes of three panels, no story, no keys, no cost")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--no-open", action="store_true", help="do not open a browser")
     ap.add_argument("--title", help="page title (default '<chapter> · <batch-stem>')")
     ap.add_argument("--static", metavar="OUT_HTML", help="write a standalone page and exit, no server")
     a = ap.parse_args()
+    if a.demo:
+        a.batch = str(Path(__file__).resolve().parent / "examples" / "review-demo" / "batch.json")
+        a.title = a.title or "Kav · picking takes (demo)"
+    if not a.batch:
+        ap.error("give a batch JSON, or --demo")
     batch_path = resolve(a.batch)
     if not batch_path.exists():
         sys.exit(f"No such batch: {batch_path}")
