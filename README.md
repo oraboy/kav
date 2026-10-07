@@ -67,6 +67,25 @@ Kav changes often. To get the latest version, type `/kav-update`: it updates Kav
 
 Every chapter comes out in two views: comic pages, like *The Last Light* above, and one panel at a time on a phone, like *Berkovitz and Olive*. [The tour](docs/tour.md#sample-stories) shows both views of each story.
 
+### Made by Kav users
+
+<table>
+<tr>
+<td width="33%" align="center" valign="top">
+<a href="https://oraboy.github.io/kav-samples/the-ant-who-walked-alone/"><img src="docs/media/tour/sample-ant-who-walked-alone.jpg" width="260" alt="The Ant Who Walked Alone: the cover, an ant standing on a root at sunset"></a>
+<br><b><a href="https://oraboy.github.io/kav-samples/the-ant-who-walked-alone/">The Ant Who Walked Alone</a></b>
+<br>by Roi Werner
+<br>A story about unexpected lessons.
+<br>[English]
+</td>
+<td width="67%" valign="middle">
+The first book made with Kav by someone outside the team, the day after it was shared: 17 pages from a story Roi had already written.
+<br><br>
+More at <a href="https://oraboy.github.io/kav-samples/">Stories made with Kav</a>. Made something yourself? <a href="https://github.com/oraboy/kav-samples#add-your-story">Add your story</a>.
+</td>
+</tr>
+</table>
+
 ## The process
 
 Kav roughly follows this process, but it adapts to your way of working too. Tell it what you want to do.
