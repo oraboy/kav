@@ -182,7 +182,7 @@ When the author finishes a book, `/kav-publish` offers a proper feedback pass 鈥
   | 1 路 a finished story | Ask them to paste or attach it. Then `/kav-kickoff <slug>`, *adapting a finished story*: the text is saved untouched, and Kav asks how to adapt it, not what it is about |
   | 2 路 photos | One character (`/kav-character`) in one place (`/kav-location`), a look (`/kav-style`), then a single panel (`/kav-panel`). Nothing has to be planned first; a story can grow from it later |
   | 3 路 an idea | `/kav-kickoff <slug>` from a one-line pitch. No idea yet? Offer three one-liners, then stop and let them pick |
-  | 4 路 a look around | The sample stories and the tour (`docs/tour.md`), then ask again |
+  | 4 路 a look around | First post **one** picture, `docs/media/tour/sample-outputs.jpg`: four finished stories, each marked as a sample output image. Do not post the stories' images one by one, and do not describe the picture. Then give the tour (`docs/tour.md`): the Story Tool and how the work is organised. Links to read the sample stories are in the README. Then ask again |
 
   An author who wants something else entirely is followed, inside the frame in `AGENTS.md` ("However the author works, these hold").
 
