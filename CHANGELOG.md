@@ -4,6 +4,8 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
+## 1.0.0-rc2 — 2026-10-08
+
 **An author's style pack stays out of Kav's files.** `/kav-style` used to add every new pack to the tracked `styles/README.md`, so registering a look left an edit to Kav itself in the author's folder. Notes now go in the pack's own `README.md`. Kav's `styles/README.md` no longer lists an author's pack, and says how packs ship: `/kav-style <pack> propose` opens a pull request with only the pack in it, for the maintainer to accept or decline.
 
 From the author's own run of the new welcome, photos first:
