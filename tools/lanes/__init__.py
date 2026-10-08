@@ -21,7 +21,7 @@ from datetime import date
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from kav_env import get_key, jpeg_bytes  # noqa: E402
+from kav_env import get_key, jpeg_bytes, load_env_key  # noqa: E402
 
 REGISTRY = json.loads((Path(__file__).resolve().parent / "models.json").read_text())
 PROVIDERS = {k: v for k, v in REGISTRY["providers"].items()}
@@ -135,7 +135,8 @@ def configured():
 
 def resolve(lane, provider=None):
     """The provider to use for a lane, or SystemExit with what to set."""
-    provider = provider or os.environ.get("KAV_PROVIDER") or None
+    # .env counts too: /kav-start records the author's provider there, not in the shell.
+    provider = provider or load_env_key("KAV_PROVIDER") or None
     if provider:
         if provider not in PROVIDERS:
             sys.exit(f"Unknown provider {provider!r}. Known: {', '.join(PROVIDERS)}")
