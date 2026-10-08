@@ -26,11 +26,22 @@ A **style pack** is a folder of reference images that define a visual language, 
    - **Name palette poles as relationships**, not as coloured things: "a warm-to-cool contrast between lit and shadowed areas", not "orange sky and teal trees".
    - **Close the wrong readings** ("always richly coloured, never grayscale").
    - **Test on a portrait too** — a portrait has no location reference, so the medium line is the only background instruction; content smuggled into the line shows up there first.
-6. **Add a short entry to `styles/README.md`**: the pack name, what it looks like, the medium line.
+6. **Write a short `styles/<pack>/README.md`**, inside the pack: what it looks like, what each image is, and what it lacks. **Never edit `styles/README.md`.** That file belongs to Kav. The author's packs are ignored by git and stay on the author's machine; a change to Kav's own file would show up as an edit to Kav on every update.
 7. **Link it into the story** (when a story is active): `stories/<slug>/styles/<pack>` → symlink to `../../../styles/<pack>` (or copy if the author wants the story self-contained); copy the references into `stories/<slug>/style/moodboard/`; write or update `style/style.md` from `docs/templates.md`, including the **lettering theme** (caption and balloon colours and fonts that suit the look).
 8. **Bind it for generation:** set `defaults.style_pack: "<pack>"` in `stories/<slug>/briefs.json` as soon as the story adopts the pack. The symlink and `style.md` are documentation; this field is what puts the pack into a prompt when a scene line doesn't name it. Check with a `--dry-run` line that omits the pack name and confirm the style resolves.
 
 ## Testing it
+
+## Proposing a pack for every Kav user (only when the author asks)
+
+A pack an author registers is theirs and stays on their machine. If the author asks to share one with all Kav users ("add my style to Kav", `/kav-style <pack> propose`), it goes to Kav's maintainer as a pull request. The maintainer decides, and a no is a normal answer.
+
+1. **Ask about the images.** A pack that ships with Kav is public. Its images must be the author's own work, or work the author has the right to share. Images saved from another artist's feed do not qualify. If the author is not sure, stop here.
+2. **Get a clear yes** to opening a public pull request in the author's name (hard rule 6).
+3. **Make the pull request with only the pack in it:** a new branch from Kav's `main`; `git add -f styles/<pack>/` (the images, `medium.txt` and the pack's `README.md`; `-f` because packs are ignored by default); nothing from `stories/`, and no other file. Push, and open the pull request against `main` of the Kav repository, with one paragraph on what the look is and one sample image made with it if the author has one.
+4. **Give the author the link**, and return the folder to the branch it was on. The pack keeps working locally whatever the answer is.
+
+If the author has no GitHub account, or the push is refused, say so in one line and offer to zip the pack for them to send.
 
 ## When the author approves the look
 
