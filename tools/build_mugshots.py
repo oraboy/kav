@@ -127,6 +127,12 @@ def build(name, provider=None, describe=None, extra=None, force=False, style_pac
                       f"rendering technique only (line, shading, palette): ignore any people, "
                       f"animals, props or settings they show — none of that content belongs in "
                       f"this image.")
+            # The styled prompt replaces the plain one, so the description and the smile
+            # direction have to be said again here or they never reach a styled shot.
+            if who:
+                prompt += f" For reference, {name.capitalize()} is {who}."
+            if direction and shot == "smile":
+                prompt += " " + direction
         size = SEEDREAM_SIZES[ratio] if lane == "seedream" else None
         stage = f"mugshots:{name}" + (f":{style_pack}" if style_pack else "")
         try:
