@@ -277,7 +277,9 @@ def style_medium(name):
     return f.read_text(encoding="utf-8").strip() if f.exists() else ""
 
 
-MUGSHOT_ORDER = ["front", "three-quarter", "smile", "full-body"]
+# The smile comes last: bound into every solo panel it turned a grim face into a grin,
+# whatever the scene line asked for. The full-body view carries build and proportions.
+MUGSHOT_ORDER = ["front", "three-quarter", "full-body", "smile"]
 
 REF_BUDGET = None          # a runner may override how many views per character
 
