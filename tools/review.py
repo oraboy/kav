@@ -12,8 +12,14 @@ writes stories/<story>/chapters/<chapter>/panels/reviews/<batch-stem>.json:
 An existing review file pre-fills the page. Stop the server with Ctrl+C.
 --static out.html writes a standalone page instead (images linked by relative path); its
 Submit button shows the JSON to copy, since there is no server to save it.
+--artifact out.html writes one self-contained page (images embedded as 1000px JPEGs) to
+publish as a Claude artifact with capabilities {"db": {}}. Submit saves the same JSON to
+the artifact's store as the document reviews/<batch-stem>, which the agent reads back and
+writes to the review file; an earlier save pre-fills the page.
 """
 import argparse
+import base64
+import re
 import html as H
 import json
 import mimetypes
@@ -33,12 +39,17 @@ from kav_env import REPO, jpeg_bytes, resolve  # noqa: E402
 def paths(batch_path):
     spec = json.loads(batch_path.read_text(encoding="utf-8"))
     story, chapter = spec["story"], spec["chapter"]
+    if spec.get("demo"):
+        # the bundled demo carries its own ready-made takes and belongs to no story;
+        # its picks land in setup/, which is gitignored
+        return spec, batch_path.parent / "candidates", REPO / "setup" / f"{batch_path.parent.name}.json"
     panels_dir = REPO / "stories" / story / "chapters" / chapter / "panels"
     return spec, panels_dir / "candidates", panels_dir / "reviews" / f"{batch_path.stem}.json"
 
 
 def build_page(batch_path, img_url, title=None, mode="server"):
-    """img_url(Path) -> src string. mode: 'server' posts to /submit, 'static' shows JSON."""
+    """img_url(Path) -> src string. mode: 'server' posts to /submit, 'static' shows JSON,
+    'artifact' saves to the published page's own store."""
     spec, cand_dir, review_file = paths(batch_path)
     stem = batch_path.stem
     story, chapter = spec["story"], spec["chapter"]
@@ -54,7 +65,9 @@ def build_page(batch_path, img_url, title=None, mode="server"):
     for p in spec["panels"]:
         pid = p["id"]
         picked = p.get("picked")
-        files = sorted(cand_dir.glob(f"{pid}-*.png"),
+        # the bundled demo ships its takes as small JPEGs; a story's takes are always PNG
+        kinds = (".png", ".jpg") if spec.get("demo") else (".png",)
+        files = sorted((f for f in cand_dir.glob(f"{pid}-*") if f.suffix.lower() in kinds),
                        key=lambda f: (len(f.stem), f.stem))
         files = [f for f in files if f.stem.rsplit("-", 1)[1].isdigit()]
         if picked:
@@ -80,6 +93,8 @@ def build_page(batch_path, img_url, title=None, mode="server"):
 
         def card(f):
             n = f.stem.rsplit("-", 1)[1]
+            # the same letter the contact sheet burns in, so "s2p1 B" means one thing everywhere
+            letter = "ABCDEFGH"[int(n) - 1] if 1 <= int(n) <= 8 else n
             src = H.escape(img_url(f), quote=True)
             if wide:
                 views = (f'<span class="view full" style="flex:{aw / ah:.3f}">'
@@ -89,7 +104,8 @@ def build_page(batch_path, img_url, title=None, mode="server"):
             else:
                 views = f'<span class="view solo"><img src="{src}" alt="" loading="lazy"></span>'
             return (f'<button class="cand{" wide" if wide else ""}" data-panel="{H.escape(pid)}" '
-                    f'data-pick="{n}"><span class="pair">{views}</span><span class="n">{n}</span></button>')
+                    f'data-pick="{n}" data-letter="{letter}"><span class="pair">{views}</span>'
+                    f'<span class="n">{letter}</span></button>')
 
         cards = "".join(card(f) for f in files)
         settled = " settled" if picked else ""
@@ -175,6 +191,7 @@ textarea.text{{font-size:15px;line-height:1.6}}
 </style></head><body>
 <div class="wrap">
   <h1>{H.escape(title)}</h1>
+  {'<p class="sub"><b>This is a demo.</b> The images are ready-made takes from the sample story Last Light: nothing is generated and nothing costs money. In your own story, every panel arrives like this.</p>' if spec.get("demo") else ''}
   <p class="sub">Pick one per panel, or mark it for a reroll. Notes are optional. One submit at the end.</p>
   <p class="legend">Wide panels show twice: the full image, and beside it exactly what the phone keeps.</p>
   {''.join(blocks)}
@@ -183,6 +200,7 @@ textarea.text{{font-size:15px;line-height:1.6}}
 <script>
 const MODE = {js(mode)};
 const BATCH = {js(stem)}, STORY = {js(story)}, CHAPTER = {js(chapter)};
+const DOC = 'reviews/' + {js(re.sub(r"[^A-Za-z0-9_.~:@+-]", "_", stem))};
 const LOCKED = new Set({js([p["id"] for p in spec["panels"] if p.get("picked")])});
 const state = {js(seed)};
 function ent(id){{ return state[id] || (state[id] = {{pick:null, reroll:false, comment:"", text:""}}); }}
@@ -193,7 +211,14 @@ function paint(id){{
   const r = document.querySelector('.reroll[data-panel="'+CSS.escape(id)+'"]');
   if (r) r.classList.toggle('on', s.reroll);
   const st = document.querySelector('.state[data-panel="'+CSS.escape(id)+'"]');
-  if (st) st.textContent = s.reroll ? 'reroll' : (s.pick ? 'picked #' + s.pick : '');
+  const on = document.querySelector('.cand.on[data-panel="'+CSS.escape(id)+'"]');
+  if (st) st.textContent = s.reroll ? 'reroll' : (s.pick ? 'picked ' + (on ? on.dataset.letter : '#' + s.pick) : '');
+  // a running count beside the submit button, so the author sees what one submit will send
+  const open = Object.keys(state).filter(k => !LOCKED.has(k));
+  const picked = open.filter(k => state[k].pick && !state[k].reroll).length;
+  const redo = open.filter(k => state[k].reroll).length;
+  const m = document.getElementById('msg');
+  if (m && (picked || redo)) m.textContent = picked + ' picked · ' + redo + ' to redraw';
 }}
 document.querySelectorAll('.cand').forEach(b => b.onclick = () => {{
   if (LOCKED.has(b.dataset.panel)) return;
@@ -207,12 +232,47 @@ document.querySelectorAll('textarea.text').forEach(t => t.oninput = () => {{ ent
 Object.keys(state).forEach(paint);
 
 const send = document.getElementById('send'), msg = document.getElementById('msg'), dump = document.getElementById('dump');
+// A published page keeps the picks in its own store. An earlier save pre-fills the page.
+let store = null;
+if (MODE === 'artifact' && window.claude && window.claude.use) {{
+  window.claude.use('db').then(async db => {{
+    store = db;
+    if (!db) return;
+    try {{
+      const snap = await db.doc(DOC).get();
+      const saved = snap.exists ? ((snap.data() || {{}}).panels || {{}}) : {{}};
+      Object.keys(saved).forEach(id => {{
+        if (!state[id] || LOCKED.has(id)) return;
+        Object.assign(state[id], saved[id]);
+        const q = '[data-panel="' + CSS.escape(id) + '"]';
+        const t = document.querySelector('textarea.text' + q), n = document.querySelector('textarea.note' + q);
+        if (t) t.value = state[id].text || '';
+        if (n) n.value = state[id].comment || '';
+        paint(id);
+      }});
+    }} catch (e) {{}}
+  }});
+}}
 send.onclick = async () => {{
   const payload = {{batch: BATCH, story: STORY, chapter: CHAPTER,
                    submittedAt: new Date().toISOString(), panels: state}};
+  if (MODE === 'artifact' && store) {{
+    send.disabled = true; msg.textContent = "saving…";
+    try {{
+      await store.doc(DOC).set(JSON.parse(JSON.stringify(payload)));
+      msg.textContent = "Saved — tell your AI 'picks in'";
+      send.textContent = "Submit again";
+    }} catch (e) {{
+      dump.style.display = 'block'; dump.value = JSON.stringify(payload, null, 2); dump.select();
+      msg.textContent = "Could not save here: copy this JSON to your AI.";
+    }}
+    send.disabled = false;
+    return;
+  }}
   if (MODE !== 'server') {{
     dump.style.display = 'block'; dump.value = JSON.stringify(payload, null, 2); dump.select();
-    msg.textContent = "No server here: copy this JSON to your AI, or run tools/review.py without --static.";
+    msg.textContent = MODE === 'artifact' ? "Could not save here: copy this JSON to your AI."
+      : "No server here: copy this JSON to your AI, or run tools/review.py without --static.";
     return;
   }}
   send.disabled = true; msg.textContent = "saving…";
@@ -300,17 +360,40 @@ def make_handler(batch_path, title):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("batch", help="batch JSON (same file panel_batch.py consumed)")
+    ap.add_argument("batch", nargs="?", help="batch JSON (same file panel_batch.py consumed)")
+    ap.add_argument("--demo", action="store_true",
+                    help="open the bundled demo: ready-made takes of three panels, no story, no keys, no cost")
     ap.add_argument("--port", type=int, default=8765)
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--no-open", action="store_true", help="do not open a browser")
     ap.add_argument("--title", help="page title (default '<chapter> · <batch-stem>')")
     ap.add_argument("--static", metavar="OUT_HTML", help="write a standalone page and exit, no server")
+    ap.add_argument("--artifact", metavar="OUT_HTML",
+                    help="write one self-contained page to publish as a Claude artifact "
+                         "(capabilities {\"db\": {}}); picks save to its store as reviews/<batch-stem>")
     a = ap.parse_args()
+    if a.demo:
+        a.batch = str(Path(__file__).resolve().parent / "examples" / "review-demo" / "batch.json")
+        a.title = a.title or "Kav · picking takes (demo)"
+    if not a.batch:
+        ap.error("give a batch JSON, or --demo")
     batch_path = resolve(a.batch)
     if not batch_path.exists():
         sys.exit(f"No such batch: {batch_path}")
     _, _, review_file = paths(batch_path)
+
+    if a.artifact:
+        out = Path(a.artifact).resolve()
+        out.parent.mkdir(parents=True, exist_ok=True)
+
+        def embedded(f):
+            return "data:image/jpeg;base64," + base64.b64encode(jpeg_bytes(str(f), 1000, 76)).decode("ascii")
+
+        out.write_text(build_page(batch_path, embedded, a.title, mode="artifact"), encoding="utf-8")
+        print(f"wrote {out} · {out.stat().st_size // 1024} KB")
+        print(f"publish it as an artifact with capabilities {{\"db\": {{}}}}; "
+              f"picks land in its store as reviews/{re.sub(r'[^A-Za-z0-9_.~:@+-]', '_', batch_path.stem)}")
+        return
 
     if a.static:
         out = Path(a.static).resolve()

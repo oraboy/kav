@@ -1,5 +1,5 @@
 ---
-description: "Bring a character into a story — take whatever exists (a portrait, an inspiration photo, or only a description) and build their reference mug shots so every later panel renders the same person. Use when the author types /kav-character <name>, adds or changes a character, or when a character keeps coming out looking wrong."
+description: "Bring a character into a story — take whatever exists (a portrait, an inspiration photo, or only a description), register it, and once the story has a visual style build their reference mug shots in that style, so every later panel renders the same person. Use when the author types /kav-character <name>, adds or changes a character, or when a character keeps coming out looking wrong."
 argument-hint: "<name> [--story <slug>]"
 ---
 

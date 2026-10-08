@@ -31,7 +31,7 @@ Run `python3 tools/chrome.py`. It prints the Chrome/Chromium path it found, or a
 
 Create the env file: `cp .env.example .env` (skip if `.env` exists). `.env` is gitignored.
 
-**Ask first: "Set up image generation now, or later?"** Later is fine: writing works without keys, and `/kav-start` offers this again. If now:
+**Ask first: "Set up image generation now, or later?"** Later is fine: writing works without keys, and `/kav-start` offers this again. If you have an image generator of your own (ChatGPT / Codex image generation, an MCP image tool), say so: it is a supported way to draw, with no key (`docs/know-how/own-image-tool.md`). If now:
 
 1. Run `python3 tools/check_setup.py`. It reports keys already set in the shell or in `.env` (never their values). If one is there, offer to use it.
 2. If the author has a key in another project's `.env`, ask for the path and run `python3 tools/check_setup.py --import <path>`. It copies only Kav's key names and reports names only. Don't open that file yourself.

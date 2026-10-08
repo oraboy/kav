@@ -23,20 +23,16 @@ Good packs:
 
 Full rules: `kav/commands/kav-style.md` and `docs/know-how/image-prompting.md`.
 
-## Sharing
+## Sharing between your stories
 
 Packs are the one asset stories may share. A story uses only the pack its `style/style.md` names.
 
-## Registered packs
+## Your packs stay yours
 
-*(Each pack gets a short entry here: name · what it looks like · the medium line.)*
+A pack you register lives in `styles/<pack>/` on your machine. Git ignores it, so it is never part of Kav and an update never touches it. Notes about a pack go in `styles/<pack>/README.md`, inside the pack. This file is Kav's own: do not add your packs to it.
 
-- **`ligne-tlv`** — clear line and flat warm colour. Even-weight contour on every form, no hatching and no
-  rendered shadow; light is a hard-edged warm/cool split between two flat fills of the same surface; a cool
-  violet carries the shadow pole against ochre, terracotta and amber. Faces get black ink on eyes and brows
-  and colour-matched line everywhere else, so line and colour integrate. Plates: `01` a close portrait of an
-  older East Asian woman (an unrelated face, so the pack teaches face rendering without competing with any
-  cast), `02` an empty plastered corner cut by a wedge of sun (the light logic, nothing else), `03` three
-  tomatoes on a folded cloth. Deliberately content-light — the v1 plates were an interior with a counter and
-  a shopfront, and they donated furniture to scenes that had their own; kept in `ligne-tlv/_v1/`.
-  Built for `nero-pizza`; shareable. Medium line in `ligne-tlv/medium.txt`.
+## Packs that ship with Kav
+
+None yet. A pack ships with Kav when its folder is in the repository, and the Story Tool then shows it as *built in*.
+
+To propose one of yours for every Kav user, ask Kav (`/kav-style <pack> propose`). It opens a pull request with only the pack in it. The images must be your own work, or work you have the right to share. Kav's maintainer decides what ships.

@@ -1,6 +1,6 @@
 ---
 name: kav-character
-description: "Bring a character into a story — take whatever exists (a portrait, an inspiration photo, or only a description) and build their reference mug shots so every later panel renders the same person. Use when the author types /kav-character <name>, adds or changes a character, or when a character keeps coming out looking wrong."
+description: "Bring a character into a story — take whatever exists (a portrait, an inspiration photo, or only a description), register it, and once the story has a visual style build their reference mug shots in that style, so every later panel renders the same person. Use when the author types /kav-character <name>, adds or changes a character, or when a character keeps coming out looking wrong."
 argument-hint: "<name> [--story <slug>]"
 ---
 
@@ -14,7 +14,7 @@ A story's cast is only what that story defines: `stories/<slug>/cast/*.md`. Neve
 
 ## Why mug shots
 
-A character enters loose: one portrait, a photo with the right energy, sometimes a sentence. That can't render them from an arbitrary angle — a three-quarter portrait carries no frontal information, so a selfie-angle panel invents a stranger. Intake turns it into a consistent set in `stories/<slug>/cast/<name>/`:
+A character enters loose: one portrait, a photo with the right energy, sometimes a sentence. That can't render them from an arbitrary angle — a three-quarter portrait carries no frontal information, so a selfie-angle panel invents a stranger. Intake turns it into a consistent set, **drawn in the story's style**, in `stories/<slug>/cast/<name>/<pack>/`:
 
 | File | What it is | Why it earns its slot |
 |---|---|---|
@@ -30,16 +30,22 @@ Animals and non-human characters get the same four views, adapted.
 
 1. Seeds: copy the author's photos to `stories/<slug>/cast/<name>/source*.<ext>`.
 2. Description: add or update `characters.<name>` in `stories/<slug>/briefs.json` — one English line of physical description. **This line goes into every prompt**, not just the mug shots.
-3. Build:
+3. **No visual style chosen yet? Stop here.** Reference shots are drawn in the story's style, from the author's photos and the style images together, so identity and look are settled once. A plain photographic set drawn first is an extra step and an extra cost that no panel uses once the styled set exists. Say the character is in, update the Story Tool, and offer what comes next in one line: another character, a place (photos or a description; optional), or the look (`/kav-style`: reference images or a description). **Never build reference shots before the story has a style.**
+
+4. **The story has a style pack: build the set in it.**
 
 ```
-python3 tools/build_mugshots.py --story <slug> --char <name> [--seed N]
+python3 tools/build_mugshots.py --story <slug> --char <name> --style-pack <pack> [--seed N]
 ```
+
+In a full book this is the job of `/kav-visual-style-lock`, which tests the look first and builds every character's set with its own gates. Build here for a character added after the lock, or for a quick experiment with one character and one look: one front portrait first (`--draft --shots front`) for the author to approve, then the set.
+
+Only a story that is meant to look photographic, with no style pack at all, gets the plain set (the same command without `--style-pack`). That is the author's decision, said in words.
 
 **Runs on the book's lane, not on a model this command picks.** If `style/style.md` names a lane, pass it (`--lane <lane>`); before a lane is locked, the tool's default stands. A character's references and every panel that binds them must come from the same lane — a set rebuilt on another model is a different person in the same clothes, and "this model is stronger" is not authorization to switch. Reopening the lane is a book-level decision, `/kav-visual-style-lock`. Cost per character depends on the lane (roughly $0.16 on Seedream, $0.60 on Nano Banana Pro at four shots). Add `--draft` to explore without writing the bindable set. Existing shots are skipped unless asked to rebuild (see its `--help`).
 
-4. **Look at all four shots before moving on.** If the front has drifted from the source, that drift propagates into everything. Rebuild, or add a better seed.
-5. **One detail wrong** (a scar missing, the ear shape, a collar colour)? Don't rebuild the set — touch it up:
+5. **Look at all four shots before moving on.** When the author approves a set drawn in the story's style, that also approves the look: record the lock as `/kav-style` says ("When the author approves the look"). If the front has drifted from the source, that drift propagates into everything. Rebuild, or add a better seed.
+6. **One detail wrong** (a scar missing, the ear shape, a collar colour)? Don't rebuild the set — touch it up:
 
 ```
 python3 tools/touch_up.py --story <slug> --char <name> --shot front --instruction "<one detail>"
@@ -47,7 +53,7 @@ python3 tools/touch_up.py --story <slug> --char <name> --shot front --instructio
 
 One instruction per call; look at the result.
 
-6. **Update the Story Tool** (`docs/know-how/story-tool.md`) — or open it, if this is the story's first piece — then offer the fork in one line: another character, or move on.
+7. **Update the Story Tool** (`docs/know-how/story-tool.md`) — or open it, if this is the story's first piece — then offer the fork in one line: another character, or move on.
 
 "Remove the second portrait of Oren": resolve it through the Story Tool's `story-map.json` (the piece's images, in the order the Story Tool shows them), confirm which one, park the file in `cast/<name>/_excluded/` with a one-line why in the cast file, and rebuild the Story Tool.
 
@@ -93,7 +99,7 @@ Edit `briefs.json` → rebuild the one character → look at all four → regene
 
 ## Styled mug shots
 
-Once a style is locked, styled sets are built by `/kav-visual-style-lock` into `cast/<name>/<pack>/`. Generation prefers the styled set when it exists: it reconciles identity and style once, up front, instead of in every panel.
+Reference shots are styled from the start: they are built into `cast/<name>/<pack>/`, by `/kav-visual-style-lock` for a whole cast or by step 4 above for one character. Generation binds the styled set: it reconciles identity and style once, up front, instead of in every panel. Until that set exists, panels fall back to the author's source photos.
 
 ## How the references are used
 

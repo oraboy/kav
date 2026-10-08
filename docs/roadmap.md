@@ -32,4 +32,10 @@ Still open: marking which generations actually reached the published pages, so t
 
 ## Agent-side image tools
 
-An image tool the agent already has (an MCP server, a built-in tool) can't drive the pipeline today, because every panel needs the character, location and style references assembled by `tools/kav_refs.py`. `/kav-start` says so when it sees one. A future "agent lane" could hand the assembled prompt and reference paths to the agent's tool and collect the file back.
+First version built: an author can draw with the image generator in their AI tool, or any other tool, and the takes enter Kav's pipeline through `tools/add_candidate.py` (`docs/know-how/own-image-tool.md`). The agent generates one panel per image and passes the references itself; `tools/generate.py --dry-run` prints the prompt and the reference files Kav would have sent.
+
+Still open:
+
+- **Binding is on the agent's honour.** Kav cannot verify that the other tool received the character, location and style references. A sidecar field recording which reference files were attached would let the picked-candidate checks name what bound.
+- **Cost is unknown.** Rows are written to the ledger with no price. A per-tool price the author can declare once would close the gap.
+- **A lane entry per tool.** Once a tool has been judged on a real book (the bake-off above), it can earn a row in `tools/lanes/models.json` with a reference cap and a status, instead of "untested by us".

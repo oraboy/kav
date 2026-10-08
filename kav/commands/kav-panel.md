@@ -27,6 +27,8 @@ text:
 
 ## Stage 1 — Draw
 
+**A panel outside a chapter** (a playground, or a one-off before any chapter exists) lives in `stories/<slug>/chapters/play/panels/`, laid out like a chapter's `panels/`: a batch, `candidates/`, `reviews/`, `lettering/`, and the finished `<id>.png`. The Story Tool shows these in its **Playground** row. Rebuild it after each pick and each lettered panel.
+
 0. **Count the faces first.** Compare the cast in the scene block against the book's faces-per-panel number in `style/style.md`. If the panel is over it, **say so before generating** — the result will not be worth showing, and on a capped lane it may come back unstyled.
 
    This matters most *during iteration*, when a panel is already working and the author asks to change it. The answer is not a silent bad generation and not a refusal; it is the number, then the ways out:
@@ -36,11 +38,11 @@ text:
    Staging moves and the arithmetic behind the number: `docs/know-how/image-prompting.md`.
 
 1. Generate 2–4 takes:
-   `python3 tools/generate.py --story <slug> "<scene line>, <pack>" --lane seedream --ar <ar>` (a different `--seed` per take), or a one-panel batch through `tools/panel_batch.py` + `/kav-review`.
+   `python3 tools/generate.py --story <slug> "<scene line>, <pack>" --lane seedream --ar <ar>` (a different `--seed` per take), or a one-panel batch through `tools/panel_batch.py` + `/kav-review`. With the author's own image tool, make the takes there, one panel per image, and keep all of them as takes (`docs/know-how/own-image-tool.md`).
    Use the production lane locked in `style/style.md`. If no lane is locked yet, stop at the visual-style gate; never switch models per panel as a hidden quality upgrade.
 2. **Plan for the text** while writing the line: leave negative space (wall, sky, floor) where text will sit, and say so ("empty wall above him"). Keep the subject inside the centre safe zone on wide panels. Never put dialogue in the prompt.
 3. **Check the takes against the reference sets yourself, and fix what is broken, before showing anything.** Compare each face to its mug shot — not to your memory of the character, and not to whether the panel *feels* right. A correct place, a good mood and correct signage say nothing about whether the faces are the right people; that combination has been reported as a success while both characters were wrong. Wrong in one take of three is variance and the author picks around it. **Wrong in all three is a cause: find it and fix it** (see "Debugging a wrong image"), then re-run. Never hand the author a broken take with a theory attached — debugging the pipeline is not their job, and a question like "shall I try a different style pack?" is one you answer by trying it.
-4. Show the takes, **with the mug shots beside them**, so identity can be judged rather than taken on trust. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
+4. Show the takes **on the author's review surface** (`KAV_REVIEW`; `/kav-review` step 1), never as loose images in the chat when they chose a page. Takes made with `tools/generate.py` join a one-panel batch through `tools/add_candidate.py`, which gives them their A/B/C labels. Show them **with the mug shots beside them**, so identity can be judged rather than taken on trust. **The author picks.** If the author explicitly says "you pick", pick and say which and why.
 
 ## Stage 2 — Letter
 

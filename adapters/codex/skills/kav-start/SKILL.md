@@ -15,13 +15,21 @@ Show this, verbatim, as the first thing the author reads:
 
 > **Kav is a co-writer for graphic novels.** You bring the story and the visual style, and you make every call. Kav brings the structure, pushes back on weak spots, draws and letters the panels, and puts together the finished book.
 >
-> Stories can come from real life or pure imagination. Your own photos become the cast and the places, so a book can star your street, your family or your dog, or a world nobody has seen. The look is yours to pick or invent: anime, film noir, watercolour, rotoscope, anything you can point to.
+> Stories can come from real life or from your imagination. Use your own photos for the cast and the places, or let Kav draw a world that does not exist. You choose the visual style: anime, film noir, watercolor, or any style that you can show.
 >
 > **How it works:** kick off with a one-line pitch, then collect the cast, the places and the look. Lock the visual style and build the reference art. Storyboard the arc, then write and draw one chapter at a time. Kav suggests options; you pick, refine, overrule and direct.
 >
 > **What you get:** a phone reader for each chapter, full pages, Instagram carousels and a trailer to share.
 >
 > Everything is saved as files in one folder per story, so work stays organised and you can run several stories side by side.
+>
+> **How image generation works**
+>
+> During setup, Kav connects to the image model that you already use, or helps you set up one.
+>
+> Kav then draws a few versions of each panel. You select the version that you like, or you ask for a new one and say what to change. Here is an example:
+
+Post `tools/examples/review-demo/picking.jpg` directly below that text, as part of the welcome. **Do not describe the picture**: it shows the selections, the request for a new version and the submit button, and the text must not repeat it. Say nothing more about image generation here. Only if the author asks to try it, run `python3 tools/review.py --demo` in the background and give them the address; it uses ready-made images and costs nothing.
 
 Then, in your own words, say what happens next: a quick look at this machine, image generation set up (or left for later), and a first story whenever they're ready.
 
@@ -38,7 +46,7 @@ For anything missing other than keys, offer to fix it now following `INSTALL.md`
 
 ## Step 3 — Image generation (GATE)
 
-Writing (concept, cast, pitch, storyboard) works without keys; drawing needs one. Ask explicitly:
+Writing (concept, cast, pitch, storyboard) needs no image tool. Drawing needs one: either a provider Kav has tested (a key), or the image generator the author's AI tool already has (no key). Ask explicitly:
 
 > **Set up image generation now, or later?**
 
@@ -54,16 +62,17 @@ python3 tools/check_setup.py --import <path-to-other/.env>
 
 It copies only the key names Kav knows, reports names only, and keeps keys already set unless `--overwrite` is added. Never open, print or read that file yourself.
 
-If the agent has an image-generation tool of its own (an MCP server or built-in tool), say plainly that Kav's pipeline cannot use it yet: Kav's tools call the image APIs directly so every panel carries the character, location and style references. One-off pictures only.
+**If you have an image generator of your own** (ChatGPT / Codex image generation, a Gemini or MCP image tool), offer it as a real option, and first when the author has no provider key: there is nothing to set up. Kav's pipeline takes what it makes, one panel at a time (`docs/know-how/own-image-tool.md`). Say the two differences once, then respect the choice: Kav can't report what that tool costs, and a character stays consistent only as well as that tool holds a reference image. Record the choice in `.env` as `KAV_IMAGE_TOOL=<its name>`; leave `KAV_PROVIDER` for Kav's own lanes.
 
-**(b) Then present the options, with the trade-offs, and let the author choose.** `check_setup.py` prints the current list from the registry (`tools/lanes/models.json`) with each model's status, price and reference cap — read it rather than trusting the table below, which is a snapshot. Mark what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it. Mention an entry the check marks as needing re-verification.
+**(b) Then present the options, with the trade-offs, and let the author choose.** What each model is like to work with in Kav is in `docs/know-how/image-models.md`: use it. Midjourney has no API, so Kav cannot run it. If the author asks about a tool that is not listed, say that Kav knows of no specific limits with it and offer to try a few examples together; don't start testing unasked. `check_setup.py` prints the current list from the registry (`tools/lanes/models.json`) with each model's status, price and reference cap — read it rather than trusting the table below, which is a snapshot. Mark what is already set up and what Kav recommends. **A provider they already use is the natural choice** — say so, and don't talk them out of it. Mention an entry the check marks as needing re-verification.
 
 | Provider | Models | Trade-offs |
 |---|---|---|
 | **fal.ai** *(recommended when nothing is set up)* | Seedream 4.5, Nano Banana Pro | One key for both. Takes Kav's full reference stack, which holds faces best. About $0.04 an image on Seedream. Needs a little credit up front, and generation stops with a 403 when the balance runs low |
 | **Magnific** *(tested, passes)* | Seedream 4.5 | Same model as fal.ai's default, similar quality, its own slightly different look. **5 reference images max**, so panels must stay at three named subjects or the style stops binding. No 4:5 output: page cells come back 3:4 and need cropping |
 | **Higgsfield** | Popcorn, Soul | Popcorn takes 8 references. Soul is Higgsfield's own look and takes one style reference, so it cannot hold a character's face across panels. Untested by us; API credits are separate from the app plan |
-| **Google Gemini** | Nano Banana Pro | Direct access without fal.ai. One model only, about 4× Seedream's price, and in our tests it ignored a rotoscope style pack for its own painterly look. Fine for other styles; needs billing enabled on the Google Cloud project |
+| **Google Gemini** | Nano Banana Pro | Direct access without fal.ai. One model only. Strong styling and image quality, but it struggles with consistency, and it costs about 4× Seedream. Needs billing enabled on the Google Cloud project |
+| **Your AI tool's own image generator** | whatever it offers | Nothing to set up and no key. Untested by us with any given tool: Kav can't bind its full reference stack or report the cost, and consistency depends on how well the tool follows a reference image. One panel per image, then Kav's review, lettering and pages as usual |
 
 Ask which they want, and what to use first and second (the default is Seedream first, Nano Banana Pro second). Record it in `.env`:
 
@@ -158,7 +167,24 @@ When the author finishes a book, `/kav-publish` offers a proper feedback pass �
 ## Step 6 — Offer the next move
 
 - If `stories/` holds a story folder (anything besides `.gitkeep`): list them with their `kickoff-state.md` status line and offer to resume one — `/kav-kickoff <slug>` resumes kickoff, `/kav-chapter <NN>` resumes a chapter. If a finished chapter has `pages/reader-story.html`, offer to open it so the author sees what the end product looks like.
-- Otherwise: ask for a slug and a one-line pitch and offer to run `/kav-kickoff <slug>` right away. If the author has no idea yet, offer to brainstorm three one-liners — then stop and let them pick.
+- Otherwise, **ask where they are starting from.** Don't open with a pitch question: many authors arrive with the story already written. Show the choices as a short numbered list (use the host's own choice control if it has one):
+
+  > **Where would you like to start?**
+  > 1. **I have a story already written**, and I want to turn it into a comic.
+  > 2. **I have some photos** (people, pets, places) and want to play: one panel or a short strip.
+  > 3. **I have an idea** and want to develop it into a graphic novel.
+  > 4. **Show me what Kav makes first.**
+
+  Then take the matching way in:
+
+  | They chose | What happens |
+  |---|---|
+  | 1 · a finished story | Ask them to paste or attach it. Then `/kav-kickoff <slug>`, *adapting a finished story*: the text is saved untouched, and Kav asks how to adapt it, not what it is about |
+  | 2 · photos | Collect first, draw after: a character's photos and one line (`/kav-character`), a place from photos or a description if they want one (`/kav-location`, optional), then the look (`/kav-style`: reference images or a description). Only then are the character's reference shots drawn, in that look, and after them a single panel (`/kav-panel`). This is a **playground**: scaffold `stories/<slug>/` with `"kind": "playground"` in `story.json`, and a `kickoff-state.md` from the template. A playground has no pitch, storyboard or chapters, and the Story Tool shows a Playground row with every panel made. A story can grow from it later (`/kav-kickoff <slug>`, which removes the `kind`) |
+  | 3 · an idea | `/kav-kickoff <slug>` from a one-line pitch. No idea yet? Offer three one-liners, then stop and let them pick |
+  | 4 · a look around | First post **one** picture, `docs/media/tour/sample-outputs.jpg`: four finished stories, each marked as a sample output image. Do not post the stories' images one by one, and do not describe the picture. Then give the tour (`docs/tour.md`): the Story Tool and how the work is organised. Links to read the sample stories are in the README. Then ask again |
+
+  An author who wants something else entirely is followed, inside the frame in `AGENTS.md` ("However the author works, these hold").
 
 Wait for the author. Do not start a kickoff unasked.
 

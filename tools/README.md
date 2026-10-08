@@ -142,7 +142,7 @@ python3 tools/panel_batch.py <batch.json> [--sheet-only]
 Opens a local review page where the author picks candidates.
 
 ```
-python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open] [--title "..."] [--static out.html]
+python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open] [--title "..."] [--static out.html] [--artifact out.html]
 ```
 
 - **Page:** shows panels in batch order. Each panel has its candidates, a pick or reroll toggle, an editable text box (pre-filled from the batch `text`) and a notes box. A panel with `picked` shows only that image, marked locked. A wide panel (`ar` wider than 4:5) shows the full image and its centre 4:5 phone crop side by side.
@@ -150,6 +150,7 @@ python3 tools/review.py <batch.json> [--port 8765] [--host 127.0.0.1] [--no-open
   `{"batch", "story", "chapter", "submittedAt", "panels": {"<id>": {"pick": "2"|null, "reroll": bool, "comment": str, "text": str}}}`
   The page then shows "Saved — tell your AI 'picks in'". If a review file already exists, it pre-fills the page. Stop the server with Ctrl+C.
 - **`--static out.html`:** writes a standalone page instead, with images linked by relative path. Its Submit button shows the JSON to copy.
+- **`--artifact out.html`:** writes one self-contained page, images embedded as 1000px JPEGs, for an author whose review surface is `artifact`. Publish it as a Claude artifact with `capabilities: {"db": {}}`. Submit saves the same JSON to the artifact's store as the document `reviews/<batch-stem>`, and an earlier save pre-fills the page. The agent reads that document back and writes `CH/panels/reviews/<batch-stem>.json`. If the store can't be reached, Submit shows the JSON to copy.
 
 ## cell_crop.py
 
@@ -257,6 +258,22 @@ python3 tools/report.py [--names] [--json]
 ```
 
 How far this install has got, as text the author can send: Kav version, OS and Python, the setup check as ok/missing, and per story which planning blocks are done, piece counts, chapters and images made (from the ledger). No story content, no paths, no keys; story names only with `--names`. Sends nothing. `/kav-report` wraps it.
+
+## add_candidate.py
+
+```
+python3 tools/add_candidate.py <batch.json> <panel-id> <image> [<image> ...] [--source "codex image generation"] [--fit]
+```
+
+Brings images made outside Kav's own lanes (the agent's built-in image generator, any other tool) into a batch as takes. Each image becomes the panel's next `candidates/<id>-<k>.png` with a sidecar naming where it came from, a ledger row with provider `agent` and no price, and a rebuilt contact sheet. An image of the wrong shape is added with a warning; `--fit` centre-crops it to the panel's `ar`. One panel per image: it cannot tell a whole page from a panel, so never feed it one. See `docs/know-how/own-image-tool.md`.
+
+## review.py --demo
+
+```
+python3 tools/review.py --demo [--static out.html]
+```
+
+Opens the review page on `tools/examples/review-demo/`: three panels from the sample story *Last Light*, three ready-made takes each. No story, no keys, no cost; picks are saved to `setup/` and change nothing. `picking.jpg` in the same folder is that page mid-use (two picks, one re-roll with a note, the submit button), for showing in a chat. The page labels takes A, B, C, the same letters the contact sheet burns in, and counts picks and re-rolls beside the submit button. `/kav-start` uses it to show an author how picking works before their first story.
 
 ## Support modules (not run directly)
 

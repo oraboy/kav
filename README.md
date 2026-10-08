@@ -30,7 +30,7 @@ Open Claude Code or Codex in an empty folder and paste:
 Please read github.com/oraboy/kav, install it and help me get started.
 ```
 
-This installs the skills and instruction files your AI needs to work as Kav. It also sets up image generation, so Kav can draw panels for you. Kav works with fal.ai (recommended), Google Gemini and Magnific; Higgsfield is supported but untested. If you already have an account with one of them, Kav uses it. If you don't, it walks you through getting one.
+This installs the skills and instruction files your AI needs to work as Kav. It also sets up image generation, so Kav can draw panels for you. Kav works with fal.ai (recommended), Google Gemini and Magnific; Higgsfield is supported but untested. If you already have an account with one of them, Kav uses it. If you don't, it walks you through getting one. You can also draw with the image generator your AI tool already has, with nothing to set up.
 
 To start your first story, type `/kav-kickoff <code-name>`. For ideas on what to make, see the [samples](#samples).
 
@@ -66,6 +66,25 @@ Kav changes often. To get the latest version, type `/kav-update`: it updates Kav
 </table>
 
 Every chapter comes out in two views: comic pages, like *The Last Light* above, and one panel at a time on a phone, like *Berkovitz and Olive*. [The tour](docs/tour.md#sample-stories) shows both views of each story.
+
+### Made by Kav users
+
+<table>
+<tr>
+<td width="33%" align="center" valign="top">
+<a href="https://oraboy.github.io/kav-samples/the-ant-who-walked-alone/"><img src="docs/media/tour/sample-ant-who-walked-alone.jpg" width="260" alt="The Ant Who Walked Alone: the cover, an ant standing on a root at sunset"></a>
+<br><b><a href="https://oraboy.github.io/kav-samples/the-ant-who-walked-alone/">The Ant Who Walked Alone</a></b>
+<br>by Roi Werner
+<br>A story about unexpected lessons.
+<br>[English]
+</td>
+<td width="67%" valign="middle">
+The first book made with Kav by someone outside the team, the day after it was shared: 17 pages from a story Roi had already written.
+<br><br>
+More at <a href="https://oraboy.github.io/kav-samples/">Stories made with Kav</a>. Made something yourself? <a href="https://github.com/oraboy/kav-samples#add-your-story">Add your story</a>.
+</td>
+</tr>
+</table>
 
 ## The process
 
@@ -110,7 +129,7 @@ In Codex, custom prompts are invoked with the `/prompts:` prefix. In any other a
 - **Claude Code** or **ChatGPT Codex** (either CLI or desktop app)
 - **Python 3.10+** and the packages in `requirements.txt`
 - **Google Chrome or Chromium**, which Kav uses behind the scenes to letter panels and assemble pages
-- **An account with one image provider** (fal.ai recommended). Images are the only cost beyond your AI subscription: about $0.04 each on fal.ai, so around $4 for a 25-panel chapter with retakes
+- **An image tool.** The image generator in your AI tool works with nothing to set up. Or use an account with one of Kav's tested providers (fal.ai recommended): about $0.04 an image, so around $4 for a 25-panel chapter with retakes
 
 The install checks each of these and tells you what is missing.
 
