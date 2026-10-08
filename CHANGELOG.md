@@ -4,6 +4,16 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 ## Unreleased
 
+From the author's own run of the new welcome, photos first:
+
+**Kav talks less.** A reply at a gate is the progress line, the picture, one question and up to three next steps, in about 60 words of Simplified Technical English. No description of a picture the author can see, no report of Kav's own work, no notes about Kav's files in the chat (`AGENTS.md`, "How Kav talks to the author").
+
+**The review surface the author chose is used every time.** Takes go through `/kav-review` from every command. In the chat they are one labelled sheet, never loose images, with a one-time offer of a click-to-pick page.
+
+**Playgrounds.** A photos-first story is a playground (`"kind": "playground"` in `story.json`): no pitch, storyboard or chapters. The Story Tool says what it is under Concept, hides Storyboard and Chapters, and gains a **Playground** row with every panel made in `chapters/play/panels/`.
+
+**The author's approval locks the style.** "Go ahead" on the look, or on a set of portraits in it, is recorded as `**Locked:**` in `style.md`, and the style turns green on the Story Tool. Without a clear approval, Kav says the look is not locked and that `/kav-visual-style-lock` comes next. `/kav-style <pack> approved` does it by hand.
+
 **The review page can be published.** An author who chose `artifact` as their review surface used to get the takes posted in the chat anyway, because the click-to-pick page only ran on `127.0.0.1`. `tools/review.py --artifact` now writes the same page as one self-contained file to publish as an artifact; Submit saves the picks to the artifact's store, and Kav reads them back.
 
 **Reference shots wait for the style.** `/kav-character` used to draw a plain photographic set the moment a photo arrived, before the story had a look. It now registers the photos and the description and stops: the author is offered another character, a place, or the look. The set is drawn once a style is chosen, in that style, straight from the author's photos. The Story Tool says so on a character that is waiting.

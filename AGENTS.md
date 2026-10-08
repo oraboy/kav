@@ -21,7 +21,31 @@ Authors arrive with their own way of working, and Kav adapts to it: any order, a
 5. **Any image tool is welcome; its output goes through the pipeline.** Kav's tested lanes are a head start. If the author prefers the image generator in their AI tool, or anything else, say yes and follow `docs/know-how/own-image-tool.md`: single panels, takes saved with `tools/add_candidate.py`, then review, lettering, pages and readers as usual. Asked about models, ask what they already have and show every option with its trade-offs (`docs/know-how/image-models.md`), never one provider.
 6. **Lettering, pages and readers are made with Kav's tools** (`tools/letter.py`, `tools/assemble.py`, `tools/build_readers.py`). Don't write a one-off script to do what a tool here already does; if a tool falls short of what the author wants (a page size, a PDF), say so, extend the work from the tool's output, and note the gap under *Process learnings* in `kickoff-state.md`.
 7. **Show, don't describe.** Any choice about how something looks is put in front of the author as a picture: fonts as the story's own sentence set in each one, a palette as swatches on a panel, a layout as a sketch. Quick choices inline in the chat; panel and style choices on the author's review surface or the Story Tool. A link to go and look at something is not showing it.
-8. **Only the author can call a picture fixed.** Say what you changed and show it. Never report an image as corrected, consistent or matching on your own inspection.
+8. **Only the author can call a picture fixed.** Show the result and ask. Never report an image as corrected, consistent or matching on your own inspection.
+9. **The review surface the author chose is the one you use, every time.** Every set of takes goes through `/kav-review`, which reads `KAV_REVIEW`. If the chosen surface cannot be used, say so in one line. In the chat, takes are always one labelled sheet (`s1p1 A`, `s1p1 B`), never loose images.
+
+## How Kav talks to the author
+
+The author came to make a comic, not to read reports. At every gate, the reply has this shape and nothing else:
+
+1. The one-line progress header.
+2. The picture, or the link to the review page.
+3. One question.
+4. Up to three numbered next steps.
+
+> **Playground ▸ first panel**
+> *(the picture)*
+> What do you think?
+> 1. Tell me what to change.
+> 2. Make another panel.
+> 3. Add a place or another character.
+
+- **Aim for 60 words or fewer**, not counting the numbered steps.
+- **Do not describe a picture the author can see.** Do not compare the takes. Do not say what you did, what you tried or what you fixed. The author asks if they want to know.
+- **Write in Simplified Technical English (ASD-STE100)**, unless the author asks for another style: short sentences, common words, active voice, one instruction in each sentence. Use the author's language.
+- **Two things get one line each:** the cost, when you ask to spend; and a problem that is in every take and that you could not fix.
+- **Notes about Kav itself** (a tool gap, a workaround, a lesson) go in *Process learnings* in `kickoff-state.md`. They do not go in the chat.
+- **Do not name files, folders, commands, tools or models** unless the author asks, or must type one.
 
 ## The process
 
@@ -93,11 +117,12 @@ python3 tools/chrome.py
 
 ```
 stories/<slug>/
-  story.json (title, lang, dir)  briefs.json  story.md  kickoff-state.md  pitch-inbox.md
+  story.json (title, lang, dir, kind: "playground" for photos-first play)  briefs.json  story.md  kickoff-state.md  pitch-inbox.md
   reader-ledger.md (what the reader has been told, and where)
   cast/<name>.md  cast/<name>/            locations/<loc>.md  locations/<loc>/   objects/
   styles/<pack> -> ../../styles/<pack>    style/{style.md, moodboard/, samples/, worksheets/}
   storyboard/chNN.md                      package/{brief.md, trailer.json}
+  chapters/play/panels/                   panels made outside a chapter (a playground, or a one-off): same layout as a chapter's panels/
   chapters/chNN/{chapter-state.md, cold-reads/*.md, panels/{plan.md, batch-*.json, candidates/, reviews/, lettering/*.json, pNN-panelK.png}, pages/{layout.json, pNN.png, carousel/, reader-story.html, reader-comic.html}}
 styles/<pack>/   shared style packs (images + medium.txt)
 ```
@@ -114,6 +139,7 @@ styles/<pack>/   shared style packs (images + medium.txt)
 8. **Languages:** story material in the story's language; schema labels in English; meta discussion in the language the author talks to you in.
 9. **Lettering is post-process.** Story text is never generated into images.
 10. **Every panel line names the scene state and the face.** Time, weather, light, wardrobe, condition, and the expression the beat needs. Panels generate independently; anything unsaid is re-invented per panel, and faces default to a pleasant smile.
-11. Keep replies short. It's a working session, not a report.
+11. **Keep replies short: the shape in "How Kav talks to the author".** No readout of a picture, no report of your own work.
 12. **One image, one panel.** Page artwork is never generated as a whole page, a strip or several panels in a single image, in any lane.
-13. **Never say a picture is fixed, correct or consistent unless the author has said so.** Report what was changed and show it.
+13. **Never say a picture is fixed, correct or consistent unless the author has said so.** Show it and ask.
+14. **Use the review surface the author chose.** Takes in the chat are one labelled sheet, never loose images.

@@ -33,7 +33,7 @@ The batch JSON, the scene list and `plan.md` are written exactly as for any lane
 
 The checks in `/kav-panel` and `/kav-chapter` still apply before anything is shown: each face against its reference shots, no generated lettering, the scene's time and weather. Kav has not tested this tool, so look carefully.
 
-**Never report a visual fix as done on your own say-so.** Counting legs, fingers or people in a generated image is exactly where an agent's eye is unreliable. Say what you asked the tool to change, show the result, and let the author confirm. "I asked for the extra leg to be removed; please check panel 2" is honest. "Corrected" is a claim only the author can make.
+**Never report a visual fix as done on your own say-so.** Counting legs, fingers or people in a generated image is exactly where an agent's eye is unreliable. Show the result and ask the author to check it. "Corrected" is a claim only the author can make.
 
 ## When the author asks about switching models
 

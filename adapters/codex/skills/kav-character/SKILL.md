@@ -43,7 +43,7 @@ Only a story that is meant to look photographic, with no style pack at all, gets
 
 **Runs on the book's lane, not on a model this command picks.** If `style/style.md` names a lane, pass it (`--lane <lane>`); before a lane is locked, the tool's default stands. A character's references and every panel that binds them must come from the same lane — a set rebuilt on another model is a different person in the same clothes, and "this model is stronger" is not authorization to switch. Reopening the lane is a book-level decision, `/kav-visual-style-lock`. Cost per character depends on the lane (roughly $0.16 on Seedream, $0.60 on Nano Banana Pro at four shots). Add `--draft` to explore without writing the bindable set. Existing shots are skipped unless asked to rebuild (see its `--help`).
 
-5. **Look at all four shots before moving on.** If the front has drifted from the source, that drift propagates into everything. Rebuild, or add a better seed.
+5. **Look at all four shots before moving on.** When the author approves a set drawn in the story's style, that also approves the look: record the lock as `/kav-style` says ("When the author approves the look"). If the front has drifted from the source, that drift propagates into everything. Rebuild, or add a better seed.
 6. **One detail wrong** (a scar missing, the ear shape, a collar colour)? Don't rebuild the set — touch it up:
 
 ```

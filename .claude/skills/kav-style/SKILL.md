@@ -33,6 +33,18 @@ A **style pack** is a folder of reference images that define a visual language, 
 
 ## Testing it
 
+## When the author approves the look
+
+**The author's clear approval is the lock.** "Yes", "go ahead", "good enough", "keep this one", or a choice between two renderings, said about the look or about a set of portraits drawn in it, all count. So does `/kav-style <pack> approved`, which the Story Tool hands out. When you have it:
+
+1. Write `**Locked:** <date> · approved by the author` as the second line of `style/style.md`.
+2. Set the style block in `kickoff-state.md` to `locked`.
+3. Rebuild the Story Tool. The style turns green when the pack is in use and each principal has portraits in it.
+
+In a playground, that is the whole lock. In a full story it is also the lock; say once, in one line, that `/kav-visual-style-lock` can test the look on sample scenes before a long book, and let the author decide.
+
+**If you do not have a clear approval, do not assume one.** Before you move past the style, say in one line that the look is not locked yet and that `/kav-visual-style-lock <pack>` comes next. Never record "not locked" silently and carry on.
+
 Quick look: a few cheap generations on the explore lane, e.g.
 
 ```

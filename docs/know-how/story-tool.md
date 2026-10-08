@@ -53,6 +53,12 @@ When a note is used, tag it in the inbox — `` `[adopted: ch03]` `` or `` `[ado
 
 A piece's detail shows its images in groups — **Reference images** (what the author gave), **Made by Kav**, **Pages** — in the order `story-map.json` lists them. The author says *"remove the second reference photo of דליה"*: resolve it through `story-map.json` (piece → group → position → file), never by guessing a filename, and confirm which image before acting. Removing means parking: move the file to that piece's `_excluded/` folder, take it out of the registry if it's listed there, and rebuild.
 
+## Playgrounds
+
+A story with `"kind": "playground"` in `story.json` is photos-first play with no story planned. Its Story Tool has no Storyboard square and no Chapters row. Concept says what the playground is. A **Playground** row shows every panel made in `chapters/play/panels/`: the finished panel, or the picked take, or the takes that wait for a pick. Any story with panels in that folder gets the Playground row as well.
+
+A style turns green when `style/style.md` has a `**Locked:**` line (the author's approval, or the tested lock) and each principal has portraits in the pack.
+
 ## The commands on the Story Tool
 
 Every "to do" in a detail comes with the command that does it, ready to copy. The ones the author will see most:

@@ -27,6 +27,8 @@ text:
 
 ## Stage 1 — Draw
 
+**A panel outside a chapter** (a playground, or a one-off before any chapter exists) lives in `stories/<slug>/chapters/play/panels/`, laid out like a chapter's `panels/`: a batch, `candidates/`, `reviews/`, `lettering/`, and the finished `<id>.png`. The Story Tool shows these in its **Playground** row. Rebuild it after each pick and each lettered panel.
+
 0. **Count the faces first.** Compare the cast in the scene block against the book's faces-per-panel number in `style/style.md`. If the panel is over it, **say so before generating** — the result will not be worth showing, and on a capped lane it may come back unstyled.
 
    This matters most *during iteration*, when a panel is already working and the author asks to change it. The answer is not a silent bad generation and not a refusal; it is the number, then the ways out:

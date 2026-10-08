@@ -309,7 +309,7 @@ def shipped(repo):
     return {Path(line).parts[1] for line in out.splitlines() if len(Path(line).parts) > 2}
 
 
-def style_row(sd, repo, briefs, principals):
+def style_row(sd, repo, briefs, principals, playground=False):
     active = (briefs.get("defaults", {}) or {}).get("style_pack", "")
     style = read(sd / "style" / "style.md")
     builtin = shipped(repo)
@@ -330,12 +330,20 @@ def style_row(sd, repo, briefs, principals):
             continue
         samples = [s for s in images(sd / "style" / "samples") if "old" not in s.stem]
         needs = []
-        if "locked" not in style.lower()[:600]:
-            needs.append(need(PENDING, "The look hasn't been tested and locked yet", f"/kav-visual-style-lock {name}"))
+        # Locked when style.md carries a "Locked:" line (the author's approval, or the tested lock),
+        # or says so near the top. "Not locked" is not locked.
+        head = style.lower()[:600]
+        locked = bool(re.search(r"^\**locked\b", style, re.I | re.M)) or (
+            "locked" in head and not re.search(r"not (yet )?locked|unlocked", head))
+        approve = ("Already happy with this look?", f"/kav-style {name} approved")
+        if not locked and playground:
+            needs.append(need(PENDING, "Tell Kav when you are happy with this look", approve[1]))
+        elif not locked:
+            needs.append(need(PENDING, "The look hasn't been tested and locked yet", f"/kav-visual-style-lock {name}", approve))
         missing = [k for k in principals if not (sd / "cast" / k / name / "front.png").is_file()]
         if missing:
             needs.append(need(PENDING, f"Portraits in this style still to build: {', '.join(missing)}",
-                              f"/kav-visual-style-lock {name}"))
+                              "/kav-character <name>" if playground else f"/kav-visual-style-lock {name}"))
         look = field(style, "The look") or medium
         out.append(piece("style", f"style-{name}", name, needs=needs, refs=refs, gens=samples,
                          face=samples[0] if samples else (refs[0] if refs else None), text=style,
@@ -387,13 +395,20 @@ def storyboard_html(sd, story, ch_ids):
     return "".join(parts)
 
 
-def story_row(sd, slug, ch_ids):
+def story_row(sd, slug, ch_ids, playground=False, cast_names=(), pack=""):
     story = read(sd / "story.md")
     state_md = read(sd / "kickoff-state.md")
     concept_text = story.split("## Pitch")[0]
     line = pitch_line(story)
     synopsis = section(concept_text, "Synopsis") or field(concept_text, "Synopsis")
     k = f"/kav-kickoff {slug}"
+    if playground:
+        # A playground has no pitch, storyboard or chapters: say what it is, and nothing is missing.
+        who = ", ".join(cast_names) or "your photos"
+        what = clean(line or synopsis) or f"A Kav playground: comics from photos of {who}" + (f" in the {pack} style." if pack else ".")
+        return [piece("story", "concept", "Concept", text=concept_text, source=(sd / "story.md") if story else None,
+                      about=[("", what), ("", "This is a playground, so there is no storyboard to develop. "
+                                              "Every panel you make is in the Playground row.")], tile_text=what)]
     needs = []
     if not line and not synopsis:
         needs.append(need(DESCRIPTION, "Tell Kav the story in a line, and roughly what happens", k))
@@ -468,6 +483,53 @@ def chapter_row(sd, n_hint):
     return out, ids
 
 
+def play_row(sd):
+    """Panels made outside a chapter (chapters/play/panels/): one square per panel."""
+    d = sd / "chapters" / "play" / "panels"
+    if not d.is_dir():
+        return []
+    lines, picked = {}, {}
+    for b in sorted(d.glob("batch-*.json")):
+        try:
+            spec = json.loads(read(b) or "{}")
+        except ValueError:
+            continue
+        for p in spec.get("panels", []):
+            lines[p["id"]] = (p.get("line", ""), p.get("text", ""))
+            if p.get("picked"):
+                picked[p["id"]] = str(p["picked"])
+    for r in sorted((d / "reviews").glob("*.json")) if (d / "reviews").is_dir() else []:
+        try:
+            for pid, s in (json.loads(read(r) or "{}").get("panels") or {}).items():
+                if s.get("pick") and not s.get("reroll"):
+                    picked.setdefault(pid, str(s["pick"]))
+        except (ValueError, AttributeError):
+            continue
+    takes = {}
+    for f in sorted((d / "candidates").glob("*-*.png")) if (d / "candidates").is_dir() else []:
+        pid, _, k = f.stem.rpartition("-")
+        if k.isdigit():
+            takes.setdefault(pid, []).append(f)
+    done = {f.stem: f for f in d.glob("*.png") if not f.stem.endswith(".phone")}
+    out = []
+    for pid in sorted(set(takes) | set(done) | set(lines)):
+        final = done.get(pid)
+        pick = next((f for f in takes.get(pid, []) if f.stem.rsplit("-", 1)[1] == picked.get(pid)), None)
+        if final:
+            needs = []
+        elif pick:
+            needs = [need(PENDING, "Picked. Kav still has to add the text", "/kav-panel")]
+        elif takes.get(pid):
+            needs = [need("Waiting for your pick", "Pick a take, or ask for a new one", "/kav-review")]
+        else:
+            needs = [need("Not drawn", "Not drawn yet", "/kav-panel")]
+        line, text = lines.get(pid, ("", ""))
+        gens = [final] if final else ([pick] if pick else takes.get(pid, []))
+        out.append(piece("play", f"play-{pid}", pid, needs=needs, gens=gens, about=[("", text), ("Scene", line)],
+                         placeholder=pid))
+    return out
+
+
 # --- page ----------------------------------------------------------------------
 
 def hints(slug):
@@ -476,7 +538,8 @@ def hints(slug):
             "object": ("To add an object", "/kav-object <name>"),
             "style": ("To add a look, with 2–5 images", "/kav-style <name>"),
             "story": ("To change the story", f"/kav-kickoff {slug}"),
-            "chapter": ("To write the next chapter", "/kav-chapter <NN>")}
+            "chapter": ("To write the next chapter", "/kav-chapter <NN>"),
+            "play": ("To make another panel", "/kav-panel")}
 
 
 ROWS = [("cast", "Cast"), ("location", "Locations"), ("object", "Objects"), ("style", "Styles"),
@@ -758,15 +821,26 @@ def main():
     principals = [p["id"].split("-", 1)[1] for p in cast
                   if re.search(r"class:\**\s*principal", p["text"], re.I) and (sd / "cast" / p["id"].split("-", 1)[1]).is_dir()]
     chapters, ch_ids = chapter_row(sd, n_hint)
+    # A playground is photos-first play with no story planned: no storyboard, no chapters, a row of panels.
+    playground = meta.get("kind") == "playground" or bool(
+        re.search(r"format:[^\n]*\bplay", read(sd / "kickoff-state.md")[:400], re.I))
+    play = play_row(sd)
     rows = {"cast": cast, "location": place_row(sd, briefs, "locations", "locations"),
-            "object": place_row(sd, briefs, "objects", "objects"), "style": style_row(sd, repo, briefs, principals),
-            "story": story_row(sd, slug, ch_ids), "chapter": chapters}
+            "object": place_row(sd, briefs, "objects", "objects"),
+            "style": style_row(sd, repo, briefs, principals, playground),
+            "story": story_row(sd, slug, ch_ids, playground, [p["name"] for p in cast], pack),
+            "chapter": [] if playground else chapters, "play": play}
+    order = [r for r in ROWS if not (playground and r[0] == "chapter")]
+    if playground or play:
+        order.insert([r[0] for r in order].index("story") + 1, ("play", "Playground"))
 
     hint = hints(slug)
+    if playground:
+        hint["story"] = ("To turn this into a story", f"/kav-kickoff {slug}")
     sections = "".join(
         f'<section><h2>{label}</h2><div class="hint"><span>{esc(hint[k][0])}</span>{cmdbox(hint[k][1])}</div>'
         + (f'<div class="grid">{"".join(tile(p) for p in rows[k])}</div>' if rows[k] else '<p class="none">None yet</p>')
-        + "</section>" for k, label in ROWS)
+        + "</section>" for k, label in order)
     ideas_html, ideas_css, ideas_js, n_ideas = ideas_section(sd, a.suggest)
     global DETAIL_PX
     for DETAIL_PX in (760, 600, 460, 340):

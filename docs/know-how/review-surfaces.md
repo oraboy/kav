@@ -18,6 +18,8 @@ Unset: use `artifact` when Artifacts are available, otherwise `inline`. Ask the 
 
 ## Rules that hold on every surface
 
+- **The author's choice holds.** Use the surface in `KAV_REVIEW` for every set of takes, from every command. Do not fall back to the chat because it is quicker. If the chosen surface cannot be used, say so in one line and show the labelled sheet.
+- **In the chat, takes are one labelled sheet, never loose images.** The first time in a session, offer a click-to-pick page in one line.
 - **A localhost page is never the only route to a gate.** It cannot be opened from a phone, from a remote session, or from a chat-hosted agent. Whenever `local` is used, post the same content as a composite board as well.
 - **A raw `file://` link is not a review surface.** Some hosts render such a page as source. Serve HTML through the local server, or publish it.
 - **Few boards, not many links.** One composite sheet with every take beats twelve separate image links, especially on a phone.
