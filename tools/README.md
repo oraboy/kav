@@ -125,6 +125,19 @@ python3 tools/touch_up.py --story <slug> --char <name> --shot front --instructio
 - **Input:** `S/cast/<name>/[<pack>/]<shot>.png`.
 - **Output:** `.../touch/<shot>.png`. It is never used automatically: copy it over the original once approved. Needs FAL_KEY.
 
+## plan_audit.py
+
+The scene-list gate: what a chapter's plan would bind, and what it would not, before any image is generated. Every panel binds by words — a character when the line names a `characters` key, a place when it hits one of its `location_words`, an object through `object_words` — and a scene that names a place no entry claims falls back to generic scenery with no warning. This runs the generator's own matching over `plan.md` (and over batch lines with `--batch`, the words that are actually sent) and lists registry entries nothing can bind: a sheet with no `characters` line, a location missing from `location_words`, listed photos missing on disk. A sheet missing beside a working entry is noted and does not block.
+
+```
+python3 tools/plan_audit.py --story <slug> --chapter chNN [--json]
+python3 tools/plan_audit.py --story <slug> --plan <plan.md>
+python3 tools/plan_audit.py --story <slug> --batch CH/panels/batch-s1-s2.json [...]
+```
+
+- **Output:** per scene (every `## ` section whose heading starts with `S<k>` or `Scene`), the cast, the place that binds (first match) and the objects; per batch panel the same from the real line; then the list of what needs the author. Exit code 1 when that list is not empty. Reads only, nothing is generated.
+- **What it cannot see:** a name, place or prop the plan uses that no entry claims at all. It says which registered entry a scene's words reach; whether "the kiosk" is a place the book needs is the agent's read of the list (`/kav-chapter`, Stage B).
+
 ## panel_batch.py (calls the API)
 
 Generates candidates for a batch of panels in parallel.
