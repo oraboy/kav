@@ -114,6 +114,7 @@ DNA intake: **(a)** the author's own file or notes, **(b)** an interview section
 - Every character gets an **Appearance** line pointing at the reference set, and a **Wardrobe** line: what they wear by default, in the words a panel line will use. Panels are generated one at a time, so clothes nobody names get re-invented per panel.
 - **Apparent age is a hard trait.** Write it in years. A mother drawn young in some panels reads as a sister, and a reader who has the wrong family builds the rest of the book on it.
 - **At least one hard trait must survive a costume change.** A signature jacket is not an identity: it carries the character beautifully until the one scene they're out of it, and then the reader meets a stranger at the climax. Give every principal a feature that holds without it.
+- **Name one or two asymmetries, and the footwear.** Ask for both in the interview, for principals and background alike. A detail on one side only — one earring, a scar on the left side, a tear in one knee — holds where a symmetric type drifts, and goes on the Hard traits line with its side stated. Shoes go on the Wardrobe line: the full-body shot runs head to feet, and unnamed shoes are re-invented per panel like any other garment (`docs/craft/cast-dna.md`, "Anchors").
 
 **Two character classes, two principal depths.**
 - **`principal`** — for anyone the story turns on. Full DNA, or a quick sketch (above).
