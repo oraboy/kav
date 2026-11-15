@@ -12,6 +12,8 @@ This document defines **why anything happens** in a story: what each character i
 
 **Intent and obstacle are specific and storyboardable**, never an aspiration or a mood. "Wants to be loved" is DNA. "Intends to ask her to the harvest dance before her family moves away" is an intent.
 
+**Weight scales with altitude.** A story-level intent is clear on its own and worth caring about. A reader who hears only the sentence can say what is wanted, why it matters to this character, and what is lost if they fail. "Intends to find what the key opens" fails twice: it is unclear (which key? what happens when it opens?) and it is an errand. "Intends to make her grandmother recognise her one more time, before the flat is sold tomorrow" passes. The story-level obstacle carries the same weight: it can defeat the want, and is never an inconvenience. Lower altitudes carry less. A scene may turn on a character hunting for their keys, as long as the scene serves the story-level intent.
+
 **I/O is not DNA.** Desires, Tendencies and Shadows are *who the character is*. Intent/Obstacle is *what moves the story*. DNA is the main source for what the intent and obstacle may be, but the two layers are never conflated.
 
 **Don'ts are not obstacles.** A Don't is never overcome; it constrains tactics.

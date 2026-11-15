@@ -14,6 +14,13 @@ Every unit, every altitude:
 
 Specific and storyboardable, with a clock where possible. "Wants to be loved" is DNA, not an intent.
 
+**At story level, the sentence must stand alone and matter.** Say it to someone who knows nothing else. They can tell you what is wanted, why it matters to this character, and what is lost on failure. If they ask "which one?" or "so what?", it fails.
+
+- An errand (find the key, deliver the letter) is a scene intent, never a story intent. Name what the errand is *for*, and that is the story intent.
+- The story-level obstacle is big enough to defeat the want. An inconvenience is not an obstacle.
+- Scene and beat intents can be small and practical, as long as each one serves the story-level intent.
+- When a finished story is being adapted, state the intent with the stakes the story gives it. If the story gives none, flag it to the author; do not invent them.
+
 ## Check 2 — press it
 
 - **The intent:** why would *this* character want this? It traces to a Desire, through a Shadow.
