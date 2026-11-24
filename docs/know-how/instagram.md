@@ -62,8 +62,11 @@ Kav also does this by itself after every successful post, so an author who posts
 | Carousel | 2 to 10 images through the API (the app allows more). `draft` splits a longer chapter into parts. Instagram crops every image to the first one's shape. |
 | Caption | 2,200 characters, 30 hashtags, 20 @mentions. Links in a caption are plain text, not clickable. |
 | Tags | An @handle in the caption is a mention. A photo tag is separate: `user_tags` on the image, with a position. |
-| Quota | Posts per 24 hours are limited per account; `auth` shows what is left. A carousel counts as one. |
-| Stories and Reels | Not built. This posts feed images and carousels. |
+| Quota | Posts per 24 hours are limited per account; `auth` shows what is left. A carousel counts as one; a Story counts one per frame. |
+| Stories | One image per Story frame, 1080×1920. No link sticker through the API. See section 8. |
+| Reels | Not built. |
+
+**Links.** A feed post cannot carry a clickable link: not in the caption, not on the image. The only clickable links on Instagram are a Story's **Link sticker** and the profile's own link, plus paid **Meta One** links, which are added in the app. None of these can be set through the API. So a chapter that should lead readers to its reader goes out as a Story, and the author adds the sticker by hand.
 
 ## 5 · Where the images are hosted
 
@@ -86,3 +89,31 @@ Instagram fetches each image from a public URL at the moment of posting. Two way
 - A metric that Instagram does not give for a post is left empty and named in a note. It is not a zero.
 - Numbers settle slowly. Each run appends to `stats-history.jsonl`, so two runs a few days apart show how a post grew.
 - A post made by hand is not in the list until it is registered: `python3 tools/instagram.py link --story <slug> --unit chNN --permalink <url>`.
+- Story frames are not in these numbers. They are logged in `stories.jsonl`, and their views live in the app.
+
+## 8 · A chapter as a Story
+
+A feed carousel stops at 10 images through the API, and its links are not clickable. A Story has no frame cap and can carry a Link sticker, so a chapter goes out as a Story, and the author keeps it on the profile in a Highlight.
+
+```
+python3 tools/instagram.py draft --story <slug> --chapter chNN --as-story
+python3 tools/instagram.py post stories/<slug>/instagram/drafts/chNN-story.json          # dry run
+python3 tools/instagram.py post stories/<slug>/instagram/drafts/chNN-story.json --yes    # publish
+```
+
+**The frames.** Each is 1080×1920, with the 4:5 image centred on a background colour (`#15130f` unless `--bg` or `story.json` `"instagram": {"story_bg": "#…"}` says otherwise). In order:
+
+1. A title frame: a grid of every panel, the story's title from `story.json`, the chapter's title from the storyboard card's first line (`# Ch 02 — name` becomes "פרק 2 · name" in Hebrew, "Chapter 2 · name" otherwise), and the line "Built with Kav · AI co-writer for graphic novels · github.com/oraboy/kav" between the titles and the grid.
+2. Every panel from `pages/carousel/`.
+3. A chapter-end frame that matches the reader's last page: an emoji (`--end-mark`, or `story.json` `"instagram": {"end_mark": "…"}`), the next chapter's title from the next storyboard card, and an amber "להמשך קריאה ←" pill on dark navy (`--more` for other text).
+
+The title and end frames are rendered through headless Chrome, so Hebrew and other right-to-left text shapes correctly.
+
+**Publishing.** Each published frame is its own `media_type=STORIES` container and its own publish, 20 seconds apart (`--pause`), to stay clear of the rapid-upload block in section 6. Before anything is sent, the tool checks that the 24-hour quota has a post left for every frame. It uses the same cooldown, account guard and fal hosting as a feed post. Every published frame is logged to `stories/<slug>/instagram/stories.jsonl` and recorded in the plan. If a frame fails, the tool stops and says how many frames are up; `--from N` finishes the rest later, as a new post with the author's yes.
+
+**The end frame goes up by hand.** Instagram lets you add a Link sticker only while making a Story in the app, never to a frame that is already published, and the API cannot add one at all. An end frame posted through the API could never get its link. So by default the tool publishes the title frame and every panel, and leaves the end frame as a JPEG in `media/`. The dry run and the final output give its path, in a `by_hand` line. Then, in the app:
+
+- **Post the end frame** as the Story's last frame, with a **Link sticker** to the next chapter's reader. `draft … --next-url <reader>` puts that address in the `by_hand` line. The frame leaves room for the sticker under the pill.
+- **Add the Story to a Highlight**, so it stays on the profile after 24 hours. One Highlight per story, with each chapter added in turn, keeps the chapters in order.
+
+When no link is needed (the last chapter, or a reader that is not up yet), `post … --include-end-frame` publishes the end frame through the API too, without a link.

@@ -6,6 +6,7 @@ Kav's version is in `VERSION`, and `/kav-start` prints it. Tell us which version
 
 **Instagram, both ways** (`tools/instagram.py`, `docs/know-how/instagram.md`).
 - **`/kav-post`** posts a single panel or a carousel of up to 10 to the author's own account, with a drafted caption, mentions, optional photo tags and a configurable Kav credit.
+- **A chapter as a Story** (`draft --chapter chNN --as-story`): a title frame, every panel and a chapter-end frame, 1080×1920, published one frame at a time. Feed posts cannot carry clickable links and carousels stop at 10 through the API, so a Story is how a chapter leads readers to the next one. The chapter-end frame is left for the author to post in the app with a link sticker, since Instagram only adds one while a Story is being made.
 - **`/kav-readers`** reads likes, comments, views, reach, saves and shares for recorded posts.
 - The setup guide covers professional accounts, the Meta app, token renewal and safe account matching.
 

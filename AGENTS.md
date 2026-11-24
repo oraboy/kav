@@ -111,7 +111,7 @@ python3 tools/build_readers.py --story <slug> --chapters chNN --title "..." --ou
 python3 tools/build_trailer.py --story <slug> [--statics]
 python3 tools/build_cover.py --story <slug> --portrait-char <name> --scene-image <path>
 python3 tools/build_map.py --story <slug>          # the Story Tool: Overview + Ideas
-python3 tools/instagram.py auth | draft | post <plan.json> [--yes] | link | stats --story <slug>
+python3 tools/instagram.py auth | draft [--as-story] | post <plan.json> [--yes] | link | stats --story <slug>
 python3 tools/report.py [--names]                  # how far this install has got, for /kav-report
 python3 tools/chrome.py
 ```

@@ -1,5 +1,5 @@
 ---
-description: "Post finished panels to the author's Instagram account, one panel as a single post or several as a carousel, with a caption drafted from the panels' own lettered text, @mentions and photo tags, and a \"Built with Kav\" credit. Shows the exact post first and publishes only on the author's explicit yes. Use when the author types /kav-post, says \"post this to Instagram\", \"post chapter 2 as a carousel\", \"put this panel on IG\", or asks to set up Instagram posting."
+description: "Post finished panels to the author's Instagram account, one panel as a single post, several as a carousel, or a whole chapter as a Story (title frame, every panel, a chapter-end frame), with a caption drafted from the panels' own lettered text, @mentions and photo tags, and a \"Built with Kav\" credit. Shows the exact post first and publishes only on the author's explicit yes. Use when the author types /kav-post, says \"post this to Instagram\", \"post chapter 2 as a carousel\", \"post chapter 2 as a story\", \"put this panel on IG\", or asks to set up Instagram posting."
 argument-hint: "[--story <slug>] <chNN [panels] | post name | image paths>"
 ---
 
