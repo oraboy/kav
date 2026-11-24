@@ -1,6 +1,9 @@
 # secrets
 .env
 
+# tools/instagram.py: set when Instagram refuses a post without a reason
+.instagram-cooldown
+
 # setup test image (tools/welcome_panel.py)
 setup/
 

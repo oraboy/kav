@@ -119,6 +119,8 @@ Details: [docs/process.md](docs/process.md).
 | `/kav-review <batch.json>` | `/prompts:kav-review <batch.json>` | open the image review page and apply your picks |
 | `/kav-trailer` | `/prompts:kav-trailer` | build the story's swipeable trailer deck |
 | `/kav-publish` | `/prompts:kav-publish` | build and link readers for every chapter; where to post them |
+| `/kav-post` | `/prompts:kav-post` | post a panel or a carousel to your Instagram, caption drafted from the panels' text |
+| `/kav-readers` | `/prompts:kav-readers` | likes, comments and views for what you posted, chapter by chapter |
 | `/kav-update` | `/prompts:kav-update` | get the latest version of Kav; your stories are not touched |
 | `/kav-report` | `/prompts:kav-report` | a short report of how it's going, for you to send; no story content |
 

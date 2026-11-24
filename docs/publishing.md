@@ -10,7 +10,7 @@ The author decides how a story goes out; Kav renders the same lettered panels in
 | Surface | What goes | Status |
 |---|---|---|
 | **Static website** (any host, Netlify, GitHub Pages) | the readers + trailer as a folder with relative links | ready — `/kav-publish` builds and links it |
-| **Instagram** | carousel JPEGs per chapter; trailer slide PNGs | ready — posting is manual; carousels hold at most 20 items, so split long chapters |
+| **Instagram** | carousel JPEGs per chapter; trailer slide PNGs | ready: `/kav-post` posts a panel or a carousel of up to 10 to the author's account, `/kav-readers` reads likes, comments and views back. One-time setup in `docs/know-how/instagram.md`. Posting by hand still works (20 per carousel in the app) |
 | **PDF / print** | page PNGs in order (reversed for RTL books), optional cover and dividers | not built yet; `tools/build_cover.py` makes a cover |
 | **EPUB** | fixed-layout is the honest fit for comics | later |
 
@@ -26,6 +26,6 @@ Chapter by chapter works well: each chapter is small, links forward to the next,
 
 - Which surfaces this story goes to.
 - For a site: where it's hosted, which repo and folder, whether a push deploys.
-- For Instagram: the account, and whether captions are written per chapter.
+- For Instagram: the account, whether captions are written per chapter, and whether people and places are tagged on the image.
 
 Record the answers under Links in `kickoff-state.md`. **Never publish, push or post without an explicit yes for that action.**

@@ -251,6 +251,23 @@ python3 tools/build_map.py --story <slug | path/to/stories/slug> [--out <html>]
 - **Any story folder:** `--story` also takes a path, so a story in another clone can be mapped without touching it (pair it with `--out`).
 - `build_ideas.py` renders the Ideas tab on its own, for a standalone Story Tool.
 
+## instagram.py
+
+Posts finished panels to the author's professional Instagram account and reads the results back. Setup, limits and failure modes: `docs/know-how/instagram.md`.
+
+```
+python3 tools/instagram.py auth [--refresh]
+python3 tools/instagram.py draft --story <slug> (--chapter chNN [--panels id,id] | --post <folder> | --images <paths> --unit <name>)
+python3 tools/instagram.py post <plan.json> [--yes] [--host fal]
+python3 tools/instagram.py link --story <slug> --unit <name> (--permalink URL | --media-id ID)
+python3 tools/instagram.py stats --story <slug> [--comments] [--json]
+```
+
+- `draft` only writes prepared JPEGs and a plan. `post` without `--yes` is a dry run; with it, Kav posts one image or a 2–10 image carousel.
+- Captions retain story mentions. Per-image `user_tags` tag the relevant account on the image.
+- Instagram fetches from a public URL. Kav uses an existing URL or uploads to fal.ai storage when `FAL_KEY` is available.
+- Every successful post is recorded at `stories/<slug>/instagram/posts.jsonl`; `stats` reads insights from those records.
+
 ## report.py
 
 ```
