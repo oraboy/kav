@@ -1,6 +1,6 @@
 ---
 name: kav-post
-description: "Post finished panels to the author's Instagram account, one panel as a single post or several as a carousel, with a caption drafted from the panels' own lettered text, @mentions and photo tags, and a \"Built with Kav\" credit. Shows the exact post first and publishes only on the author's explicit yes. Use when the author types /kav-post, says \"post this to Instagram\", \"post chapter 2 as a carousel\", \"put this panel on IG\", or asks to set up Instagram posting."
+description: "Post finished panels to the author's Instagram account, one panel as a single post, several as a carousel, or a whole chapter as a Story (title frame, every panel, a chapter-end frame), with a caption drafted from the panels' own lettered text, @mentions and photo tags, and a \"Built with Kav\" credit. Shows the exact post first and publishes only on the author's explicit yes. Use when the author types /kav-post, says \"post this to Instagram\", \"post chapter 2 as a carousel\", \"post chapter 2 as a story\", \"put this panel on IG\", or asks to set up Instagram posting."
 argument-hint: "[--story <slug>] <chNN [panels] | post name | image paths>"
 ---
 
@@ -26,12 +26,15 @@ Work out the unit from what the author asked for:
 
 | The author wants | Draft it with |
 |---|---|
+| a whole chapter as a Story (every panel, with a link to the next chapter) | `… --chapter chNN --as-story`: see section 5 |
 | a whole chapter | `python3 tools/instagram.py draft --story <slug> --chapter chNN` |
 | some panels of a chapter, in an order | `… --chapter chNN --panels p01-panel1,p01-panel3` |
 | one approved single-image post | `… --post <folder under posts/>` |
 | loose images (a trailer slide, a cover) | `… --images <paths> --unit <name>` |
 
 One image is a single post. Two to ten are a carousel. A chapter with more than ten panels is drafted as several plans, in reading order: say so and post them as part 1, part 2, with the author's yes for each.
+
+A feed post cannot carry a clickable link (a caption link is plain text). When the author wants readers to tap through to the next chapter's reader, or wants the whole chapter in one go, a Story is the route: section 5.
 
 Only finished work goes out: lettered panels the author picked, from `pages/carousel/` (run `tools/assemble.py` first if the lettering changed since). Never post a candidate, an unlettered image or anything from another story.
 
@@ -82,11 +85,38 @@ A post the author made by hand joins the record with:
 python3 tools/instagram.py link --story <slug> --unit chNN --permalink <url>
 ```
 
+## 5 · A chapter as a Story
+
+```
+python3 tools/instagram.py draft --story <slug> --chapter chNN --as-story
+```
+
+This builds 1080×1920 frames in `stories/<slug>/instagram/media/` and a plan `drafts/chNN-story.json` with `"kind": "story"`:
+
+1. **a title frame**: every panel of the chapter in a grid, under the story's title (`story.json`) and the chapter's title (the storyboard card's `# Ch NN — name`), with the "Built with Kav" line between them (`--no-credit` drops it)
+2. **every panel**, each 4:5 panel centred on the story's background colour
+3. **a chapter-end frame**, like the reader's own last page: an emoji, the next chapter's title (the next storyboard card) and an amber "להמשך קריאה ←" pill on dark navy
+
+The draft's `warnings` name a missing card. `--next`, `--end-mark`, `--more`, `--chapter-label` and `--bg` change a frame's text or colour; a story can keep its emoji and background in `story.json` as `"instagram": {"end_mark": "…", "story_bg": "#…"}`. Show the author the title frame and the end frame before anything else, and redraft until they are right.
+
+Then the dry run, the same as for a post:
+
+```
+python3 tools/instagram.py post stories/<slug>/instagram/drafts/chNN-story.json
+```
+
+Show the author the frame count, the account, the title and end frames, and how long it will take (frames go up 20 seconds apart). Every frame uses one post of the 24-hour quota; the tool checks there are enough before sending anything. **Tell the author, before their yes, what they will do in the app afterwards**, because the API cannot:
+
+- add a **Link sticker** to the last frame, pointing at the next chapter's reader
+- save the Story to a **Highlight**, so it stays on the profile after 24 hours
+
+On their yes, `post … --yes`. It publishes frame by frame and logs each one to `stories/<slug>/instagram/stories.jsonl`. Stay with it until it prints `ok`, then remind the author of the sticker and the Highlight. If a frame fails, the tool stops and says how many frames are up. Read that to the author as it is. Finishing the rest (`--from N`) is a new post and needs a new yes; after a refusal with no reason, do not offer it at all (`docs/know-how/instagram.md` section 6).
+
 ## Hard rules
 
 - **Never post without the author's explicit yes for that post**, given after they saw the images and the caption. `--yes` is typed only then.
 - Never ask for, print or repeat the token. It lives in `.env`.
 - Post only to the account named in `INSTAGRAM_USERNAME` or the story's `story.json`. A mismatch stops the post.
-- One post at a time. No loops over a backlog, and no retry after a silent refusal.
+- One post at a time. No loops over a backlog, and no retry after a silent refusal. A Story is one post: one yes covers its frames, and nothing else.
 - Only the author's finished, picked, lettered images. Nothing from another story.
-- Kav does not delete or edit a post on Instagram. That is done in the app.
+- Kav does not delete or edit a post on Instagram, and cannot add a Story's link sticker or Highlight. Those are done in the app.
