@@ -91,6 +91,20 @@ Then:
 
 Save the read to `cold-reads/<date>-scenes.md` and record it in `chapter-state.md`.
 
+### Audit the scene list against the registry — before any image, mandatory
+
+Every panel binds by words. A character binds when the line names a key of `characters` in `briefs.json`; a place binds when the line hits one of its `location_words`; an object when it hits one of its `object_words`. A scene that names a place no entry claims binds no location at all, and the panel comes back as the model's own generic scenery — quietly, with a sidecar that looks correct. So before the list goes to the author:
+
+```
+python3 tools/plan_audit.py --story <slug> --chapter chNN
+```
+
+It runs the generator's own matching over every scene in `plan.md` and prints what would bind — which cast, which place (first match, as the generator takes it), which objects — plus every registry entry nothing can bind: a sheet with no `characters` line, a location missing from `location_words`, photos listed but not on disk (and, as a note that doesn't block, a `characters` line that draws with no cast sheet behind it). Then read the list yourself for what no script can see: a name in **Present** or in a beat that is not in the cast, a place in **Set** that is not a registered location, a thing that must look the same in every panel or carries lettering and is not an object. The script can only say which registered entry a scene's words reach; it cannot know that "the kiosk" is a place the book needs.
+
+Put everything with no sheet behind it in one block, in the room's words, with the command that creates each — `/kav-character <name>`, `/kav-location <name>`, `/kav-object <name>` — and let the author decide per item: create it now, or keep it as scenery on purpose. A street the book crosses once can stay generic; record that decision as an italic note in `plan.md` so the next audit doesn't raise it again. A registered place whose words the scene doesn't use is fixed in `location_words` or in the scene's wording, not by hoping. **Nothing is generated while an item is undecided.**
+
+Run the same audit on each batch before its preflight — `--batch chapters/chNN/panels/batch-<name>.json` — because batch lines are what actually bind, and a line rewritten at reroll time can lose its place word.
+
 **Present the list and wait.** Then, when it is approved, **go straight to the images** — don't stop again to confirm that you are about to generate what was just agreed. "Proceed" means: do the work and come back with the takes to pick from. The author cuts panels ("it added nothing"), merges scenes, rewrites beats. Record every cut in `plan.md` as a one-line italic note so the history stays readable. Script changes after images exist mark the affected panels stale.
 
 ## Stage C — Panels: batch → review page → picks in
@@ -277,6 +291,7 @@ Adding a beat at this stage costs images. Say what it costs before the author ag
 
 - The kickoff package is the contract. Bend it, never contradict it without a logged decision — contradictions go back to `/kav-kickoff`.
 - Outline in content first; scene list gate before any image is generated.
+- **Every name, place and prop in the scene list has a sheet behind it, or the author's recorded decision to leave it as scenery, before any image is generated.** An unregistered place binds nothing and falls back to generic scenery without a warning; `tools/plan_audit.py` is the gate.
 - Every scene passes the one-sentence test before the author sees it. DNA ≠ I/O.
 - **Two cold reads per chapter, both before the author sees the thing they judge** — the scene list, and the lettered pages. Each is two independent readers in fresh contexts; only what both surface is a finding. Say plainly if isolation wasn't possible.
 - **One call never both diagnoses and rewrites.** A cold read proposes nothing; a revision pass takes exactly one named goal. Generation drowns critique.
