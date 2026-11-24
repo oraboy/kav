@@ -47,18 +47,21 @@ Kav changes often. To get the latest version, type `/kav-update`: it updates Kav
 <td width="33%" align="center" valign="top">
 <a href="https://last-light-oren-review.oraboy.chatgpt.site/"><img src="docs/media/tour/sample-last-light.jpg" width="260" alt="The Last Light, three rows of chapter 4 in the comic view"></a>
 <br><b><a href="https://last-light-oren-review.oraboy.chatgpt.site/">The Last Light</a></b>
+<br>by Nero Yobar
 <br>A wild story about a lighthouse, a girl and a lost boy.
 <br>[English]
 </td>
 <td width="33%" align="center" valign="top">
 <a href="https://claude.ai/code/artifact/f69c71ef-8b2e-4fcb-96ab-f6d517cffbc9"><img src="docs/media/tour/sample-berko-olive.jpg" width="260" alt="Berkovitz and Olive, one panel in the phone view"></a>
 <br><b><a href="https://claude.ai/code/artifact/f69c71ef-8b2e-4fcb-96ab-f6d517cffbc9">Berkovitz and Olive</a></b>
+<br>by Nero Yobar
 <div dir="rtl">סיפור אהבה תל-אביבי בזמן מלחמת איראן</div>
 [Hebrew] [עברית]
 </td>
 <td width="33%" align="center" valign="top">
 <a href="https://if-i-had-cats.oraboy.chatgpt.site"><img src="docs/media/tour/sample-if-i-had-cats.jpg" width="260" alt="If I Had Cats, one post"></a>
 <br><b><a href="https://if-i-had-cats.oraboy.chatgpt.site">If I Had Cats</a></b>
+<br>by Nero Yobar
 <div dir="rtl">פיד מתגלגל של הצעות לשמות של חתולים עירוניים. למי שצריך 🐈🐈‍⬛</div>
 [Hebrew] [עברית]
 </td>
@@ -78,8 +81,15 @@ Every chapter comes out in two views: comic pages, like *The Last Light* above, 
 <br>A story about unexpected lessons.
 <br>[English]
 </td>
-<td width="67%" valign="middle">
-The first book made with Kav by someone outside the team, the day after it was shared: 17 pages from a story Roi had already written.
+<td width="33%" align="center" valign="top">
+<a href="https://oraboy.github.io/kav-samples/truth-is/"><img src="docs/media/tour/sample-truth-is.jpg" width="260" alt="Truth Is: the cover, a man in a wide hat walking under a full moon"></a>
+<br><b><a href="https://oraboy.github.io/kav-samples/truth-is/">Truth Is</a></b>
+<br>by Roi Werner
+<br>A man who has everything sets out to find Truth.
+<br>[English]
+</td>
+<td width="33%" valign="middle">
+The first books made with Kav by someone outside the team. The first came the day after Kav was shared, from a story Roi had already written.
 <br><br>
 More at <a href="https://oraboy.github.io/kav-samples/">Stories made with Kav</a>. Made something yourself? <a href="https://github.com/oraboy/kav-samples#add-your-story">Add your story</a>.
 </td>
