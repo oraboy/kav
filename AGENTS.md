@@ -81,6 +81,8 @@ When the author types `/kav-<name>` (in Codex: `/prompts:kav-<name>`), or asks f
 | `/kav-review <batch.json>` · "open the review page", "picks are in" | `kav/commands/kav-review.md` |
 | `/kav-trailer` · "the trailer", "rebuild the slides" | `kav/commands/kav-trailer.md` |
 | `/kav-publish` · "publish", "build all the readers" | `kav/commands/kav-publish.md` |
+| `/kav-post` · "post this to Instagram", "post chapter N as a carousel" | `kav/commands/kav-post.md` |
+| `/kav-readers` · "how did chapter N do", "summarize the likes and comments" | `kav/commands/kav-readers.md` |
 | `/kav-update` · "update Kav", "get the latest version" | `kav/commands/kav-update.md` |
 | `/kav-report` · "send feedback", "report a problem", "tell them how it went" | `kav/commands/kav-report.md` |
 
@@ -109,6 +111,7 @@ python3 tools/build_readers.py --story <slug> --chapters chNN --title "..." --ou
 python3 tools/build_trailer.py --story <slug> [--statics]
 python3 tools/build_cover.py --story <slug> --portrait-char <name> --scene-image <path>
 python3 tools/build_map.py --story <slug>          # the Story Tool: Overview + Ideas
+python3 tools/instagram.py auth | draft | post <plan.json> [--yes] | link | stats --story <slug>
 python3 tools/report.py [--names]                  # how far this install has got, for /kav-report
 python3 tools/chrome.py
 ```

@@ -89,7 +89,7 @@ Every surface is fed by what chapters already produce; none needs new art.
 | **Any static host** | the readers + trailer folder | it's plain HTML and images — upload the folder anywhere |
 | **Netlify** | same folder | drag the folder onto app.netlify.com/drop, or connect a repo |
 | **GitHub Pages** | same folder in a repo | push it, enable Pages on the branch/folder |
-| **Instagram** | `pages/carousel/NN-*.jpg` per chapter (1080×1350, reading order) and `package/slides/*.png` for the trailer (1080×1920) | post manually as carousels (Instagram carousels cap at 20 items — split long chapters) |
+| **Instagram** | `pages/carousel/NN-*.jpg` per chapter (1080×1350, reading order) and `package/slides/*.png` for the trailer (1080×1920) | `/kav-post` posts a panel or a carousel to the author's account on their yes (10 images per carousel through the API), and `/kav-readers` reads the numbers back. Posting by hand works too (20 per carousel in the app) |
 | **PDF / print** | `pages/pNN.png` | not built in yet; the page PNGs are print-shaped. Right-to-left books need reversed page order |
 
 Ask the author, once per story: which surfaces; for a site, where it's hosted and whether it should be a separate repo. Record the answers under Links in `kickoff-state.md`.

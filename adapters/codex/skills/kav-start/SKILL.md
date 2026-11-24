@@ -145,6 +145,8 @@ The order above is a suggestion, not a track. Someone with a finished story star
 | `/kav-review <batch.json>` | open the local image review page and apply the author's picks |
 | `/kav-trailer` | build the story's swipeable trailer deck |
 | `/kav-publish` | build readers for every drawn chapter and explain where to post them |
+| `/kav-post` | post a panel or a carousel to the author's Instagram, on their yes |
+| `/kav-readers` | likes, comments and views for what was posted, chapter by chapter |
 | `/kav-update` | get the latest version of Kav, stories untouched |
 | `/kav-report` | a short report of how it's going, for the author to send |
 
