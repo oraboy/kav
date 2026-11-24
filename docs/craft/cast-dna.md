@@ -79,6 +79,13 @@ With this DNA, a legitimate story intent is *"Mira intends to raise the money to
 
 A background character can be promoted to principal later; that marks downstream artifacts stale.
 
+## Anchors: asymmetries and feet
+
+Two things the physical description and the DNA interview settle for every character who will be drawn, principal or background, because the model can hold them and the reader can check them.
+
+- **Name one or two asymmetries.** A face described in symmetric terms — dark hair, brown eyes, a narrow jaw — is a type, and a type drifts toward whoever the model draws by default. A detail that is on one side only is specific enough to survive: one earring, a scar through the left eyebrow, a chipped front tooth, a tear in the right knee of the jeans, a dog's one folded ear. It is also what a reader uses to tell two similar faces apart at thumbnail size. Take it from the photos where they offer one; where they don't, invent it — invented features carry well (`/kav-character`, "Hard visual traits"). Say which side, as the character's own left and right, and check that side in every mug shot: a mirrored anchor is drift. An asymmetry that is not clothing also satisfies the rule that at least one hard trait survives a costume change, so it goes on the **Hard traits** line and into the `briefs.json` description.
+- **Always name the footwear.** The full-body shot runs head to feet, and every wide or full-figure panel shows the floor. Shoes are a garment like any other: what nobody names is re-invented per panel. Put them on the **Wardrobe** line in the words a panel line will use — scuffed white trainers, black work boots, sandals, bare feet — and in the description that reaches every prompt. Footwear also tells the reader class, job and era cheaply, and a character who takes their shoes off has changed scene.
+
 ## Rules
 
 - Everything above *Story state* must be true of the character in any story.
