@@ -264,7 +264,7 @@ python3 tools/instagram.py stats --story <slug> [--comments] [--json]
 ```
 
 - `draft` only writes prepared JPEGs and a plan. `post` without `--yes` is a dry run; with it, Kav posts one image or a 2–10 image carousel.
-- `draft --chapter chNN --as-story` builds the chapter as 1080×1920 Story frames (a title frame with every panel in a grid, each panel, a chapter-end frame with the next chapter's title) and a `kind: story` plan. `post` publishes it one `STORIES` frame at a time, 20s apart, after checking the quota covers every frame, and logs each frame to `stories/<slug>/instagram/stories.jsonl`. The API cannot add the link sticker or the Highlight; the author does both in the app.
+- `draft --chapter chNN --as-story` builds the chapter as 1080×1920 Story frames (a title frame with every panel in a grid, each panel, a chapter-end frame with the next chapter's title) and a `kind: story` plan. `post` publishes it one `STORIES` frame at a time, 20s apart, after checking the quota covers every frame, and logs each frame to `stories/<slug>/instagram/stories.jsonl`. The chapter-end frame is left for the author to post in the app with a link sticker (a sticker can't be added to a frame that is already up); `--include-end-frame` publishes it without a link.
 - Captions retain story mentions. Per-image `user_tags` tag the relevant account on the image.
 - Instagram fetches from a public URL. Kav uses an existing URL or uploads to fal.ai storage when `FAL_KEY` is available.
 - Every successful post is recorded at `stories/<slug>/instagram/posts.jsonl`; `stats` reads insights from those records.

@@ -25,8 +25,10 @@ Setup walk-through: docs/know-how/instagram.md.
   python3 tools/instagram.py post <plan.json> [--yes] [--host fal] [--again] [--from N]
       Without --yes: print exactly what would be posted and stop. With --yes: publish.
       One image is a single post, 2-10 a carousel. A Story plan publishes each frame as
-      its own Story (20s apart) and logs it to stories.jsonl; the author adds the link
-      sticker and the Highlight in the app, since the API cannot.
+      its own Story (20s apart) and logs it to stories.jsonl, except the chapter-end
+      frame: a link sticker can only be added in the app while making a Story, so the
+      author posts that one by hand with the sticker (--include-end-frame to publish it
+      without a link), then adds the Story to a Highlight.
 
   python3 tools/instagram.py link --story <slug> --unit chNN (--permalink URL | --media-id ID)
       Register a post made by hand, so stats count it.
@@ -380,9 +382,21 @@ STORY_CREDIT = "Built with Kav · AI co-writer for graphic novels · github.com/
 RTL_LANGS = {"he", "ar", "fa", "ur", "yi"}
 CHAPTER_WORD = {"he": "פרק"}
 MORE_LABEL = {"he": "להמשך קריאה ←"}
-STICKER_NOTE = ("The API cannot add a link sticker. After the frames are up, in the Instagram app: "
-                "add a Link sticker to the last frame (the next chapter's reader), then save the "
-                "Story to a Highlight so it stays on the profile after 24 hours.")
+STICKER_NOTE = ("The API cannot add a link sticker, and Instagram only takes one while a Story is "
+                "being made, never on a frame that is already up. So the chapter-end frame is not "
+                "published here: post it by hand in the Instagram app with a Link sticker, then add "
+                "the Story to a Highlight so it stays on the profile after 24 hours.")
+NO_STICKER_NOTE = ("--include-end-frame: the chapter-end frame is published too, so it carries no link. "
+                   "Save the Story to a Highlight in the app to keep it after 24 hours.")
+
+
+def end_frame_note(plan, sd):
+    """What the author does by hand with the held-back chapter-end frame."""
+    f = sd / plan["images"][-1]["file"]
+    rel = str(f.relative_to(REPO)) if f.is_relative_to(REPO) else str(f)
+    target = plan.get("next_url") or "the next chapter's reader"
+    return (f"Post {rel} in the Instagram app as the Story's last frame, with a Link sticker to "
+            f"{target}, then add it to the chapter's Highlight.")
 FONT_LINK = ('<link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=block" '
              'rel="stylesheet">')
 
@@ -517,14 +531,15 @@ def draft_story(a, slug, panels, credit_on):
             frames.append(entry)
     plan = {"story": slug, "unit": a.chapter, "kind": "story", "panels": [p for p, _ in panels],
             "images": frames, "pause_s": a.pause, "title": title, "chapter_title": heading,
-            "next_title": nxt or "", "link_sticker": STICKER_NOTE}
+            "next_title": nxt or "", "next_url": a.next_url or ""}
     path = ig_dir(slug) / "drafts" / f"{name}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {"plan": str(path.relative_to(REPO)), "unit": a.chapter, "kind": "story",
             "frames": len(frames), "title_frame": f"{title} / {heading}",
             "end_frame": " / ".join(x for x in (mark, nxt, more) if x),
-            "media": str(media.relative_to(REPO)), "link_sticker": STICKER_NOTE, "warnings": warnings}
+            "media": str(media.relative_to(REPO)), "link_sticker": STICKER_NOTE,
+            "by_hand": end_frame_note(plan, story_dir(slug)), "warnings": warnings}
 
 
 # --- post --------------------------------------------------------------------------
@@ -649,13 +664,17 @@ def story_plan_problems(plan, sd):
 
 def post_story(a, path, plan, sd):
     """Publish a kind: story plan, one STORIES container and one publish per frame."""
-    slug, frames = plan["story"], plan["images"]
+    slug, all_frames = plan["story"], plan["images"]
     pause = a.pause if a.pause is not None else int(plan.get("pause_s") or STORY_PAUSE_S)
     start = a.start or 1
     want = expected_account(slug)
     problems = story_plan_problems(plan, sd)
-    if not 1 <= start <= len(frames):
-        problems.append(f"--from {start}: the plan has frames 1-{len(frames)}")
+    # The chapter-end frame needs a link sticker, which only the app can add while making a
+    # Story. Unless the author wants it without a link, it is held back for them to post.
+    hold_end = bool(all_frames) and all_frames[-1].get("frame") == "chapter-end" and not a.include_end_frame
+    frames = all_frames[:-1] if hold_end else all_frames
+    if not 1 <= start <= max(len(frames), 1):
+        problems.append(f"--from {start}: the API publishes frames 1-{len(frames)} of this plan")
     done = (plan.get("published") or {}).get("frames") or []
     if done and not a.again and start == 1:
         problems.append(f"{len(done)} of {len(frames)} frames already posted on "
@@ -672,8 +691,10 @@ def post_story(a, path, plan, sd):
                "hosting": f"{len(todo)} image(s) uploaded to fal.ai storage for Instagram to fetch",
                "pace": f"{pause}s between frames, about {round(pause * (len(todo) - 1) / 60)} min in all",
                "quota": f"uses {len(todo)} of the account's 24-hour publishing quota (one per frame)",
-               "link_sticker": STICKER_NOTE,
+               "link_sticker": STICKER_NOTE if hold_end else NO_STICKER_NOTE,
                "problems": problems}
+    if hold_end:
+        summary["by_hand"] = end_frame_note(plan, sd)
     if not a.yes or problems:
         if not a.yes:
             summary["next"] = "nothing was sent. Show this to the author; on their yes, rerun with --yes"
@@ -715,14 +736,20 @@ def post_story(a, path, plan, sd):
                                  "frame": n, "of": len(frames), "file": fr["file"],
                                  "media_id": mid, "account": who.get("username"), "plan": plan_rel},
                                 ensure_ascii=False) + "\n")
-        plan["published"] = {"frames": media_ids, "at": int(time.time()), "complete": n == len(frames)}
+        plan["published"] = {"frames": media_ids, "at": int(time.time()), "complete": n == len(frames),
+                             "end_frame": "by hand" if hold_end else "published"}
         path.write_text(json.dumps(plan, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(f"frame {n}/{len(frames)} up", flush=True)
         if n < len(frames):
             time.sleep(pause)
     refresh_quietly(tok)
-    print(json.dumps({"ok": True, "posted": f"Story of {len(todo)} frames", "account": "@" + who.get("username", ""),
-                      "logged": str(log.relative_to(REPO)), "next": STICKER_NOTE}, ensure_ascii=False, indent=2))
+    done_msg = {"ok": True, "posted": f"Story of {len(todo)} frames", "account": "@" + who.get("username", ""),
+                "logged": str(log.relative_to(REPO))}
+    if hold_end:
+        done_msg["by_hand"] = end_frame_note(plan, sd)
+    else:
+        done_msg["next"] = NO_STICKER_NOTE
+    print(json.dumps(done_msg, ensure_ascii=False, indent=2))
 
 
 def cmd_post(a):
@@ -732,8 +759,8 @@ def cmd_post(a):
         if not raw.get("story"):
             raise SystemExit(f"{p}: the plan needs \"story\"")
         return post_story(a, p, raw, story_dir(raw["story"]))
-    if a.start or a.pause is not None:
-        raise SystemExit("--from and --pause are for Story plans (draft --as-story)")
+    if a.start or a.pause is not None or a.include_end_frame:
+        raise SystemExit("--from, --pause and --include-end-frame are for Story plans (draft --as-story)")
     path, plan, sd, problems = load_plan(a.plan)
     slug, images, caption = plan["story"], plan["images"], full_caption(plan)
     want = expected_account(slug)
@@ -980,6 +1007,7 @@ def main():
     g.add_argument("--chapter-label", help="word before the chapter number (default: 'פרק' in Hebrew, else 'Chapter')")
     g.add_argument("--bg", help=f"background behind the panels (default: story.json instagram.story_bg, else {STORY_BG})")
     g.add_argument("--pause", type=int, default=STORY_PAUSE_S, help=f"seconds between frames when posting (default {STORY_PAUSE_S})")
+    g.add_argument("--next-url", help="the next chapter's reader, named in the by-hand step for the end frame's link sticker")
     s.set_defaults(fn=cmd_draft)
     s = sub.add_parser("post", help="show what a plan would post; --yes publishes it")
     s.add_argument("plan")
@@ -988,6 +1016,9 @@ def main():
     s.add_argument("--again", action="store_true", help="repost a plan that was already published")
     s.add_argument("--from", dest="start", type=int, help="Story plans: start at frame N (finish a cut-off Story)")
     s.add_argument("--pause", type=int, help="Story plans: seconds between frames (default: the plan's, 20)")
+    s.add_argument("--include-end-frame", action="store_true",
+                   help="Story plans: publish the chapter-end frame too (it then carries no link; "
+                        "by default it is left for the author to post in the app with a link sticker)")
     s.set_defaults(fn=cmd_post)
     s = sub.add_parser("link", help="register a post made by hand")
     s.add_argument("--story", required=True)

@@ -103,12 +103,16 @@ Then the dry run, the same as for a post:
 python3 tools/instagram.py post stories/<slug>/instagram/drafts/chNN-story.json
 ```
 
-Show the author the frame count, the account, the title and end frames, and how long it will take (frames go up 20 seconds apart). Every frame uses one post of the 24-hour quota; the tool checks there are enough before sending anything. **Tell the author, before their yes, what they will do in the app afterwards**, because the API cannot:
+Show the author the frame count, the account, the title and end frames, and how long it will take (frames go up 20 seconds apart). Every frame uses one post of the 24-hour quota; the tool checks there are enough before sending anything.
 
-- add a **Link sticker** to the last frame, pointing at the next chapter's reader
-- save the Story to a **Highlight**, so it stays on the profile after 24 hours
+**The end frame is not published by the tool.** Instagram lets you add a Link sticker only while making a Story, never to a frame that is already up, so an end frame posted through the API could never get its link. The tool publishes the title frame and every panel, and leaves the end frame as a JPEG. **Tell the author, before their yes, what they will do in the app afterwards** (the dry run's `by_hand` line gives the path):
 
-On their yes, `post … --yes`. It publishes frame by frame and logs each one to `stories/<slug>/instagram/stories.jsonl`. Stay with it until it prints `ok`, then remind the author of the sticker and the Highlight. If a frame fails, the tool stops and says how many frames are up. Read that to the author as it is. Finishing the rest (`--from N`) is a new post and needs a new yes; after a refusal with no reason, do not offer it at all (`docs/know-how/instagram.md` section 6).
+- post the end frame as the Story's last frame, with a **Link sticker** to the next chapter's reader (pass `--next-url <reader>` to `draft` so the line names it)
+- add the Story to the chapter's **Highlight**, so it stays on the profile after 24 hours
+
+When no link is needed (the last chapter, or no reader yet), `post … --include-end-frame` publishes the end frame too, without a link.
+
+On their yes, `post … --yes`. It publishes frame by frame and logs each one to `stories/<slug>/instagram/stories.jsonl`. Stay with it until it prints `ok`, then give the author its `by_hand` line as it is. If a frame fails, the tool stops and says how many frames are up. Read that to the author as it is. Finishing the rest (`--from N`) is a new post and needs a new yes; after a refusal with no reason, do not offer it at all (`docs/know-how/instagram.md` section 6).
 
 ## Hard rules
 

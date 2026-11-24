@@ -109,9 +109,11 @@ python3 tools/instagram.py post stories/<slug>/instagram/drafts/chNN-story.json 
 
 The title and end frames are rendered through headless Chrome, so Hebrew and other right-to-left text shapes correctly.
 
-**Publishing.** Each frame is its own `media_type=STORIES` container and its own publish, 20 seconds apart (`--pause`), to stay clear of the rapid-upload block in section 6. Before anything is sent, the tool checks that the 24-hour quota has a post left for every frame. It uses the same cooldown, account guard and fal hosting as a feed post. Every published frame is logged to `stories/<slug>/instagram/stories.jsonl` and recorded in the plan. If a frame fails, the tool stops and says how many frames are up; `--from N` finishes the rest later, as a new post with the author's yes.
+**Publishing.** Each published frame is its own `media_type=STORIES` container and its own publish, 20 seconds apart (`--pause`), to stay clear of the rapid-upload block in section 6. Before anything is sent, the tool checks that the 24-hour quota has a post left for every frame. It uses the same cooldown, account guard and fal hosting as a feed post. Every published frame is logged to `stories/<slug>/instagram/stories.jsonl` and recorded in the plan. If a frame fails, the tool stops and says how many frames are up; `--from N` finishes the rest later, as a new post with the author's yes.
 
-**What the author does in the app**, because the API cannot:
+**The end frame goes up by hand.** Instagram lets you add a Link sticker only while making a Story in the app, never to a frame that is already published, and the API cannot add one at all. An end frame posted through the API could never get its link. So by default the tool publishes the title frame and every panel, and leaves the end frame as a JPEG in `media/`. The dry run and the final output give its path, in a `by_hand` line. Then, in the app:
 
-- **Add a Link sticker** to the last frame, pointing at the next chapter's reader. The end frame leaves room for it under the pill.
-- **Save the Story to a Highlight**, so it stays on the profile after 24 hours. One Highlight per story, a frame added per chapter, keeps the chapters in order.
+- **Post the end frame** as the Story's last frame, with a **Link sticker** to the next chapter's reader. `draft … --next-url <reader>` puts that address in the `by_hand` line. The frame leaves room for the sticker under the pill.
+- **Add the Story to a Highlight**, so it stays on the profile after 24 hours. One Highlight per story, with each chapter added in turn, keeps the chapters in order.
+
+When no link is needed (the last chapter, or a reader that is not up yet), `post … --include-end-frame` publishes the end frame through the API too, without a link.
